@@ -15,5 +15,5 @@ public class ListPublishedEventResponseDto {
   private String name;
   private LocalDateTime start;
   private LocalDateTime end;
-  private String venue; // TODO: to replace with Venue entity later like TicketType
+  private String venue;
 }

@@ -25,6 +25,6 @@ public class UpdateEventRequest {
   private LocalDateTime end;
   private LocalDateTime salesStart;
   private LocalDateTime salesEnd;
-  private String venue; // TODO: to replace with Venue entity later like TicketType
+  private String venue;
   private List<UpdateTicketTypeRequest> ticketTypes = new ArrayList<>();
 }

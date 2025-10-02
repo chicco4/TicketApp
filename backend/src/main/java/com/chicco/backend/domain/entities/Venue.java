@@ -44,7 +44,7 @@ public class Venue {
   @Enumerated(EnumType.STRING)
   private VenueTypeEnum type;
 
-  // TODO: add relationship with events
+  // to use if i plan to use the Venue entity
   // @OneToMany(mappedBy = "events", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   // private List<Event> events = new ArrayList<>();
 

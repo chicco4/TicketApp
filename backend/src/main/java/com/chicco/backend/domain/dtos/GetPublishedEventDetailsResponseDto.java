@@ -20,6 +20,6 @@ public class GetPublishedEventDetailsResponseDto {
   private EventTypeEnum type;
   private LocalDateTime start;
   private LocalDateTime end;
-  private String venue; // TODO: to replace with Venue entity later like TicketType
+  private String venue;
   private List<GetPublishedEventDetailsTicketTypeResponseDto> ticketTypes = new ArrayList<>();
 }

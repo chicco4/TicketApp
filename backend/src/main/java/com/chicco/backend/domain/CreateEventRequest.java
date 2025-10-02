@@ -23,6 +23,6 @@ public class CreateEventRequest {
   private LocalDateTime end;
   private LocalDateTime salesStart;
   private LocalDateTime salesEnd;
-  private String venue; // TODO: to replace with Venue entity later like TicketType
+  private String venue;
   private List<CreateTicketTypeRequest> ticketTypes = new ArrayList<>();
 }

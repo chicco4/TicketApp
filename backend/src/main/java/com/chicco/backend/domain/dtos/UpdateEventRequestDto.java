@@ -44,7 +44,7 @@ public class UpdateEventRequestDto {
   private LocalDateTime salesEnd;
 
   @NotBlank(message = "Event venue is required")
-  private String venue; // TODO: to replace with Venue entity later like TicketType
+  private String venue;
 
   @NotEmpty(message = "At least one ticket is required")
   @Valid

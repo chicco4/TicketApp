@@ -31,7 +31,6 @@ public class UserProvisioningFilter extends OncePerRequestFilter {
       HttpServletRequest request,
       HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    // TODO: implement user provisioning logic here
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

@@ -67,12 +67,11 @@ public class Event extends Log {
   @Column(name = "sales_end")
   private LocalDateTime salesEnd;
 
+  // to use if i plan to use the Venue entity
   // @ManyToOne(fetch = FetchType.LAZY)
   // @JoinColumn(name = "venue_id", nullable = false)
   // private Venue venue;
 
-  // TODO: to replace with the relationship above later
-  // will be replaced with the relationship above later
   @Column(name = "venue")
   private String venue;
 
