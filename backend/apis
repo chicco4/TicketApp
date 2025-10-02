@@ -1,0 +1,79 @@
+# Organizers ui flow
+
+## create event
+POST /api/v1/events
+Request body: Event
+
+## list events
+GET /api/v1/events
+
+## retrieve event
+GET /api/v1/events/{event_id}
+
+## update event
+PUT /api/v1/events/{event_id}
+Request body: Event
+
+## partial update event
+PATCH /api/v1/events/{event_id}
+Request body: Partial Event
+
+## delete event
+DELETE /api/v1/events/{event_id}
+
+## validate tickets
+POST /api/v1/events/{event_id}/ticket-validations
+
+## list ticket validations
+GET /api/v1/events/{event_id}/ticket-validations
+
+## list ticket sales
+GET /api/v1/events/{event_id}/tickets
+
+## retrieve ticket sale
+GET /api/v1/events/{event_id}/tickets/{ticket_id}
+
+## partial update ticket
+PATCH /api/v1/events/{event_id}/tickets
+Request body: Partial Ticket
+
+## list ticket types
+GET /api/v1/events/{event_id}/tickets-types
+
+## retrieve ticket type
+GET /api/v1/events/{event_id}/tickets-types/{ticket_type_id}
+
+## partial update ticket type
+PATCH /api/v1/events/{event_id}/tickets-types/{ticket_type_id}
+Request body: Partial Ticket Type
+
+## delete ticket type
+DELETE /api/v1/events/{event_id}/tickets-types/{ticket_type_id}
+
+## todo: Dedicated endpoint for report data
+
+GET /api/v1/tickets
+
+# Attendees ui flow
+
+## search published events
+GET /api/v1/published-events/
+
+## retrieve published event
+GET /api/v1/published-events/{published_event_id}
+
+## purchase ticket
+GET /api/v1/published-events/{published_event_id}/ticket-types/{ticket_type_id}
+
+## list tickets (for users)
+GET /api/v1/tickets
+
+## retrieve tickets (for users)
+GET /api/v1/tickets/{ticket_id}
+
+## retrieve ticket QR-code
+GET /api/v1/tickets/{ticket_id}/qr-codes
+
+# Staff ui flow
+
+## ??

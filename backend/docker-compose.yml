@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    # volumes:
+    #   - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-network 
+    restart: always
+  
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8888:8080"
+    networks:
+      - backend-network
+    depends_on:
+      - db
+    restart: always
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_DATABASE: db
+    ports:
+      - "9090:8080"
+    command:
+      - start-dev
+      - --db=dev-file
+    depends_on:
+      - db
+    networks:
+      - backend-network
+    restart: always
+
+volumes:
+  # data:
+  keycloak-data:
+    driver: local
+
+networks:
+  backend-network:
+    driver: bridge

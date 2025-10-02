@@ -1,0 +1,36 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.chicco:backend >-------------------------
+[INFO] Building backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.8.1:tree (default-cli) @ backend ---
+[INFO] com.chicco:backend:jar:0.0.1-SNAPSHOT
+[INFO] +- org.springframework.boot:spring-boot-starter:jar:3.5.5:compile
+[INFO] |  +- org.springframework.boot:spring-boot:jar:3.5.5:compile
+[INFO] |  |  \- org.springframework:spring-context:jar:6.2.10:compile
+[INFO] |  \- org.springframework:spring-core:jar:6.2.10:compile
+[INFO] |     \- org.springframework:spring-jcl:jar:6.2.10:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-web:jar:3.5.5:compile
+[INFO] |  +- org.springframework:spring-web:jar:6.2.10:compile
+[INFO] |  |  \- org.springframework:spring-beans:jar:6.2.10:compile
+[INFO] |  \- org.springframework:spring-webmvc:jar:6.2.10:compile
+[INFO] |     \- org.springframework:spring-expression:jar:6.2.10:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-data-jpa:jar:3.5.5:compile
+[INFO] |  +- org.springframework.boot:spring-boot-starter-jdbc:jar:3.5.5:compile
+[INFO] |  |  \- org.springframework:spring-jdbc:jar:6.2.10:compile
+[INFO] |  +- org.springframework.data:spring-data-jpa:jar:3.5.3:compile
+[INFO] |  |  +- org.springframework:spring-orm:jar:6.2.10:compile
+[INFO] |  |  \- org.springframework:spring-tx:jar:6.2.10:compile
+[INFO] |  \- org.springframework:spring-aspects:jar:6.2.10:compile
+[INFO] +- org.springframework.boot:spring-boot-starter-security:jar:3.5.5:compile
+[INFO] |  \- org.springframework:spring-aop:jar:6.2.10:compile
+[INFO] \- org.springframework.boot:spring-boot-starter-test:jar:3.5.5:test
+[INFO]    \- org.springframework:spring-test:jar:6.2.10:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.597 s
+[INFO] Finished at: 2025-10-02T18:39:13+02:00
+[INFO] ------------------------------------------------------------------------
