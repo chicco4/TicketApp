@@ -25,9 +25,10 @@ Quick start (backend)
 Useful endpoints (when running locally):
 
 - OpenAPI JSON/YAML: http://localhost:8080/api/v1/docs
-- Swagger UI:       http://localhost:8080/api/v1/docs/ui
+- Swagger UI: http://localhost:8080/api/v1/docs/ui
 
 Notes
+
 - The app expects a PostgreSQL database by default (configured in `src/main/resources/application.properties`). For development you can point to a local Postgres instance or change the properties to use an in-memory H2 profile.
 - Use Java 21 to compile and run (see `pom.xml`).
 
@@ -35,3 +36,11 @@ Recommended next steps
 
 - Add a short CONTRIBUTING.md with how to run local DB, migrations, and test data.
 - Add CI (GitHub Actions) to run `./mvnw -DskipTests package` and tests on push/PR.
+
+# Clean and rebuild
+
+mvn clean install
+
+# Run the app
+
+mvn spring-boot:run
