@@ -8,6 +8,10 @@ Quick start (backend)
 
 ```
 ./mvnw -DskipTests package
+
+# or
+
+./mvnw -U -e clean package -DskipTests
 ```
 
 2. Run the backend:
@@ -36,11 +40,3 @@ Recommended next steps
 
 - Add a short CONTRIBUTING.md with how to run local DB, migrations, and test data.
 - Add CI (GitHub Actions) to run `./mvnw -DskipTests package` and tests on push/PR.
-
-# Clean and rebuild
-
-mvn clean install
-
-# Run the app
-
-mvn spring-boot:run
