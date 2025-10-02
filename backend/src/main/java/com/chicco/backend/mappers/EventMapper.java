@@ -25,24 +25,23 @@ import com.chicco.backend.domain.entities.TicketType;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EventMapper {
+  CreateTicketTypeRequest fromCreateTicketTypeRequestDto(CreateTicketTypeRequestDto dto);
 
-  CreateTicketTypeRequest fromDto(CreateTicketTypeRequestDto dto);
+  CreateEventRequest fromCreateEventRequestDto(CreateEventRequestDto dto);
 
-  CreateEventRequest fromDto(CreateEventRequestDto dto);
+  UpdateEventResponseDto toGetEventUpdateResponseDto(Event event);
 
-  UpdateEventResponseDto toDto(Event event);
-
-  ListEventTicketTypeResponseDto toDto(TicketType ticketType);
+  ListEventTicketTypeResponseDto toListEventTicketTypeResponseDto(TicketType ticketType);
 
   ListEventResponseDto toListEventResponseDto(Event event);
 
-  GetEventDetailsTicketTypeResponseDto toGetEventDetailsTicketTypesResponseDto(TicketType ticketType);
+  GetEventDetailsTicketTypeResponseDto toGetEventDetailsTicketTypeResponseDto(TicketType ticketType);
 
   GetEventDetailsResponseDto toGetEventDetailsResponseDto(Event event);
 
-  UpdateTicketTypeRequest fromDto(UpdateTicketTypeRequestDto dto);
+  UpdateTicketTypeRequest fromUpdateTicketTypeRequestDto(UpdateTicketTypeRequestDto dto);
 
-  UpdateEventRequest fromDto(UpdateEventRequestDto dto);
+  UpdateEventRequest fromUpdateEventRequestDto(UpdateEventRequestDto dto);
 
   UpdateTicketTypeResponseDto toUpdateTicketTypeResponseDto(TicketType ticketType);
 

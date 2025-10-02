@@ -46,11 +46,11 @@ public class EventController {
       @AuthenticationPrincipal Jwt jwt,
       @Valid @RequestBody CreateEventRequestDto createEventRequestDto) {
 
-    CreateEventRequest createEventRequest = eventMapper.fromDto(createEventRequestDto);
+    CreateEventRequest createEventRequest = eventMapper.fromCreateEventRequestDto(createEventRequestDto);
     UUID userId = parseUserId(jwt);
 
     Event createdEvent = eventService.createEvent(userId, createEventRequest);
-    UpdateEventResponseDto createEventResponseDto = eventMapper.toDto(createdEvent);
+      UpdateEventResponseDto createEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
 
     return new ResponseEntity<>(createEventResponseDto, HttpStatus.CREATED);
   }
@@ -84,11 +84,11 @@ public class EventController {
       @PathVariable("event-id") UUID eventId,
       @Valid @RequestBody UpdateEventRequestDto updateEventRequestDto) {
 
-    UpdateEventRequest updateEventRequest = eventMapper.fromDto(updateEventRequestDto);
+    UpdateEventRequest updateEventRequest = eventMapper.fromUpdateEventRequestDto(updateEventRequestDto);
     UUID userId = parseUserId(jwt);
 
     Event createdEvent = eventService.updateEventForOrganizer(userId, eventId, updateEventRequest);
-    UpdateEventResponseDto updateEventResponseDto = eventMapper.toDto(createdEvent);
+      UpdateEventResponseDto updateEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
 
     return ResponseEntity.ok(updateEventResponseDto);
   }
