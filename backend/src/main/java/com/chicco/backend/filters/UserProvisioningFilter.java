@@ -25,7 +25,6 @@ public class UserProvisioningFilter extends OncePerRequestFilter {
 
   private final UserRepository userRepository;
 
-  @SuppressWarnings("null")
   @Override
   protected void doFilterInternal(
       HttpServletRequest request,
