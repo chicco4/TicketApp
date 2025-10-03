@@ -25,7 +25,7 @@ public class TicketTypeController {
 
   private final TicketTypeService ticketTypeService;
 
-  @PostMapping("/{ticket-type-id}/tickets")
+  @PostMapping("/{ticket-type-id}")
   public ResponseEntity<Void> purchaseTicket(
       @AuthenticationPrincipal Jwt jwt,
       @PathVariable("ticket-type-id") UUID ticketTypeId) {
