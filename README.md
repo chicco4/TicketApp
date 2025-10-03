@@ -40,3 +40,41 @@ Recommended next steps
 
 - Add a short CONTRIBUTING.md with how to run local DB, migrations, and test data.
 - Add CI (GitHub Actions) to run `./mvnw -DskipTests package` and tests on push/PR.
+
+# adminer
+user: user
+password: password
+
+# keycloak
+user: admin
+password: admin
+
+## settings
+base_url = http://localhost:8080 
+keycloak_url = http://localhost:9090
+realm = event-ticket-platform
+client_id = event-ticket-platform-app
+client_secret = no
+
+### ornanizer test user
+username = organizer1
+password = password
+
+### attendee test user
+username = attendee1
+password = password
+
+### staff test user
+username = staff1
+password = password
+
+## to get the bearer token
+
+http://localhost:9090/realms/event-ticket-platform/protocol/openid-connect/token
+
+body type: form url encoded
+
+grant_type: password
+client_id: event-ticket-platform-app
+username: organizer1
+password: password
