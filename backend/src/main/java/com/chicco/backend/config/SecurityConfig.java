@@ -34,8 +34,7 @@ public class SecurityConfig {
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .oauth2ResourceServer(oauth2 -> oauth2
-            // .jwt(Customizer.withDefaults()) // current style for JWT resource
-            // server
+            // .jwt(Customizer.withDefaults()) // current style for JWT resource server
             .jwt(jwt -> jwt
                 .jwtAuthenticationConverter(
                     jwtAuthenticationConverter))) // custom converter to extract roles from token
