@@ -20,7 +20,7 @@ import static com.chicco.backend.util.JwtUtil.parseUserId;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/events/{event-id}/ticket-types")
+@RequestMapping("/api/v1/ticket-types")
 public class TicketTypeController {
 
   private final TicketTypeService ticketTypeService;
