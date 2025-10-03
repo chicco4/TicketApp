@@ -26,7 +26,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/v1/docs/**", "/scalar/**", "/swagger-ui/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/v1/published-events/**").permitAll() // public endpoints
-            .requestMatchers("/api/v1/events/**").hasRole("ORGANIZER") // event management endpoints
+            .requestMatchers("/api/v1/events/**").hasRole("ORGANIZER")
             .requestMatchers("/api/v1/ticket-validations/**").hasRole("STAFF")
             // catch-all rule, any request must be authenticated
             .anyRequest().authenticated())
@@ -38,13 +38,7 @@ public class SecurityConfig {
             // server
             .jwt(jwt -> jwt
                 .jwtAuthenticationConverter(
-                    jwtAuthenticationConverter))) // custom
-                                                  // converter
-                                                  // to
-                                                  // extract
-                                                  // roles
-                                                  // from
-                                                  // token
+                    jwtAuthenticationConverter))) // custom converter to extract roles from token
         .addFilterAfter(userProvisioningFilter, BearerTokenAuthenticationFilter.class);
 
     return http.build();
