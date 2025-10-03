@@ -50,11 +50,24 @@ public class EventController {
     UUID userId = parseUserId(jwt);
 
     Event createdEvent = eventService.createEvent(userId, createEventRequest);
-      UpdateEventResponseDto createEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
+    UpdateEventResponseDto createEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
 
     return new ResponseEntity<>(createEventResponseDto, HttpStatus.CREATED);
   }
 
+  // TODO: change so that the events shown change based on whether the user is an
+  // organizer or a regular user
+  // for organizers, show all events they created
+  // for regular users, show only events they have tickets for
+  // this will probably require a new endpoint for regular users
+  // and the current one will be only for organizers
+  // also, consider renaming the endpoint to /api/v1/organizer/events or similar
+  // to make it clear that it's only for organizers
+  // and add a new endpoint for regular users at /api/v1/events
+  // that shows only events they have tickets for
+  // this will require changes in the EventService and EventRepository as well
+  // and possibly new DTOs and mappers
+  // for now, we'll keep it as is and just add a TODO
   @GetMapping()
   public ResponseEntity<Page<ListEventResponseDto>> listEvents(
       @AuthenticationPrincipal Jwt jwt,
@@ -88,7 +101,7 @@ public class EventController {
     UUID userId = parseUserId(jwt);
 
     Event createdEvent = eventService.updateEventForOrganizer(userId, eventId, updateEventRequest);
-      UpdateEventResponseDto updateEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
+    UpdateEventResponseDto updateEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
 
     return ResponseEntity.ok(updateEventResponseDto);
   }
@@ -101,5 +114,23 @@ public class EventController {
     eventService.deleteEventForOrganizer(userId, eventId);
     return ResponseEntity.noContent().build();
   }
+
+  // TODO: add endpoint for every authenticated user to purchase tickets for an
+  // event
+  // this will require a new service method in EventService
+  // and possibly new DTOs and mappers
+  // the endpoint should be POST /api/v1/events/{event-id}/purchase
+  // and it should accept a request body with the number and types of tickets to
+  // purchase
+  // and return a response with the details of the purchased tickets
+  // for now, we'll just add a TODO
+
+  // TODO: add endpoint to validate tickets for an event
+  // this will require a new service method in EventService
+  // and possibly new DTOs and mappers
+  // the endpoint should be POST /api/v1/events/{event_id}/ticket-validations
+  // and accept a request body with the ticket validation details
+  // and return a response with the details of the ticket validation
+  // for now, we'll just add a TODO
 
 }

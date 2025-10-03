@@ -18,6 +18,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// TODO: remove this entity and use Ticket directly
+// since a ticket can have only one QR code
+// and the QR code is generated when the ticket is created
+// we can just add the QR code fields to the Ticket entity
+// and remove the QrCode entity and repository
+// this will simplify the code and reduce the number of joins in queries
+// we can keep the QrCodeStatusEnum enum to represent the status of the QR code
+// and add a field to the Ticket entity to store the QR code value
+// for now, we'll keep it as is and just add a TODO
+
 @Entity
 @Table(name = "qr_codes")
 @Getter
