@@ -25,7 +25,7 @@ public class SecurityConfig {
     http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/v1/docs/**", "/scalar/**", "/swagger-ui/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/v1/published-events/**").permitAll() // public endpoints
+            .requestMatchers("/api/v1/published-events/**").permitAll()
             .requestMatchers("/api/v1/events/**").hasRole("ORGANIZER")
             .requestMatchers("/api/v1/ticket-validations/**").hasRole("STAFF")
             // catch-all rule, any request must be authenticated
