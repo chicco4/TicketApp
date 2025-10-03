@@ -30,7 +30,7 @@ public class QrCode extends Log {
   @Column(name = "id", nullable = false, updatable = false)
   private UUID id;
 
-  @Column(name = "code", columnDefinition = "TEXT", nullable = false, unique = true)
+  @Column(name = "value", columnDefinition = "text", nullable = false, unique = true)
   private String value;
 
   @Column(name = "status", nullable = false)
