@@ -15,6 +15,7 @@ import com.chicco.backend.exceptions.EventUpdateException;
 import com.chicco.backend.exceptions.QrCodeGenerationException;
 import com.chicco.backend.exceptions.QrCodeNotFoundException;
 import com.chicco.backend.exceptions.TicketTypeNotFoundException;
+import com.chicco.backend.exceptions.InvalidJwtSubjectException;
 
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -132,5 +133,15 @@ public class GlobalExceptionHandler {
     errorDto.setError("An unknown error occured");
 
     return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(InvalidJwtSubjectException.class)
+  public ResponseEntity<ErrorDto> handleInvalidJwtSubject(InvalidJwtSubjectException ex) {
+    log.error("Caught InvalidJwtSubjectException", ex);
+    ErrorDto errorDto = new ErrorDto();
+
+    errorDto.setError("Invalid authentication token subject");
+
+    return new ResponseEntity<>(errorDto, HttpStatus.UNAUTHORIZED);
   }
 }

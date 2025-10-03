@@ -54,7 +54,6 @@ base_url = http://localhost:8080
 keycloak_url = http://localhost:9090
 realm = event-ticket-platform
 client_id = event-ticket-platform-app
-client_secret = no
 
 ### ornanizer test user
 username = organizer1
