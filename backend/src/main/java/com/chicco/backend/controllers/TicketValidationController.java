@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import static com.chicco.backend.util.JwtUtil.parseUserId;
 
 @RestController
 @RequestMapping("/api/v1/ticket-validations")
@@ -26,14 +29,18 @@ public class TicketValidationController {
 
   @PostMapping
   public ResponseEntity<TicketValidationResponseDto> validateTicket(
+      @AuthenticationPrincipal Jwt jwt,
       @RequestBody TicketValidationRequestDto ticketValidationRequestDto) {
     TicketValidationMethodEnum method = ticketValidationRequestDto.getMethod();
+    var validatedByUserId = parseUserId(jwt);
 
     TicketValidation ticketValidation;
     if (TicketValidationMethodEnum.MANUAL.equals(method)) {
-      ticketValidation = ticketValidationService.validateTicketManually(ticketValidationRequestDto.getId());
+      ticketValidation = ticketValidationService.validateTicketManually(ticketValidationRequestDto.getId(),
+          validatedByUserId);
     } else {
-      ticketValidation = ticketValidationService.validateTicketByQrCode(ticketValidationRequestDto.getId());
+      ticketValidation = ticketValidationService.validateTicketByQrCode(ticketValidationRequestDto.getId(),
+          validatedByUserId);
     }
 
     return ResponseEntity.ok(
