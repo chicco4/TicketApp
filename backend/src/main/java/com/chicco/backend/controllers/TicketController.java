@@ -53,7 +53,7 @@ public class TicketController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-  @GetMapping("/{ticket-id}/qr-codes")
+  @GetMapping("/{ticket-id}/qr-code")
   public ResponseEntity<byte[]> getTicketQrCode(
       @AuthenticationPrincipal Jwt jwt,
       @PathVariable("ticket-id") UUID ticketId) {
