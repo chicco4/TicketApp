@@ -13,7 +13,6 @@ import com.chicco.backend.exceptions.TicketNotFoundException;
 import com.chicco.backend.exceptions.EventNotFoundException;
 import com.chicco.backend.exceptions.EventUpdateException;
 import com.chicco.backend.exceptions.QrCodeGenerationException;
-import com.chicco.backend.exceptions.QrCodeNotFoundException;
 import com.chicco.backend.exceptions.TicketTypeNotFoundException;
 import com.chicco.backend.exceptions.InvalidJwtSubjectException;
 
@@ -42,16 +41,6 @@ public class GlobalExceptionHandler {
     errorDto.setError("Ticket is sold out");
 
     return new ResponseEntity<>(errorDto, HttpStatus.CONFLICT);
-  }
-
-  @ExceptionHandler(QrCodeNotFoundException.class)
-  public ResponseEntity<ErrorDto> handleQrCodeNotFoundException(QrCodeNotFoundException ex) {
-    log.error("Caught QrCodeNotFoundException", ex);
-    ErrorDto errorDto = new ErrorDto();
-
-    errorDto.setError("Unable to find QR code");
-
-    return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(QrCodeGenerationException.class)

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chicco.backend.domain.dtos.GetTicketResponseDto;
 import com.chicco.backend.domain.dtos.ListTicketResponseDto;
 import com.chicco.backend.mappers.TicketMapper;
-import com.chicco.backend.services.QrCodeService;
 import com.chicco.backend.services.TicketService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ public class TicketController {
 
   private final TicketService ticketService;
   private final TicketMapper ticketMapper;
-  private final QrCodeService qrCodeService;
 
   @GetMapping()
   public Page<ListTicketResponseDto> listTickets(
@@ -58,7 +56,7 @@ public class TicketController {
       @AuthenticationPrincipal Jwt jwt,
       @PathVariable("ticket-id") UUID ticketId) {
 
-    byte[] qrCodeImage = qrCodeService.getQrCodeImageForUserAndTicket(
+    byte[] qrCodeImage = ticketService.getQrCodeImageForUserAndTicket(
         parseUserId(jwt),
         ticketId);
 

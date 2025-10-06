@@ -14,7 +14,6 @@ import com.chicco.backend.exceptions.UserNotFoundException;
 import com.chicco.backend.repositories.TicketRepository;
 import com.chicco.backend.repositories.TicketTypeRepository;
 import com.chicco.backend.repositories.UserRepository;
-import com.chicco.backend.services.QrCodeService;
 import com.chicco.backend.services.TicketTypeService;
 
 import jakarta.transaction.Transactional;
@@ -27,7 +26,6 @@ public class TicketTypeServiceImpl implements TicketTypeService {
   private final UserRepository userRepository;
   private final TicketTypeRepository ticketTypeRepository;
   private final TicketRepository ticketRepository;
-  private final QrCodeService qrCodeService;
 
   @Override
   @Transactional
@@ -52,9 +50,7 @@ public class TicketTypeServiceImpl implements TicketTypeService {
     ticket.setTicketType(ticketType);
     ticket.setPurchaser(user);
 
-    Ticket savedTicket = ticketRepository.save(ticket);
-    qrCodeService.generateQrCode(savedTicket);
-    return savedTicket;
+    return ticketRepository.save(ticket);
   }
 
 }

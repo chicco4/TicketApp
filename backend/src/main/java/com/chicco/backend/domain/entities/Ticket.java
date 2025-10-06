@@ -53,8 +53,9 @@ public class Ticket extends Log {
   @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<TicketValidation> validations = new ArrayList<>();
 
-  @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<QrCode> qrCodes = new ArrayList<>();
+  // Base64 PNG representation of the ticket QR code. Generated on-demand.
+  @Column(name = "qr_value", columnDefinition = "text", unique = true)
+  private String qrValue;
 
   // only identifying fields, ignore relationships
   @Override

@@ -12,4 +12,6 @@ public interface TicketService {
   Page<Ticket> listTicketsForUser(UUID userId, Pageable pageable);
 
   Optional<Ticket> getTicketForUser(UUID userId, UUID ticketId);
+
+  byte[] getQrCodeImageForUserAndTicket(UUID userId, UUID ticketId);
 }
