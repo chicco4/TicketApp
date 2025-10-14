@@ -36,10 +36,12 @@ public class TicketValidationController {
 
     TicketValidation ticketValidation;
     if (TicketValidationMethodEnum.MANUAL.equals(method)) {
-      ticketValidation = ticketValidationService.validateTicketManually(ticketValidationRequestDto.getId(),
+      ticketValidation = ticketValidationService.validateTicketManually(
+          ticketValidationRequestDto.getId(),
           validatedByUserId);
     } else {
-      ticketValidation = ticketValidationService.validateTicketByQrCode(ticketValidationRequestDto.getId(),
+      ticketValidation = ticketValidationService.validateTicketByQrCode(
+          ticketValidationRequestDto.getId(),
           validatedByUserId);
     }
 
