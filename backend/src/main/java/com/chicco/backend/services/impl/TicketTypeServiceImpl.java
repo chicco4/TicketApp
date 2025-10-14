@@ -1,5 +1,7 @@
 package com.chicco.backend.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -30,6 +32,17 @@ public class TicketTypeServiceImpl implements TicketTypeService {
   @Override
   @Transactional
   public Ticket purchaseTicket(UUID userId, UUID ticketTypeId) {
+    // Reuse the new method for backward compatibility
+    return purchaseTickets(userId, ticketTypeId, 1).get(0);
+  }
+
+  @Override
+  @Transactional
+  public List<Ticket> purchaseTickets(UUID userId, UUID ticketTypeId, int quantity) {
+    if (quantity < 1) {
+      throw new IllegalArgumentException("Quantity must be at least 1");
+    }
+
     User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(
         String.format("User with id %s not found", userId)));
 
@@ -41,16 +54,23 @@ public class TicketTypeServiceImpl implements TicketTypeService {
 
     Integer totalAvailable = ticketType.getTotalAvailable();
     // if totalAvailable is null => treat as unlimited
-    if (totalAvailable != null && purchasedTickets + 1 > totalAvailable) {
-      throw new TicketSoldOutException();
+    if (totalAvailable != null && purchasedTickets + quantity > totalAvailable) {
+      int remaining = totalAvailable - purchasedTickets;
+      throw new TicketSoldOutException(
+          String.format("Only %d ticket(s) available, but %d were requested", remaining, quantity));
     }
 
-    Ticket ticket = new Ticket();
-    ticket.setStatus(TicketStatusEnum.PURCHASED);
-    ticket.setTicketType(ticketType);
-    ticket.setPurchaser(user);
+    // Create multiple tickets
+    List<Ticket> tickets = new ArrayList<>();
+    for (int i = 0; i < quantity; i++) {
+      Ticket ticket = new Ticket();
+      ticket.setStatus(TicketStatusEnum.PURCHASED);
+      ticket.setTicketType(ticketType);
+      ticket.setPurchaser(user);
+      tickets.add(ticket);
+    }
 
-    return ticketRepository.save(ticket);
+    return ticketRepository.saveAll(tickets);
   }
 
 }
