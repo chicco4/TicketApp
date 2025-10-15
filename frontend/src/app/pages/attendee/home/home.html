@@ -1,1 +1,32 @@
-<p>attendee home works!</p>
+<section class="attendee-home">
+  <h2>Published events</h2>
+
+  @if (loading) {
+    <div>Loading events…</div>
+  }
+  @else if (error) {
+    <div class="error">{{ error }}</div>
+  }
+  @else if (events.length === 0) {
+    <div>No events available.</div>
+  }
+  @else {
+    <ul class="events">
+      <li *ngFor="let ev of events" class="event">
+        <div class="title">{{ ev.name }}</div>
+        <div class="time">
+          {{ ev.start | date: 'medium' }} — {{ ev.end | date: 'medium' }}
+        </div>
+        <div class="venue">{{ ev.venue }}</div>
+      </li>
+    </ul>
+  }
+
+  @if (page && page.totalPages > 1) {
+    <nav class="pagination">
+      <button (click)="gotoPage(page.number - 1)" [disabled]="page.first">Prev</button>
+      <span>Page {{ page.number + 1 }} / {{ page.totalPages }}</span>
+      <button (click)="gotoPage(page.number + 1)" [disabled]="page.last">Next</button>
+    </nav>
+  }
+</section>
