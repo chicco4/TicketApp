@@ -1,0 +1,31 @@
+<div class="event-list-container">
+  <div class="header">
+    <h1>My Events</h1>
+    <a routerLink="/organizer/events/create" class="btn-create">Create Event</a>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading events...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button (click)="loadEvents()">Retry</button>
+  </div>
+
+  <div *ngIf="!isLoading && !error && events.length === 0" class="no-events">
+    <p>You haven't created any events yet.</p>
+    <a routerLink="/organizer/events/create" class="btn-primary">Create Your First Event</a>
+  </div>
+
+  <div *ngIf="!isLoading && !error && events.length > 0" class="events-grid">
+    <div *ngFor="let event of events" class="event-item">
+      <app-event-card [event]="event"></app-event-card>
+      <div class="event-actions">
+        <a [routerLink]="['/organizer/events', event.id, 'dashboard']" class="btn-dashboard">Dashboard</a>
+        <a [routerLink]="['/organizer/events', event.id, 'edit']" class="btn-edit">Edit</a>
+        <button (click)="deleteEvent(event.id)" class="btn-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

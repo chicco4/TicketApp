@@ -1,0 +1,90 @@
+<div class="edit-event-container">
+  <h1>Edit Event</h1>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading event...</p>
+  </div>
+
+  <div *ngIf="error && !isLoading" class="error-message">
+    {{ error }}
+  </div>
+
+  <form *ngIf="!isLoading" [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
+    <div class="form-section">
+      <h2>Event Details</h2>
+
+      <div class="form-group">
+        <label for="name">Event Name *</label>
+        <input 
+          id="name" 
+          type="text" 
+          formControlName="name" 
+          placeholder="Enter event name"
+        />
+        <div class="error" *ngIf="eventForm.get('name')?.touched && eventForm.get('name')?.invalid">
+          Event name is required (minimum 3 characters)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <textarea 
+          id="description" 
+          formControlName="description" 
+          rows="4"
+          placeholder="Describe your event"
+        ></textarea>
+        <div class="error" *ngIf="eventForm.get('description')?.touched && eventForm.get('description')?.invalid">
+          Description is required (minimum 10 characters)
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="location">Location *</label>
+          <input 
+            id="location" 
+            type="text" 
+            formControlName="location" 
+            placeholder="Event location"
+          />
+          <div class="error" *ngIf="eventForm.get('location')?.touched && eventForm.get('location')?.invalid">
+            Location is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDate">Event Date *</label>
+          <input 
+            id="eventDate" 
+            type="datetime-local" 
+            formControlName="eventDate"
+          />
+          <div class="error" *ngIf="eventForm.get('eventDate')?.touched && eventForm.get('eventDate')?.invalid">
+            Event date is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="totalSeats">Total Seats *</label>
+          <input 
+            id="totalSeats" 
+            type="number" 
+            formControlName="totalSeats" 
+            min="1"
+          />
+          <div class="error" *ngIf="eventForm.get('totalSeats')?.touched && eventForm.get('totalSeats')?.invalid">
+            Total seats must be at least 1
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="isSubmitting" class="btn-submit">
+        {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+      </button>
+      <a [routerLink]="['/organizer/events', eventId, 'dashboard']" class="btn-cancel">Cancel</a>
+    </div>
+  </form>
+</div>

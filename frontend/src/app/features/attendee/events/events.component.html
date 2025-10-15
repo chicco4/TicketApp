@@ -1,0 +1,47 @@
+<div class="events-container">
+  <div class="header-section">
+    <h1>Browse Events</h1>
+    <p class="subtitle">Discover amazing events happening near you</p>
+  </div>
+
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search events</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by title, location, or type...">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div class="content-section">
+    <div *ngIf="loading" class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading events...</p>
+    </div>
+
+    <div *ngIf="error && !loading" class="error-container">
+      <mat-icon color="warn">error</mat-icon>
+      <p>{{ error }}</p>
+    </div>
+
+    <div *ngIf="events && !loading && !error" class="events-grid">
+      <div *ngIf="events.content.length === 0" class="no-events">
+        <mat-icon>event_busy</mat-icon>
+        <p>No events found</p>
+        <p class="hint">Try adjusting your search criteria</p>
+      </div>
+
+      <app-event-card
+        *ngFor="let event of events.content"
+        [event]="event"
+        [viewMode]="'attendee'"
+        (eventClick)="onEventClick($event)">
+      </app-event-card>
+    </div>
+
+    <app-pagination
+      *ngIf="events && events.content.length > 0"
+      [page]="events"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+  </div>
+</div>

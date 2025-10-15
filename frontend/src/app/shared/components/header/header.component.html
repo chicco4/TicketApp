@@ -1,0 +1,56 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <div class="toolbar-content">
+    <div class="logo-section">
+      <button mat-button routerLink="/">
+        <mat-icon>confirmation_number</mat-icon>
+        <span class="app-name">TicketApp</span>
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <button mat-button routerLink="/events" routerLinkActive="active">
+        <mat-icon>event</mat-icon>
+        Events
+      </button>
+
+      <ng-container *ngIf="currentUser$ | async as user; else loginButton">
+        <button mat-button routerLink="/my-tickets" routerLinkActive="active">
+          <mat-icon>confirmation_number</mat-icon>
+          My Tickets
+        </button>
+
+        <button mat-button *ngIf="hasRole('ORGANIZER')" routerLink="/organizer/events" routerLinkActive="active">
+          <mat-icon>dashboard</mat-icon>
+          Manage Events
+        </button>
+
+        <button mat-button *ngIf="hasRole('STAFF')" routerLink="/staff/validate" routerLinkActive="active">
+          <mat-icon>qr_code_scanner</mat-icon>
+          Validate Tickets
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="user-menu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item disabled>
+            <mat-icon>person</mat-icon>
+            <span>{{ user.sub }}</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+
+      <ng-template #loginButton>
+        <button mat-raised-button color="accent" routerLink="/login">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</mat-toolbar>

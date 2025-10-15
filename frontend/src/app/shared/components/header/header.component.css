@@ -1,0 +1,59 @@
+.header-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.logo-section button {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.app-name {
+  margin-left: 8px;
+}
+
+.nav-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-section button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-section button.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-menu {
+  margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+  .toolbar-content {
+    padding: 0 8px;
+  }
+
+  .nav-section button span:not(.app-name) {
+    display: none;
+  }
+
+  .app-name {
+    display: none;
+  }
+}

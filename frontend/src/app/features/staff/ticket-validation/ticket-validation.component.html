@@ -1,0 +1,74 @@
+<div class="validation-container">
+  <h1>Ticket Validation</h1>
+
+  <div class="validation-form">
+    <div class="form-group">
+      <label for="qrCode">Scan or Enter QR Code</label>
+      <input 
+        id="qrCode" 
+        type="text" 
+        [(ngModel)]="qrCode" 
+        placeholder="Enter QR code"
+        (keyup.enter)="validateTicket()"
+        [disabled]="isValidating"
+      />
+    </div>
+
+    <div class="actions">
+      <button 
+        (click)="validateTicket()" 
+        [disabled]="isValidating || !qrCode.trim()"
+        class="btn-validate"
+      >
+        {{ isValidating ? 'Validating...' : 'Validate Ticket' }}
+      </button>
+      <button 
+        (click)="reset()" 
+        [disabled]="isValidating"
+        class="btn-reset"
+      >
+        Reset
+      </button>
+    </div>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  </div>
+
+  <div *ngIf="validationResult" class="validation-result" [class.valid]="isValid()" [class.invalid]="!isValid()">
+    <div class="result-header">
+      <div class="status-icon">
+        <span *ngIf="isValid()">✓</span>
+        <span *ngIf="!isValid()">✗</span>
+      </div>
+      <h2>{{ isValid() ? 'Valid Ticket' : 'Invalid Ticket' }}</h2>
+    </div>
+
+    <div class="result-details">
+      <div class="detail-row">
+        <strong>Status:</strong>
+        <span>{{ validationResult.message || validationResult.status }}</span>
+      </div>
+
+      <div *ngIf="validationResult.ticket" class="ticket-info">
+        <div class="detail-row">
+          <strong>Ticket ID:</strong>
+          <span>#{{ validationResult.ticket.id }}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Event:</strong>
+          <span>{{ validationResult.ticket.event?.name }}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Type:</strong>
+          <span>{{ validationResult.ticket.ticketType?.name }}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Attendee:</strong>
+          <span>{{ validationResult.ticket.user?.username || validationResult.ticket.user?.email }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

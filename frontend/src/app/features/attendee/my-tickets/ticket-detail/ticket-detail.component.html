@@ -1,0 +1,50 @@
+<div class="ticket-detail-container">
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading ticket details...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <a routerLink="/my-tickets">Back to My Tickets</a>
+  </div>
+
+  <div *ngIf="!isLoading && !error && ticket" class="ticket-detail">
+    <div class="ticket-header">
+      <h1>{{ ticket.event.name }}</h1>
+      <span class="ticket-status" [class]="'status-' + ticket.status.toLowerCase()">
+        {{ ticket.status }}
+      </span>
+    </div>
+
+    <div class="ticket-info">
+      <div class="info-section">
+        <h2>Event Details</h2>
+        <p><strong>Date:</strong> {{ ticket.event.eventDate | dateFormat }}</p>
+        <p><strong>Location:</strong> {{ ticket.event.location }}</p>
+        <p><strong>Description:</strong> {{ ticket.event.description }}</p>
+      </div>
+
+      <div class="info-section">
+        <h2>Ticket Information</h2>
+        <p><strong>Ticket ID:</strong> #{{ ticket.id }}</p>
+        <p><strong>Type:</strong> {{ ticket.ticketType.name }}</p>
+        <p><strong>Price:</strong> {{ ticket.ticketType.price | currency }}</p>
+        <p><strong>Purchase Date:</strong> {{ ticket.purchaseDate | dateFormat }}</p>
+        <p *ngIf="ticket.validatedAt"><strong>Validated:</strong> {{ ticket.validatedAt | dateFormat }}</p>
+      </div>
+
+      <div class="info-section qr-section">
+        <h2>QR Code</h2>
+        <div class="qr-code-placeholder">
+          <p>QR Code: {{ ticket.qrCode }}</p>
+          <!-- QR code would be generated here -->
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button (click)="downloadTicket()" class="btn-primary">Download Ticket</button>
+      <a routerLink="/my-tickets" class="btn-secondary">Back to My Tickets</a>
+    </div>
+  </div>
+</div>

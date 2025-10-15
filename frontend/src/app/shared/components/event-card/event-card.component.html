@@ -1,0 +1,47 @@
+<mat-card class="event-card" (click)="onEventClick()">
+  <mat-card-header>
+    <mat-card-title>{{ event.title }}</mat-card-title>
+    <mat-card-subtitle>
+      <mat-icon inline>location_on</mat-icon>
+      {{ event.location }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="event-details">
+      <div class="date-info">
+        <mat-icon>calendar_today</mat-icon>
+        <span>{{ event.startDate | dateFormat:'long' }}</span>
+      </div>
+      
+      <div class="event-meta">
+        <mat-chip-set>
+          <mat-chip [color]="getStatusColor(event.status)">
+            {{ event.status }}
+          </mat-chip>
+          <mat-chip>{{ event.type }}</mat-chip>
+        </mat-chip-set>
+      </div>
+
+      <div class="ticket-types" *ngIf="event.ticketTypes && event.ticketTypes.length > 0">
+        <p class="ticket-label">Available Tickets:</p>
+        <div class="ticket-list">
+          <span *ngFor="let ticket of event.ticketTypes" class="ticket-info">
+            {{ ticket.name }} - {{ ticket.availableQuantity }} left
+          </span>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="showActions">
+    <button mat-button color="primary" *ngIf="viewMode === 'attendee'">
+      <mat-icon>visibility</mat-icon>
+      View Details
+    </button>
+    <button mat-button color="primary" *ngIf="viewMode === 'organizer'">
+      <mat-icon>edit</mat-icon>
+      Manage Event
+    </button>
+  </mat-card-actions>
+</mat-card>

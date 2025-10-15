@@ -1,0 +1,89 @@
+<div class="dashboard-container">
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading dashboard...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button (click)="loadEventDashboard()">Retry</button>
+  </div>
+
+  <div *ngIf="!isLoading && !error && event" class="dashboard">
+    <div class="dashboard-header">
+      <div>
+        <h1>{{ event.name }}</h1>
+        <p class="event-date">{{ event.eventDate | dateFormat }}</p>
+      </div>
+      <div class="header-actions">
+        <a [routerLink]="['/organizer/events', eventId, 'edit']" class="btn-edit">Edit Event</a>
+        <a routerLink="/organizer/events" class="btn-back">Back to Events</a>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total Revenue</h3>
+        <p class="stat-value">{{ getTotalRevenue() | currency }}</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Tickets Sold</h3>
+        <p class="stat-value">{{ getTotalTicketsSold() }} / {{ event.totalSeats }}</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Available Seats</h3>
+        <p class="stat-value">{{ getAvailableSeats() }}</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Event Status</h3>
+        <p class="stat-value status">{{ event.status || 'Active' }}</p>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>Event Details</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>Location:</strong>
+          <span>{{ event.location }}</span>
+        </div>
+        <div class="info-item">
+          <strong>Total Seats:</strong>
+          <span>{{ event.totalSeats }}</span>
+        </div>
+        <div class="info-item full-width">
+          <strong>Description:</strong>
+          <span>{{ event.description }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticket-types-section">
+      <h2>Ticket Types</h2>
+      <div class="ticket-types-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Total Quantity</th>
+              <th>Sold</th>
+              <th>Available</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let type of event.ticketTypes">
+              <td>{{ type.name }}</td>
+              <td>{{ type.price | currency }}</td>
+              <td>{{ type.quantity }}</td>
+              <td>{{ type.quantity - (type.availableQuantity || type.quantity) }}</td>
+              <td>{{ type.availableQuantity || type.quantity }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

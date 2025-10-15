@@ -1,0 +1,45 @@
+<mat-card class="ticket-card" (click)="onTicketClick()">
+  <mat-card-header>
+    <mat-card-title>{{ ticket.eventTitle }}</mat-card-title>
+    <mat-card-subtitle>{{ ticket.ticketTypeName }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="ticket-details">
+      <div class="detail-row">
+        <mat-icon>confirmation_number</mat-icon>
+        <span class="detail-label">Ticket ID:</span>
+        <span class="detail-value">{{ ticket.id.substring(0, 8) }}...</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon>event</mat-icon>
+        <span class="detail-label">Event Date:</span>
+        <span class="detail-value">{{ ticket.eventStartDate | dateFormat:'long' }}</span>
+      </div>
+
+      <div class="detail-row">
+        <mat-icon>shopping_cart</mat-icon>
+        <span class="detail-label">Purchased:</span>
+        <span class="detail-value">{{ ticket.purchaseDate | dateFormat:'short' }}</span>
+      </div>
+
+      <div class="status-chip">
+        <mat-chip [color]="getStatusColor(ticket.status)" highlighted>
+          {{ ticket.status }}
+        </mat-chip>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="showActions">
+    <button mat-button color="primary">
+      <mat-icon>visibility</mat-icon>
+      View Details
+    </button>
+    <button mat-button color="accent" (click)="onViewQrCode($event)" *ngIf="ticket.status === TicketStatus.PURCHASED">
+      <mat-icon>qr_code</mat-icon>
+      QR Code
+    </button>
+  </mat-card-actions>
+</mat-card>
