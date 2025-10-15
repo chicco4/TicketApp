@@ -1,0 +1,46 @@
+<section class="event-details">
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading event…</span>
+    </div>
+  }
+  @else if (error) {
+    <div class="error">{{ error }}</div>
+    <a mat-button color="primary" routerLink="/attendee/home">Back to events</a>
+  }
+  @else if (event) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>{{ event.name }}</mat-card-title>
+        <mat-card-subtitle>{{ event.type || 'Event' }} • {{ event.venue }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="time">
+          <span class="label">Starts:</span>
+          <span>{{ event.start | date: 'full' }}</span>
+        </div>
+        <div class="time">
+          <span class="label">Ends:</span>
+          <span>{{ event.end | date: 'full' }}</span>
+        </div>
+
+        @if (event.ticketTypes?.length) {
+          <div class="tickets">
+            <h3>Ticket types</h3>
+            <ul>
+              <li *ngFor="let t of event.ticketTypes">
+                <strong>{{ t.name }}</strong>
+                <span class="price">{{ t.price | currency }}</span>
+                <div class="desc">{{ t.description }}</div>
+              </li>
+            </ul>
+          </div>
+        }
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <a mat-flat-button color="primary" routerLink="/attendee/home">Back</a>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>

@@ -23,4 +23,11 @@ export class PublishedEventsService {
 
     return this.http.get<Page<PublishedEvent>>(this.baseUrl, { params });
   }
+
+  /**
+   * Fetch a single published event by its ID.
+   */
+  getPublishedEventById(id: string): Observable<PublishedEvent> {
+    return this.http.get<PublishedEvent>(`${this.baseUrl}/${encodeURIComponent(id)}`);
+  }
 }

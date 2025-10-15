@@ -7,6 +7,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/attendee/home/home').then((m) => m.AttendeeHome),
   },
   {
+    path: 'attendee/events/:id',
+    loadComponent: () => import('./pages/attendee/event-details/event-details').then((m) => m.AttendeeEventDetails),
+  },
+  {
     path: 'organizer/home',
     canActivate: [canActivateAuthRole],
     data: { role: 'ROLE_ORGANIZER' },

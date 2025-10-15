@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 import { PublishedEventsService } from '../../../core/services/published-events.service';
 import { Page } from '../../../core/models/interfaces/page';
 import { PublishedEvent } from '../../../core/models/interfaces/published-event';
 
 @Component({
   selector: 'app-attendee-home',
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule, MatPaginatorModule, MatProgressSpinnerModule, MatButtonModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -16,7 +21,7 @@ export class AttendeeHome implements OnInit {
   page?: Page<PublishedEvent>;
   events: PublishedEvent[] = [];
 
-  constructor(private readonly publishedEvents: PublishedEventsService) {}
+  constructor(private readonly publishedEvents: PublishedEventsService, private readonly router: Router) {}
 
   ngOnInit(): void {
     this.fetchEvents();
@@ -44,5 +49,14 @@ export class AttendeeHome implements OnInit {
     if (!this.page) return;
     if (p < 0 || p >= this.page.totalPages || p === this.page.number) return;
     this.fetchEvents(p);
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.fetchEvents(event.pageIndex);
+  }
+
+  viewDetails(ev: PublishedEvent): void {
+    if (!ev?.id) return;
+    this.router.navigate(['/attendee/events', ev.id]);
   }
 }

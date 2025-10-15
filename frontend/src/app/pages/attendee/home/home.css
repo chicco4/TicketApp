@@ -1,0 +1,56 @@
+:host {
+	display: block;
+}
+
+.attendee-home {
+	padding: 16px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+h2 {
+	margin: 8px 0 16px;
+}
+
+.loading {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px 0;
+}
+
+.error {
+	color: var(--mat-sys-error);
+	background: color-mix(in srgb, var(--mat-sys-error) 10%, transparent);
+	padding: 12px 16px;
+	border-radius: 8px;
+}
+
+.empty {
+	opacity: 0.8;
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 16px;
+}
+
+.event-card {
+	--mdc-elevated-card-container-color: var(--mat-sys-surface);
+}
+
+.event-card .time {
+	display: flex;
+	gap: 8px;
+	margin: 4px 0;
+}
+
+.event-card .time .label {
+	width: 52px;
+	color: var(--mat-sys-on-surface-variant);
+}
+
+mat-paginator {
+	margin-top: 16px;
+}

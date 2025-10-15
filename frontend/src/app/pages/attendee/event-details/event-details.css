@@ -1,0 +1,37 @@
+.event-details {
+  display: block;
+  padding: 16px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.error {
+  color: #b00020;
+}
+
+.time {
+  display: flex;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.time .label {
+  font-weight: 600;
+}
+
+.tickets ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tickets li {
+  margin: 8px 0;
+}
+
+.price {
+  margin-left: 8px;
+}
