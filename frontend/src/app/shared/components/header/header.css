@@ -22,3 +22,10 @@
 .nav-buttons a.active {
   background: rgba(255, 255, 255, 0.16);
 }
+
+/* icon alignment & spacing */
+.nav-buttons a mat-icon,
+.app-title .app-icon {
+  vertical-align: middle;
+  margin-right: 6px;
+}

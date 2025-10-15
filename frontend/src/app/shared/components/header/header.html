@@ -1,10 +1,22 @@
 <mat-toolbar color="primary" class="app-toolbar">
-	<span class="app-title" [routerLink]="['/']">{{ appTitle }}</span>
+	<span class="app-title" [routerLink]="['/']">
+		<mat-icon class="app-icon" aria-hidden="true">confirmation_number</mat-icon>
+		{{ appTitle }}
+	</span>
 	<span class="spacer"></span>
 
 	<nav class="nav-buttons">
-		<a mat-button routerLink="/attendee/home" routerLinkActive="active">Attendee Home</a>
-		<a mat-button routerLink="/organizer/home" routerLinkActive="active">Organizer Home</a>
-		<a mat-button routerLink="/staff/home" routerLinkActive="active">Staff Home</a>
+		<a mat-button routerLink="/attendee/home" routerLinkActive="active">
+			<mat-icon aria-hidden="true">event</mat-icon>
+			<span>Attendee Home</span>
+		</a>
+		<a mat-button routerLink="/organizer/home" routerLinkActive="active">
+			<mat-icon aria-hidden="true">event_note</mat-icon>
+			<span>Organizer Home</span>
+		</a>
+		<a mat-button routerLink="/staff/home" routerLinkActive="active">
+			<mat-icon aria-hidden="true">support_agent</mat-icon>
+			<span>Staff Home</span>
+		</a>
 	</nav>
 </mat-toolbar>
