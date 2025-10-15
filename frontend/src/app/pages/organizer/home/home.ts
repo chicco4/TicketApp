@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-organizer-home',
   imports: [],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
+export class OrganizerHome {
 
 }

@@ -1,1 +1,10 @@
-<p>header works!</p>
+<mat-toolbar color="primary" class="app-toolbar">
+	<span class="app-title" [routerLink]="['/']">{{ appTitle }}</span>
+	<span class="spacer"></span>
+
+	<nav class="nav-buttons">
+		<a mat-button routerLink="/attendee/home" routerLinkActive="active">Attendee Home</a>
+		<a mat-button routerLink="/organizer/home" routerLinkActive="active">Organizer Home</a>
+		<a mat-button routerLink="/staff/home" routerLinkActive="active">Staff Home</a>
+	</nav>
+</mat-toolbar>
