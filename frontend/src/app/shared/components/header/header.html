@@ -1,22 +1,35 @@
 <mat-toolbar color="primary" class="app-toolbar">
-	<span class="app-title" [routerLink]="['/']">
-		<mat-icon class="app-icon" aria-hidden="true">confirmation_number</mat-icon>
-		{{ appTitle }}
-	</span>
-	<span class="spacer"></span>
+  <span class="app-title" routerLink='/'>
+    <mat-icon class="app-icon" aria-hidden="true">confirmation_number</mat-icon>
+    {{ appTitle() }}
+  </span>
+  <span class="spacer"></span>
 
-	<nav class="nav-buttons">
-		<a mat-button routerLink="/attendee/home" routerLinkActive="active">
-			<mat-icon aria-hidden="true">event</mat-icon>
-			<span>Attendee Home</span>
-		</a>
-		<a mat-button routerLink="/organizer/home" routerLinkActive="active">
-			<mat-icon aria-hidden="true">event_note</mat-icon>
-			<span>Organizer Home</span>
-		</a>
-		<a mat-button routerLink="/staff/home" routerLinkActive="active">
-			<mat-icon aria-hidden="true">support_agent</mat-icon>
-			<span>Staff Home</span>
-		</a>
-	</nav>
+  <nav class="nav-buttons">
+    <a mat-button routerLink="/attendee/home" routerLinkActive="active">
+      <mat-icon aria-hidden="true">event</mat-icon>
+      <span>Attendee Home</span>
+    </a>
+    <a mat-button routerLink="/organizer/home" routerLinkActive="active">
+      <mat-icon aria-hidden="true">event_note</mat-icon>
+      <span>Organizer Home</span>
+    </a>
+    <a mat-button routerLink="/staff/home" routerLinkActive="active">
+      <mat-icon aria-hidden="true">support_agent</mat-icon>
+      <span>Staff Home</span>
+    </a>
+
+    <!-- Auth actions: show Login when not authenticated, Logout when authenticated -->
+    @if (!isAuthenticated()) {
+    <button mat-stroked-button (click)="login()">
+      <mat-icon aria-hidden="true">login</mat-icon>
+      <span>Login</span>
+    </button>
+    } @else {
+    <button mat-stroked-button (click)="logout()">
+      <mat-icon aria-hidden="true">logout</mat-icon>
+      <span>Logout</span>
+    </button>
+    }
+  </nav>
 </mat-toolbar>
