@@ -28,10 +28,6 @@ export const routes: Routes = [
     data: { role: 'ROLE_STAFF' },
     loadComponent: () => import('./pages/staff/home/home').then((m) => m.StaffHome),
   },
-  {
-    path: 'forbidden',
-    loadComponent: () => import('./pages/forbidden/forbidden').then((m) => m.ForbiddenPage),
-  },
   { path: '', pathMatch: 'full', redirectTo: 'attendee/published-events' },
   { path: '**', redirectTo: 'attendee/published-events' }
 ];

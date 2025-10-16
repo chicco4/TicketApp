@@ -1,10 +1,12 @@
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthGuardData, createAuthGuard } from 'keycloak-angular';
+import { MatDialog } from '@angular/material/dialog';
+import { ForbiddenDialog } from '../../shared/components/forbidden-dialog/forbidden-dialog';
 
 const isAccessAllowed = async (
   route: ActivatedRouteSnapshot,
-  _: RouterStateSnapshot,
+  state: RouterStateSnapshot,
   authData: AuthGuardData
 ): Promise<boolean | UrlTree> => {
   const { authenticated, grantedRoles } = authData;
@@ -32,8 +34,18 @@ const isAccessAllowed = async (
     return true;
   }
 
-  const router = inject(Router);
-  return router.parseUrl('/forbidden');
+  // Open dialog showing the required role and reason for denial
+  const dialog = inject(MatDialog);
+  dialog.open(ForbiddenDialog, {
+    data: {
+      requiredRole: requiredRole,
+      attemptedRoute: state.url
+    },
+    width: '500px',
+    disableClose: false
+  });
+
+  return false;
 };
 
 export const canActivateAuthRole = createAuthGuard<CanActivateFn>(isAccessAllowed);
