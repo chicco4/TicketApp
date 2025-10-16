@@ -11,7 +11,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/attendee/published-event-details/published-event-details').then((m) => m.AttendeeEventDetails),
   },
   {
-    path: 'attendee/purchase-ticket/:eventId/:ticketTypeId',
+    path: 'attendee/purchase-ticket/:ticketTypeId',
     loadComponent: () => import('./pages/attendee/purchase-ticket/purchase-ticket').then((m) => m.PurchaseTicket),
   },
   {

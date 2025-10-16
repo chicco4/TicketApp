@@ -49,14 +49,28 @@ export class PurchaseTicket implements OnDestroy {
       email: ['', [Validators.required, Validators.email]]
     });
 
+    // Get event data from navigation state
+    const navigation = this.router.getCurrentNavigation();
+    const stateEvent = navigation?.extras?.state?.['event'] as PublishedEvent | undefined;
+
     this.sub = this.route.paramMap
       .pipe(switchMap((params) => {
-        const eventId = params.get('eventId');
         const ticketTypeId = params.get('ticketTypeId');
-        if (!eventId || !ticketTypeId) throw new Error('Missing parameters');
+        if (!ticketTypeId) throw new Error('Missing ticket type ID');
+        
         this.loading = true;
         this.error = undefined;
-        return this.service.getPublishedEventById(eventId);
+
+        // If we have event data from state, use it directly
+        if (stateEvent) {
+          return of(stateEvent);
+        }
+
+        // Otherwise, we need to handle the case where state is not available
+        // (e.g., page refresh). For now, redirect back to events list.
+        this.error = 'Session expired. Please select an event again.';
+        this.loading = false;
+        throw new Error('No event data available');
       }))
       .subscribe({
         next: (ev) => {
@@ -70,7 +84,9 @@ export class PurchaseTicket implements OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message || 'Failed to load event details.';
+          if (!this.error) {
+            this.error = err?.error?.message || 'Failed to load event details.';
+          }
         },
       });
   }

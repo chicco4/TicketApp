@@ -56,7 +56,10 @@ export class AttendeeEventDetails implements OnDestroy {
     return getEventTypeImage(eventType);
   }
 
-  purchaseTicket(eventId: string, ticketTypeId: string): void {
-    this.router.navigate(['/attendee/purchase-ticket', eventId, ticketTypeId]);
+  purchaseTicket(ticketTypeId: string): void {
+    if (!this.event) return;
+    this.router.navigate(['/attendee/purchase-ticket', ticketTypeId], {
+      state: { event: this.event }
+    });
   }
 }
