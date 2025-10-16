@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { PublishedEventsService } from '../../../core/services/published-events.service';
 import { Page } from '../../../core/models/interfaces/page';
 import { PublishedEventSummary } from '../../../core/models/interfaces/published-event';
+import { getEventTypeImage } from '../../../core/utils/event-type-images';
 
 @Component({
   selector: 'app-attendee-home',
@@ -58,5 +59,9 @@ export class AttendeeHome implements OnInit {
   viewDetails(ev: PublishedEventSummary): void {
     if (!ev?.id) return;
     this.router.navigate(['/attendee/events', ev.id]);
+  }
+
+  getEventImage(eventType: string): string {
+    return getEventTypeImage(eventType);
   }
 }

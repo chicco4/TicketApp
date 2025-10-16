@@ -1,6 +1,25 @@
 .event-details {
   display: block;
   padding: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+mat-card {
+  overflow: hidden;
+}
+
+.event-header-image {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: -16px -16px 16px -16px;
+}
+
+mat-card-header {
+  margin-top: 8px;
 }
 
 .loading {

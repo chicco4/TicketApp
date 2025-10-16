@@ -5,6 +5,7 @@ import { TicketType } from './ticket-type';
 export interface PublishedEventSummary {
   id: string;
   name: string;
+  type: EventType;
   start: string; // ISO datetime string
   end: string; // ISO datetime string
   venue: string;

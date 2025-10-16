@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PublishedEventsService } from '../../../core/services/published-events.service';
 import { PublishedEvent } from '../../../core/models/interfaces/published-event';
 import { Subscription, switchMap } from 'rxjs';
+import { getEventTypeImage } from '../../../core/utils/event-type-images';
 
 @Component({
   selector: 'app-attendee-event-details',
@@ -45,5 +46,9 @@ export class AttendeeEventDetails implements OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+
+  getEventImage(eventType: string): string {
+    return getEventTypeImage(eventType);
   }
 }

@@ -11,6 +11,7 @@
   }
   @else if (event) {
     <mat-card appearance="outlined">
+      <div class="event-header-image" [style.background-image]="'url(' + getEventImage(event.type) + ')'"></div>
       <mat-card-header>
         <mat-card-title>{{ event.name }}</mat-card-title>
         <mat-card-subtitle>{{ event.type || 'Event' }} • {{ event.venue }}</mat-card-subtitle>

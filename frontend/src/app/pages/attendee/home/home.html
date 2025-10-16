@@ -16,9 +16,10 @@
   @else {
     <div class="card-grid">
       <mat-card class="event-card" appearance="outlined" *ngFor="let ev of events">
+        <div class="event-image" [style.background-image]="'url(' + getEventImage(ev.type) + ')'"></div>
         <mat-card-header>
           <mat-card-title>{{ ev.name }}</mat-card-title>
-          <mat-card-subtitle>{{ ev.venue }}</mat-card-subtitle>
+          <mat-card-subtitle>{{ ev.type }} • {{ ev.venue }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <div class="time">

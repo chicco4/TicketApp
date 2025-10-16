@@ -38,6 +38,20 @@ h2 {
 
 .event-card {
 	--mdc-elevated-card-container-color: var(--mat-sys-surface);
+	overflow: hidden;
+}
+
+.event-image {
+	width: 100%;
+	height: 160px;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.event-card mat-card-header {
+	margin-top: 8px;
 }
 
 .event-card .time {
