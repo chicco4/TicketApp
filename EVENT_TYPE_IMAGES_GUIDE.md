@@ -34,28 +34,28 @@ EVENT_TYPE_IMAGES: Record<EventType, string> = {
 
 ### 4. Attendee Home Page (Event Cards)
 
-#### `/frontend/src/app/pages/attendee/home/home.ts`
+#### `/frontend/src/app/pages/attendee/published-events/home.ts`
 - **Added**: Import for `getEventTypeImage` utility
 - **Added**: `getEventImage()` method to get the image URL for an event type
 
-#### `/frontend/src/app/pages/attendee/home/home.html`
+#### `/frontend/src/app/pages/attendee/published-events/home.html`
 - **Added**: `<div class="event-image">` element at the top of each event card
 - **Updated**: Card subtitle to include event type
 
-#### `/frontend/src/app/pages/attendee/home/home.css`
+#### `/frontend/src/app/pages/attendee/published-events/home.css`
 - **Added**: `.event-image` styles (160px height, cover, centered)
 - **Updated**: `.event-card` with overflow handling
 
 ### 5. Event Details Page
 
-#### `/frontend/src/app/pages/attendee/event-details/event-details.ts`
+#### `/frontend/src/app/pages/attendee/published-event-details/event-details.ts`
 - **Added**: Import for `getEventTypeImage` utility
 - **Added**: `getEventImage()` method
 
-#### `/frontend/src/app/pages/attendee/event-details/event-details.html`
+#### `/frontend/src/app/pages/attendee/published-event-details/event-details.html`
 - **Added**: `<div class="event-header-image">` banner at the top of the card
 
-#### `/frontend/src/app/pages/attendee/event-details/event-details.css`
+#### `/frontend/src/app/pages/attendee/published-event-details/event-details.css`
 - **Added**: `.event-header-image` styles (300px height, full width banner)
 - **Added**: Centering and max-width for the details page
 

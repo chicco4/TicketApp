@@ -3,12 +3,12 @@ import { canActivateAuthRole } from './core/guards/auth-role.guard';
 
 export const routes: Routes = [
   {
-    path: 'attendee/home',
-    loadComponent: () => import('./pages/attendee/home/home').then((m) => m.AttendeeHome),
+    path: 'attendee/published-events',
+    loadComponent: () => import('./pages/attendee/published-events/home').then((m) => m.AttendeeHome),
   },
   {
-    path: 'attendee/events/:id',
-    loadComponent: () => import('./pages/attendee/event-details/event-details').then((m) => m.AttendeeEventDetails),
+    path: 'attendee/published-events/:id',
+    loadComponent: () => import('./pages/attendee/published-event-details/event-details').then((m) => m.AttendeeEventDetails),
   },
   {
     path: 'attendee/purchase-ticket/:eventId/:ticketTypeId',
@@ -30,6 +30,6 @@ export const routes: Routes = [
     path: 'forbidden',
     loadComponent: () => import('./pages/forbidden/forbidden').then((m) => m.ForbiddenPage),
   },
-  { path: '', pathMatch: 'full', redirectTo: 'attendee/home' },
-  { path: '**', redirectTo: 'attendee/home' }
+  { path: '', pathMatch: 'full', redirectTo: 'attendee/published-events' },
+  { path: '**', redirectTo: 'attendee/published-events' }
 ];

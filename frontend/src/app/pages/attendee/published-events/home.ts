@@ -58,7 +58,7 @@ export class AttendeeHome implements OnInit {
 
   viewDetails(ev: PublishedEventSummary): void {
     if (!ev?.id) return;
-    this.router.navigate(['/attendee/events', ev.id]);
+    this.router.navigate(['/attendee/published-events', ev.id]);
   }
 
   getEventImage(eventType: string): string {

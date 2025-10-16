@@ -104,9 +104,9 @@ export class PurchaseTicket implements OnDestroy {
 
   goBack(): void {
     if (this.event) {
-      this.router.navigate(['/attendee/events', this.event.id]);
+      this.router.navigate(['/attendee/published-events', this.event.id]);
     } else {
-      this.router.navigate(['/attendee/home']);
+      this.router.navigate(['/attendee/published-events']);
     }
   }
 }
