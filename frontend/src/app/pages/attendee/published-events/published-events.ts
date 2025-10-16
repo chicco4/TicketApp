@@ -13,8 +13,8 @@ import { getEventTypeImage } from '../../../core/utils/event-type-images';
 @Component({
   selector: 'app-attendee-home',
   imports: [CommonModule, MatCardModule, MatPaginatorModule, MatProgressSpinnerModule, MatButtonModule],
-  templateUrl: './home.html',
-  styleUrl: './home.css'
+  templateUrl: './published-events.html',
+  styleUrl: './published-events.css'
 })
 export class AttendeeHome implements OnInit {
   loading = false;

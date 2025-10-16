@@ -4,11 +4,11 @@ import { canActivateAuthRole } from './core/guards/auth-role.guard';
 export const routes: Routes = [
   {
     path: 'attendee/published-events',
-    loadComponent: () => import('./pages/attendee/published-events/home').then((m) => m.AttendeeHome),
+    loadComponent: () => import('./pages/attendee/published-events/published-events').then((m) => m.AttendeeHome),
   },
   {
     path: 'attendee/published-events/:id',
-    loadComponent: () => import('./pages/attendee/published-event-details/event-details').then((m) => m.AttendeeEventDetails),
+    loadComponent: () => import('./pages/attendee/published-event-details/published-event-details').then((m) => m.AttendeeEventDetails),
   },
   {
     path: 'attendee/purchase-ticket/:eventId/:ticketTypeId',

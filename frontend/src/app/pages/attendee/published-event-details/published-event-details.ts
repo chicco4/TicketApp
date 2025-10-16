@@ -13,8 +13,8 @@ import { getEventTypeImage } from '../../../core/utils/event-type-images';
   selector: 'app-attendee-event-details',
   standalone: true,
   imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule],
-  templateUrl: './event-details.html',
-  styleUrl: './event-details.css'
+  templateUrl: './published-event-details.html',
+  styleUrl: './published-event-details.css'
 })
 export class AttendeeEventDetails implements OnDestroy {
   loading = true;
