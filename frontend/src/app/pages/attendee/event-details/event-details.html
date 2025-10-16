@@ -17,9 +17,11 @@
         <mat-card-subtitle>{{ event.type || 'Event' }} • {{ event.venue }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <div class="description" *ngIf="event.description">
-          <p>{{ event.description }}</p>
-        </div>
+        @if (event.description) {
+          <div class="description">
+            <p>{{ event.description }}</p>
+          </div>
+        }
         <div class="time">
           <span class="label">Starts:</span>
           <span>{{ event.start | date: 'full' }}</span>
@@ -33,11 +35,13 @@
           <div class="tickets">
             <h3>Ticket types</h3>
             <ul>
-              <li *ngFor="let t of event.ticketTypes">
-                <strong>{{ t.name }}</strong>
-                <span class="price">{{ t.price | currency }}</span>
-                <div class="desc">{{ t.description }}</div>
-              </li>
+              @for (t of event.ticketTypes; track t.id) {
+                <li>
+                  <strong>{{ t.name }}</strong>
+                  <span class="price">{{ t.price | currency }}</span>
+                  <div class="desc">{{ t.description }}</div>
+                </li>
+              }
             </ul>
           </div>
         }
