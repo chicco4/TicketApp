@@ -44,6 +44,13 @@ export class Header {
     return this.keycloak.login({ redirectUri });
   }
 
+  register() {
+    // Trigger Keycloak registration flow
+    // Redirect back to current location after registration
+    const redirectUri = window.location.href;
+    return this.keycloak.register({ redirectUri });
+  }
+
   logout() {
     const redirectUri = window.location.origin;
     return this.keycloak.logout({ redirectUri });

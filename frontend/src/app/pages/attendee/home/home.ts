@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { PublishedEventsService } from '../../../core/services/published-events.service';
 import { Page } from '../../../core/models/interfaces/page';
-import { PublishedEvent } from '../../../core/models/interfaces/published-event';
+import { PublishedEventSummary } from '../../../core/models/interfaces/published-event';
 
 @Component({
   selector: 'app-attendee-home',
@@ -18,8 +18,8 @@ import { PublishedEvent } from '../../../core/models/interfaces/published-event'
 export class AttendeeHome implements OnInit {
   loading = false;
   error?: string;
-  page?: Page<PublishedEvent>;
-  events: PublishedEvent[] = [];
+  page?: Page<PublishedEventSummary>;
+  events: PublishedEventSummary[] = [];
 
   constructor(private readonly publishedEvents: PublishedEventsService, private readonly router: Router) {}
 
@@ -55,7 +55,7 @@ export class AttendeeHome implements OnInit {
     this.fetchEvents(event.pageIndex);
   }
 
-  viewDetails(ev: PublishedEvent): void {
+  viewDetails(ev: PublishedEventSummary): void {
     if (!ev?.id) return;
     this.router.navigate(['/attendee/events', ev.id]);
   }
