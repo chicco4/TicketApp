@@ -1,13 +1,22 @@
+import { EventType } from '../enums/event-type.enum';
 import { TicketType } from './ticket-type';
 
-export type EventType = 'CONCERT' | 'FESTIVAL' | 'CONFERENCE' | 'THEATER' | 'SPORT' | string;
-
-export interface PublishedEvent {
+// List view of published events (simplified)
+export interface PublishedEventSummary {
   id: string;
   name: string;
-  type?: EventType; // optional for list responses if backend omits it
   start: string; // ISO datetime string
   end: string; // ISO datetime string
   venue: string;
-  ticketTypes?: TicketType[]; // present in detail endpoint
+}
+
+// Detail view of published events (complete)
+export interface PublishedEvent {
+  id: string;
+  name: string;
+  type: EventType;
+  start: string; // ISO datetime string
+  end: string; // ISO datetime string
+  venue: string;
+  ticketTypes: TicketType[];
 }
