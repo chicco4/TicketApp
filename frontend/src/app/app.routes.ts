@@ -11,6 +11,8 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/attendee/published-event-details/published-event-details').then((m) => m.AttendeeEventDetails),
   },
   {
+    canActivate: [canActivateAuthRole],
+    data: { role: 'ROLE_ATTENDEE' },
     path: 'attendee/purchase-ticket/:ticketTypeId',
     loadComponent: () => import('./pages/attendee/purchase-ticket/purchase-ticket').then((m) => m.PurchaseTicket),
   },
