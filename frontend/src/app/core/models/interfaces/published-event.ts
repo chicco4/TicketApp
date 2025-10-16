@@ -14,6 +14,7 @@ export interface PublishedEventSummary {
 export interface PublishedEvent {
   id: string;
   name: string;
+  description: string;
   type: EventType;
   start: string; // ISO datetime string
   end: string; // ISO datetime string

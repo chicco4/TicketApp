@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class GetPublishedEventDetailsResponseDto {
   private UUID id;
   private String name;
+  private String description;
   private EventTypeEnum type;
   private LocalDateTime start;
   private LocalDateTime end;

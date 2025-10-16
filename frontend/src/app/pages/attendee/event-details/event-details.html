@@ -16,6 +16,9 @@
         <mat-card-subtitle>{{ event.type || 'Event' }} • {{ event.venue }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
+        <div class="description" *ngIf="event.description">
+          <p>{{ event.description }}</p>
+        </div>
         <div class="time">
           <span class="label">Starts:</span>
           <span>{{ event.start | date: 'full' }}</span>

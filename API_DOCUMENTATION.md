@@ -290,6 +290,7 @@
     {
       "id": "uuid",
       "name": "string",
+      "description": "string",
       "start": "2025-10-20T19:00:00",
       "end": "2025-10-20T23:00:00",
       "venue": "string"
