@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 export interface ForbiddenDialogData {
   requiredRole: string;
@@ -76,7 +75,6 @@ export class ForbiddenDialog {
   protected readonly dialogRef = inject(MatDialogRef<ForbiddenDialog>);
   protected readonly data = inject<ForbiddenDialogData>(MAT_DIALOG_DATA);
   private readonly router = inject(Router);
-  private readonly location = inject(Location);
 
   protected formatRole(role: string): string {
     return role.replace(/^ROLE_/i, '').toLowerCase()
@@ -87,7 +85,6 @@ export class ForbiddenDialog {
 
   protected goBack(): void {
     this.dialogRef.close();
-    this.location.back();
   }
 
   protected goHome(): void {
