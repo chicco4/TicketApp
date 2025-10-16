@@ -33,16 +33,25 @@
 
         @if (event.ticketTypes.length) {
           <div class="tickets">
-            <h3>Ticket types</h3>
-            <ul>
+            <h3>Available Tickets</h3>
+            <div class="ticket-cards">
               @for (t of event.ticketTypes; track t.id) {
-                <li>
-                  <strong>{{ t.name }}</strong>
-                  <span class="price">{{ t.price | currency }}</span>
-                  <div class="desc">{{ t.description }}</div>
-                </li>
+                <mat-card appearance="outlined" class="ticket-card">
+                  <mat-card-header>
+                    <mat-card-title>{{ t.name }}</mat-card-title>
+                    <mat-card-subtitle>{{ t.price | currency }}</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p>{{ t.description }}</p>
+                  </mat-card-content>
+                  <mat-card-actions align="end">
+                    <button mat-raised-button color="primary" (click)="purchaseTicket(event.id, t.id)">
+                      Purchase Ticket
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
               }
-            </ul>
+            </div>
           </div>
         }
       </mat-card-content>

@@ -42,15 +42,43 @@ mat-card-header {
   font-weight: 600;
 }
 
-.tickets ul {
-  list-style: none;
-  padding: 0;
+.tickets {
+  margin-top: 24px;
 }
 
-.tickets li {
-  margin: 8px 0;
+.tickets h3 {
+  margin-bottom: 16px;
 }
 
-.price {
-  margin-left: 8px;
+.ticket-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ticket-card mat-card-content {
+  flex: 1;
+}
+
+.ticket-card mat-card-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.ticket-card mat-card-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--primary-color, #1976d2);
+  margin-top: 4px;
+}
+
+.ticket-card p {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.7);
 }

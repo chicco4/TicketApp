@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -23,7 +23,11 @@ export class AttendeeEventDetails implements OnDestroy {
 
   private sub: Subscription;
 
-  constructor(private readonly route: ActivatedRoute, private readonly service: PublishedEventsService) {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly service: PublishedEventsService
+  ) {
     this.sub = this.route.paramMap
       .pipe(switchMap((params) => {
         const id = params.get('id');
@@ -50,5 +54,9 @@ export class AttendeeEventDetails implements OnDestroy {
 
   getEventImage(eventType: string): string {
     return getEventTypeImage(eventType);
+  }
+
+  purchaseTicket(eventId: string, ticketTypeId: string): void {
+    this.router.navigate(['/attendee/purchase-ticket', eventId, ticketTypeId]);
   }
 }

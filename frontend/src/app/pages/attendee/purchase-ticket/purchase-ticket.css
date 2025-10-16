@@ -1,0 +1,88 @@
+.purchase-ticket {
+  display: block;
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.error {
+  color: #b00020;
+  margin-bottom: 16px;
+}
+
+.purchase-card {
+  overflow: hidden;
+}
+
+mat-card-header {
+  margin-bottom: 16px;
+}
+
+.ticket-summary {
+  background-color: #f5f5f5;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.ticket-info {
+  margin-bottom: 16px;
+}
+
+.ticket-info h3 {
+  margin: 0 0 8px 0;
+  color: #1976d2;
+}
+
+.ticket-info .description {
+  margin: 8px 0;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.ticket-info .price {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1976d2;
+  margin: 8px 0;
+}
+
+.event-info p {
+  margin: 4px 0;
+}
+
+.purchase-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.total-amount {
+  color: #1976d2;
+  font-weight: 600;
+}
+
+mat-card-actions {
+  padding: 16px;
+  gap: 8px;
+}
