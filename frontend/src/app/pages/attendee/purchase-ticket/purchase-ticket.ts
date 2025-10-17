@@ -11,7 +11,6 @@ import { PublishedEventsService } from '../../../core/services/published-events.
 import { PublishedEvent } from '../../../core/models/interfaces/published-event';
 import { TicketType } from '../../../core/models/interfaces/ticket-type';
 import { TicketTypesService } from '../../../core/services/ticket-types.service';
-import { TicketDetail } from '../../../core/models/interfaces/ticket';
 import { EMPTY, forkJoin, of, Subscription, switchMap } from 'rxjs';
 
 @Component({
@@ -33,12 +32,10 @@ export class PurchaseTicket implements OnDestroy {
   loading = true;
   loadError?: string;
   purchaseError?: string;
-  successMessage?: string;
   event?: PublishedEvent;
   ticketType?: TicketType;
   purchaseForm: FormGroup;
   purchaseInProgress = false;
-  purchasedTickets: TicketDetail[] = [];
 
   private ticketTypeId?: string;
   private sub: Subscription;
@@ -119,8 +116,6 @@ export class PurchaseTicket implements OnDestroy {
 
     this.purchaseInProgress = true;
     this.purchaseError = undefined;
-    this.successMessage = undefined;
-    this.purchasedTickets = [];
 
     const purchaseRequests = Array.from({ length: quantity }, () =>
       this.ticketTypesService.purchaseTicket(this.ticketType!.id)
@@ -129,11 +124,14 @@ export class PurchaseTicket implements OnDestroy {
     forkJoin(purchaseRequests).subscribe({
       next: (tickets) => {
         this.purchaseInProgress = false;
-        this.purchasedTickets = tickets;
-        this.successMessage = quantity === 1
-          ? 'Ticket purchased successfully.'
-          : `${tickets.length} tickets purchased successfully.`;
-        this.purchaseForm.patchValue({ quantity: 1 });
+        this.router.navigate(['/attendee/purchase-success'], {
+          state: {
+            tickets,
+            event: this.event,
+            ticketType: this.ticketType,
+            quantity,
+          },
+        });
       },
       error: (err) => {
         this.purchaseInProgress = false;

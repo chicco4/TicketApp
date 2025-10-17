@@ -1,0 +1,45 @@
+<section class="purchase-success">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Thank you for your purchase!</mat-card-title>
+      <mat-card-subtitle>Your tickets are ready.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="lead">We created {{ quantity }} {{ quantity === 1 ? 'ticket' : 'tickets' }} for {{ eventName }}.</p>
+
+      <div class="summary">
+        <div class="summary-section">
+          <h3>Event Details</h3>
+          <p><strong>Event:</strong> {{ eventName }}</p>
+          @if (eventDate) {
+            <p><strong>Date:</strong> {{ eventDate | date: 'medium' }}</p>
+          }
+          @if (eventVenue) {
+            <p><strong>Venue:</strong> {{ eventVenue }}</p>
+          }
+        </div>
+
+        <div class="summary-section">
+          <h3>Ticket Summary</h3>
+          <p><strong>Ticket Type:</strong> {{ ticketType?.name }}</p>
+          <p><strong>Quantity:</strong> {{ quantity }}</p>
+          <p><strong>Total Paid:</strong> {{ totalPrice | currency }}</p>
+        </div>
+      </div>
+
+      <div class="tickets">
+        <h4>Your Ticket IDs</h4>
+        <ul>
+          @for (ticket of tickets; track ticket.id) {
+            <li>{{ ticket.id }}</li>
+          }
+        </ul>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" (click)="goHome()">Back to Events</button>
+    </mat-card-actions>
+  </mat-card>
+</section>

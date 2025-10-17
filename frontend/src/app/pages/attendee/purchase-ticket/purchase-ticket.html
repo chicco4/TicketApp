@@ -55,21 +55,6 @@
         @if (purchaseError) {
           <div class="error">{{ purchaseError }}</div>
         }
-
-        @if (successMessage) {
-          <div class="success">
-            <p>{{ successMessage }}</p>
-            @if (purchasedTickets.length > 0) {
-              <ul>
-                @for (ticket of purchasedTickets; track ticket.id) {
-                  <li>
-                    Ticket {{ ticket.id }} · {{ ticket.eventName }} · {{ ticket.eventStart | date: 'medium' }}
-                  </li>
-                }
-              </ul>
-            }
-          </div>
-        }
       </mat-card-content>
 
       <mat-card-actions align="end">

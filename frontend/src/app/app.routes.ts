@@ -17,6 +17,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/attendee/purchase-ticket/purchase-ticket').then((m) => m.PurchaseTicket),
   },
   {
+    canActivate: [canActivateAuthRole],
+    data: { role: 'ROLE_ATTENDEE' },
+    path: 'attendee/purchase-success',
+    loadComponent: () => import('./pages/attendee/purchase-success/purchase-success').then((m) => m.PurchaseSuccess),
+  },
+  {
     path: 'organizer/home',
     canActivate: [canActivateAuthRole],
     data: { role: 'ROLE_ORGANIZER' },
