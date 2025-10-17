@@ -10,8 +10,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { PublishedEventsService } from '../../../core/services/published-events.service';
 import { PublishedEvent } from '../../../core/models/interfaces/published-event';
 import { TicketType } from '../../../core/models/interfaces/ticket-type';
-import { Subscription, switchMap, of } from 'rxjs';
-import { getEventTypeImage } from '../../../core/utils/event-type-images';
+import { TicketTypesService } from '../../../core/services/ticket-types.service';
+import { TicketDetail } from '../../../core/models/interfaces/ticket';
+import { EMPTY, forkJoin, of, Subscription, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-purchase-ticket',
@@ -30,23 +31,27 @@ import { getEventTypeImage } from '../../../core/utils/event-type-images';
 })
 export class PurchaseTicket implements OnDestroy {
   loading = true;
-  error?: string;
+  loadError?: string;
+  purchaseError?: string;
+  successMessage?: string;
   event?: PublishedEvent;
   ticketType?: TicketType;
   purchaseForm: FormGroup;
+  purchaseInProgress = false;
+  purchasedTickets: TicketDetail[] = [];
 
+  private ticketTypeId?: string;
   private sub: Subscription;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly service: PublishedEventsService,
+    private readonly ticketTypesService: TicketTypesService,
     private readonly fb: FormBuilder
   ) {
     this.purchaseForm = this.fb.group({
-      quantity: [1, [Validators.required, Validators.min(1), Validators.max(10)]],
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      quantity: [1, [Validators.required, Validators.min(1), Validators.max(10)]]
     });
 
     // Get event data from navigation state
@@ -55,48 +60,45 @@ export class PurchaseTicket implements OnDestroy {
 
     this.sub = this.route.paramMap
       .pipe(switchMap((params) => {
+        const eventId = params.get('eventId');
         const ticketTypeId = params.get('ticketTypeId');
-        if (!ticketTypeId) throw new Error('Missing ticket type ID');
+        if (!eventId || !ticketTypeId) {
+          this.loading = false;
+          this.loadError = 'Missing event information. Please select a ticket again.';
+          return EMPTY;
+        }
         
         this.loading = true;
-        this.error = undefined;
+        this.loadError = undefined;
+        this.ticketTypeId = ticketTypeId;
 
         // If we have event data from state, use it directly
-        if (stateEvent) {
+        if (stateEvent && stateEvent.id === eventId) {
           return of(stateEvent);
         }
 
-        // Otherwise, we need to handle the case where state is not available
-        // (e.g., page refresh). For now, redirect back to events list.
-        this.error = 'Session expired. Please select an event again.';
-        this.loading = false;
-        throw new Error('No event data available');
+        // Otherwise fetch the event details from the backend
+        return this.service.getPublishedEventById(eventId);
       }))
       .subscribe({
         next: (ev) => {
           this.event = ev;
-          const ticketTypeId = this.route.snapshot.paramMap.get('ticketTypeId');
-          this.ticketType = ev.ticketTypes.find(tt => tt.id === ticketTypeId);
+          this.ticketType = ev.ticketTypes.find(tt => tt.id === this.ticketTypeId);
           if (!this.ticketType) {
-            this.error = 'Ticket type not found';
+            this.loadError = 'The selected ticket type is no longer available.';
+            this.event = undefined;
           }
           this.loading = false;
         },
         error: (err) => {
           this.loading = false;
-          if (!this.error) {
-            this.error = err?.error?.message || 'Failed to load event details.';
-          }
+          this.loadError = err?.error?.message || 'Failed to load event details.';
         },
       });
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
-  }
-
-  getEventImage(eventType: string): string {
-    return getEventTypeImage(eventType);
   }
 
   getTotalPrice(): number {
@@ -106,16 +108,38 @@ export class PurchaseTicket implements OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.purchaseForm.valid && this.event && this.ticketType) {
-      // TODO: Implement actual ticket purchase logic
-      console.log('Purchase ticket:', {
-        event: this.event,
-        ticketType: this.ticketType,
-        ...this.purchaseForm.value
-      });
-      // For now, just show an alert and navigate back
-      alert('Ticket purchase functionality will be implemented soon!');
+    if (!this.purchaseForm.valid || !this.ticketType) {
+      return;
     }
+
+    const quantity = Number(this.purchaseForm.get('quantity')?.value ?? 1);
+    if (quantity < 1) {
+      return;
+    }
+
+    this.purchaseInProgress = true;
+    this.purchaseError = undefined;
+    this.successMessage = undefined;
+    this.purchasedTickets = [];
+
+    const purchaseRequests = Array.from({ length: quantity }, () =>
+      this.ticketTypesService.purchaseTicket(this.ticketType!.id)
+    );
+
+    forkJoin(purchaseRequests).subscribe({
+      next: (tickets) => {
+        this.purchaseInProgress = false;
+        this.purchasedTickets = tickets;
+        this.successMessage = quantity === 1
+          ? 'Ticket purchased successfully.'
+          : `${tickets.length} tickets purchased successfully.`;
+        this.purchaseForm.patchValue({ quantity: 1 });
+      },
+      error: (err) => {
+        this.purchaseInProgress = false;
+        this.purchaseError = err?.error?.message || 'Failed to complete purchase.';
+      }
+    });
   }
 
   goBack(): void {

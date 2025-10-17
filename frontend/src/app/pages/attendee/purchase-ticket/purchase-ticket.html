@@ -5,8 +5,8 @@
       <span>Loading…</span>
     </div>
   }
-  @else if (error) {
-    <div class="error">{{ error }}</div>
+  @else if (loadError) {
+    <div class="error">{{ loadError }}</div>
     <button mat-button color="primary" (click)="goBack()">Back</button>
   }
   @else if (event && ticketType) {
@@ -46,36 +46,37 @@
             }
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Full Name</mat-label>
-            <input matInput formControlName="name" placeholder="John Doe">
-            @if (purchaseForm.get('name')?.hasError('required')) {
-              <mat-error>Name is required</mat-error>
-            }
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email" placeholder="john@example.com">
-            @if (purchaseForm.get('email')?.hasError('required')) {
-              <mat-error>Email is required</mat-error>
-            }
-            @if (purchaseForm.get('email')?.hasError('email')) {
-              <mat-error>Please enter a valid email</mat-error>
-            }
-          </mat-form-field>
-
           <div class="total">
             <strong>Total:</strong>
             <span class="total-amount">{{ getTotalPrice() | currency }}</span>
           </div>
         </form>
+
+        @if (purchaseError) {
+          <div class="error">{{ purchaseError }}</div>
+        }
+
+        @if (successMessage) {
+          <div class="success">
+            <p>{{ successMessage }}</p>
+            @if (purchasedTickets.length > 0) {
+              <ul>
+                @for (ticket of purchasedTickets; track ticket.id) {
+                  <li>
+                    Ticket {{ ticket.id }} · {{ ticket.eventName }} · {{ ticket.eventStart | date: 'medium' }}
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        }
       </mat-card-content>
 
       <mat-card-actions align="end">
         <button mat-button (click)="goBack()">Cancel</button>
-        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!purchaseForm.valid">
-          Complete Purchase
+        <button mat-raised-button color="primary" (click)="onSubmit()"
+          [disabled]="!purchaseForm.valid || purchaseInProgress">
+          {{ purchaseInProgress ? 'Processing…' : 'Complete Purchase' }}
         </button>
       </mat-card-actions>
     </mat-card>
