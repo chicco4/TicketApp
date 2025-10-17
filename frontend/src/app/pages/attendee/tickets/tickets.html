@@ -1,0 +1,61 @@
+<section class="tickets-page">
+  <h2>My Tickets</h2>
+
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading tickets…</span>
+    </div>
+  }
+  @else if (error) {
+    <div class="error">
+      <p>{{ error }}</p>
+      <button mat-stroked-button color="primary" (click)="loadTickets(page?.number ?? 0)">Try again</button>
+    </div>
+  }
+  @else {
+    @if (!tickets.length) {
+      <p class="empty">You have not purchased any tickets yet.</p>
+    }
+    @else {
+      <div class="ticket-grid">
+        @for (ticket of tickets; track ticket.id) {
+          <mat-card appearance="outlined" class="ticket-card">
+            <mat-card-header>
+              <mat-card-title>{{ ticket.ticketType.name || 'Ticket' }}</mat-card-title>
+              <mat-card-subtitle>
+                <span class="status" [ngClass]="getStatusClass(ticket.status)">{{ ticket.status }}</span>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="ticket-info">
+                <span class="label">Ticket ID:</span>
+                <span class="value monospace">{{ ticket.id }}</span>
+              </div>
+              @if (ticket.ticketType.price !== undefined) {
+                <div class="ticket-info">
+                  <span class="label">Price:</span>
+                  <span class="value">{{ ticket.ticketType.price | currency }}</span>
+                </div>
+              }
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button mat-flat-button color="primary" (click)="viewDetails(ticket)">View details</button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+    }
+  }
+
+  @if (page && page.totalElements > page.size) {
+    <mat-paginator
+      [length]="page.totalElements"
+      [pageIndex]="page.number"
+      [pageSize]="page.size"
+      [pageSizeOptions]="[page.size]"
+      [hidePageSize]="true"
+      (page)="onPageChange($event)"
+    ></mat-paginator>
+  }
+</section>

@@ -1,0 +1,54 @@
+<section class="ticket-details">
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading ticket…</span>
+    </div>
+  }
+  @else if (error) {
+    <div class="error">{{ error }}</div>
+    <button mat-stroked-button color="primary" (click)="goBack()">Back to tickets</button>
+  }
+  @else if (ticket) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>{{ ticket.eventName }}</mat-card-title>
+        <mat-card-subtitle>
+          <span class="status-pill">{{ ticket.status }}</span>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="detail">
+          <span class="label">Ticket ID:</span>
+          <span class="value monospace">{{ ticket.id }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">Venue:</span>
+          <span class="value">{{ ticket.eventVenue }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">Starts:</span>
+          <span class="value">{{ ticket.eventStart | date: 'medium' }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">Ends:</span>
+          <span class="value">{{ ticket.eventEnd | date: 'medium' }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">Price:</span>
+          <span class="value">{{ ticket.price | currency }}</span>
+        </div>
+        @if (ticket.description) {
+          <div class="detail">
+            <span class="label">Description:</span>
+            <span class="value">{{ ticket.description }}</span>
+          </div>
+        }
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-button (click)="goBack()">Back</button>
+        <button mat-flat-button color="primary" (click)="viewQrCode()">View QR code</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>

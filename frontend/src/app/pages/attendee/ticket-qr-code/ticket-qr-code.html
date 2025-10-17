@@ -1,0 +1,40 @@
+<section class="ticket-qr-page">
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading QR code…</span>
+    </div>
+  }
+  @else if (error) {
+    <div class="error">{{ error }}</div>
+    <button mat-stroked-button color="primary" (click)="goToTicket()">Back</button>
+  }
+  @else if (ticket && qrCodeUrl) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>{{ ticket.eventName }}</mat-card-title>
+        <mat-card-subtitle>{{ ticket.eventStart | date: 'medium' }} • {{ ticket.eventVenue }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="qr-wrapper">
+          <img [src]="qrCodeUrl" [alt]="'QR code for ticket ' + ticket.id" />
+        </div>
+        <div class="details">
+          <div class="detail-row">
+            <span class="label">Ticket ID</span>
+            <span class="value monospace">{{ ticket.id }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Status</span>
+            <span class="value">{{ ticket.status }}</span>
+          </div>
+          <p class="hint">Present this QR code at the venue to validate your ticket.</p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-button (click)="goToTicket()">Back to details</button>
+        <button mat-flat-button color="primary" (click)="downloadQrCode()">Download PNG</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>

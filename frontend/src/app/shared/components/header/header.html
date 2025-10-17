@@ -10,6 +10,12 @@
       <mat-icon aria-hidden="true">event</mat-icon>
       <span>Attendee Home</span>
     </a>
+    @if (hasAttendeeRole()) {
+    <a mat-button routerLink="/attendee/tickets" routerLinkActive="active">
+      <mat-icon aria-hidden="true">confirmation_number</mat-icon>
+      <span>My Tickets</span>
+    </a>
+    }
     <a mat-button routerLink="/organizer/home" routerLinkActive="active">
       <mat-icon aria-hidden="true">event_note</mat-icon>
       <span>Organizer Home</span>

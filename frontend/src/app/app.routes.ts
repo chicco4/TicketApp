@@ -11,6 +11,24 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/attendee/published-event-details/published-event-details').then((m) => m.AttendeeEventDetails),
   },
   {
+    path: 'attendee/tickets',
+    canActivate: [canActivateAuthRole],
+    data: { role: 'ROLE_ATTENDEE' },
+    loadComponent: () => import('./pages/attendee/tickets/tickets').then((m) => m.AttendeeTickets),
+  },
+  {
+    path: 'attendee/ticket-details/:ticketId',
+    canActivate: [canActivateAuthRole],
+    data: { role: 'ROLE_ATTENDEE' },
+    loadComponent: () => import('./pages/attendee/ticket-details/ticket-details').then((m) => m.AttendeeTicketDetails),
+  },
+  {
+    path: 'attendee/ticket-qr-code/:ticketId',
+    canActivate: [canActivateAuthRole],
+    data: { role: 'ROLE_ATTENDEE' },
+    loadComponent: () => import('./pages/attendee/ticket-qr-code/ticket-qr-code').then((m) => m.AttendeeTicketQrCode),
+  },
+  {
     canActivate: [canActivateAuthRole],
     data: { role: 'ROLE_ATTENDEE' },
     path: 'attendee/purchase-ticket/:eventId/:ticketTypeId',

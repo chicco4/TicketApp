@@ -23,6 +23,7 @@ export class Header {
   // Track authentication status for toggling Login/Logout button
   isAuthenticated = signal<boolean>(false);
   userName = signal<string>('');
+  hasAttendeeRole = signal<boolean>(false);
 
   constructor() {
     // Initialize authentication state once Keycloak is ready
@@ -45,15 +46,60 @@ export class Header {
   private updateAuthState() {
     this.isAuthenticated.set(this.keycloak.authenticated ?? false);
     this.updateUserName();
+    this.updateRoles();
   }
 
   private updateUserName() {
     if (this.keycloak.authenticated && this.keycloak.tokenParsed) {
-      const name = this.keycloak.tokenParsed['preferred_username']
+      const name = this.keycloak.tokenParsed['preferred_username'];
       this.userName.set(name as string);
     } else {
       this.userName.set('');
     }
+  }
+
+  private updateRoles() {
+    if (!this.keycloak.authenticated) {
+      this.hasAttendeeRole.set(false);
+      return;
+    }
+
+    const attendee = this.hasRole('ROLE_ATTENDEE');
+    this.hasAttendeeRole.set(attendee);
+  }
+
+  private hasRole(role: string): boolean {
+    const tokenParsed = this.keycloak.tokenParsed as Record<string, unknown> | undefined;
+    if (!tokenParsed) {
+      return false;
+    }
+
+    const realmRoles = Array.isArray((tokenParsed as any)?.realm_access?.roles)
+      ? ((tokenParsed as any).realm_access.roles as string[])
+      : [];
+    const resourceRoles = Object.values((tokenParsed as any)?.resource_access ?? {}).flatMap((resource: any) =>
+      Array.isArray(resource?.roles) ? (resource.roles as string[]) : []
+    );
+
+    const normalizedRoles = new Set(
+      [...realmRoles, ...resourceRoles]
+        .filter((r): r is string => typeof r === 'string')
+        .flatMap((r) => [r, r.toLowerCase()])
+    );
+
+    const variants: string[] = [];
+    if (role) {
+      variants.push(role);
+      if (role.startsWith('ROLE_')) {
+        variants.push(role.substring(5));
+      } else {
+        variants.push(`ROLE_${role}`);
+      }
+    }
+
+    const normalizedVariants = new Set(variants.flatMap((variant) => [variant, variant.toLowerCase()]));
+
+    return Array.from(normalizedVariants).some((variant) => normalizedRoles.has(variant));
   }
 
   login() {
