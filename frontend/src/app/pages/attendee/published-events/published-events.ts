@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { PublishedEventsService } from '../../../core/services/published-events.service';
 import { Page } from '../../../core/models/interfaces/page';
@@ -12,7 +14,7 @@ import { getEventTypeImage } from '../../../core/utils/event-type-images';
 
 @Component({
   selector: 'app-attendee-home',
-  imports: [CommonModule, MatCardModule, MatPaginatorModule, MatProgressSpinnerModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatPaginatorModule, MatProgressSpinnerModule, MatButtonModule, MatListModule, MatIconModule],
   templateUrl: './published-events.html',
   styleUrl: './published-events.css'
 })
