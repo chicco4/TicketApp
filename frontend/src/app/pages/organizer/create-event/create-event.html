@@ -146,9 +146,9 @@
             <mat-icon>refresh</mat-icon>
             <span>Reset form</span>
           </button>
-          <button mat-stroked-button color="accent" type="button" (click)="goToOrganizerHome()">
-            <mat-icon>home</mat-icon>
-            <span>Back to organizer home</span>
+          <button mat-stroked-button color="accent" type="button" (click)="goToOrganizerEvents()">
+            <mat-icon>event_available</mat-icon>
+            <span>Back to events</span>
           </button>
           <button mat-raised-button color="primary" type="submit" [disabled]="submissionInProgress">
             <ng-container *ngIf="!submissionInProgress; else saving">

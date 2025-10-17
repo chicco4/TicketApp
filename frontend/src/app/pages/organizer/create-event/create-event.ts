@@ -210,8 +210,8 @@ export class OrganizerCreateEvent {
     });
   }
 
-  goToOrganizerHome(): void {
-    this.router.navigate(['/organizer/home']);
+  goToOrganizerEvents(): void {
+    this.router.navigate(['/organizer/events']);
   }
 
   resetForNewEvent(): void {
