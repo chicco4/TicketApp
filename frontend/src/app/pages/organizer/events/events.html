@@ -30,7 +30,7 @@
   </div>
 
   <section class="events-grid" *ngIf="!loading && events.length; else noEvents">
-    <mat-card class="event-card" *ngFor="let event of events; trackBy: trackByEventId">
+  <mat-card appearance="outlined" class="event-card" *ngFor="let event of events; trackBy: trackByEventId">
       <mat-card-header>
         <div mat-card-avatar class="card-avatar">
           <mat-icon>event</mat-icon>
