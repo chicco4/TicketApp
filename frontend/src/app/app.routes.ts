@@ -47,6 +47,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/organizer/home/home').then((m) => m.OrganizerHome),
   },
   {
+    path: 'organizer/create-event',
+    canActivate: [canActivateAuthRole],
+    data: { role: 'ROLE_ORGANIZER' },
+    loadComponent: () => import('./pages/organizer/create-event/create-event').then((m) => m.OrganizerCreateEvent),
+  },
+  {
     path: 'staff/home',
     canActivate: [canActivateAuthRole],
     data: { role: 'ROLE_STAFF' },
