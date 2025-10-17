@@ -2,13 +2,14 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import Keycloak from 'keycloak-js';
 import { KEYCLOAK_EVENT_SIGNAL, KeycloakEventType } from 'keycloak-angular';
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -20,9 +21,13 @@ export class Header {
   private keycloakEvent = inject(KEYCLOAK_EVENT_SIGNAL);
 
   // Track authentication status for toggling Login/Logout button
-  isAuthenticated = signal<boolean>(!!this.keycloak.authenticated);
+  isAuthenticated = signal<boolean>(false);
+  userName = signal<string>('');
 
   constructor() {
+    // Initialize authentication state once Keycloak is ready
+    this.updateAuthState();
+
     // React to keycloak auth events to keep the UI state in sync
     effect(() => {
       const ev = this.keycloakEvent();
@@ -31,10 +36,24 @@ export class Header {
         case KeycloakEventType.AuthLogout:
         case KeycloakEventType.Ready:
         case KeycloakEventType.AuthRefreshSuccess:
-          this.isAuthenticated.set(!!this.keycloak.authenticated);
+          this.updateAuthState();
           break;
       }
     });
+  }
+
+  private updateAuthState() {
+    this.isAuthenticated.set(this.keycloak.authenticated ?? false);
+    this.updateUserName();
+  }
+
+  private updateUserName() {
+    if (this.keycloak.authenticated && this.keycloak.tokenParsed) {
+      const name = this.keycloak.tokenParsed['preferred_username']
+      this.userName.set(name as string);
+    } else {
+      this.userName.set('');
+    }
   }
 
   login() {

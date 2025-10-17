@@ -19,17 +19,28 @@
       <span>Staff Home</span>
     </a>
 
-    <!-- Auth actions: show Login when not authenticated, Logout when authenticated -->
+    <!-- Auth actions: show Login when not authenticated, User menu when authenticated -->
     @if (!isAuthenticated()) {
     <button mat-stroked-button (click)="login()">
       <mat-icon aria-hidden="true">login</mat-icon>
       <span>Login</span>
     </button>
     } @else {
-    <button mat-stroked-button (click)="logout()">
-      <mat-icon aria-hidden="true">logout</mat-icon>
-      <span>Logout</span>
+    <button mat-stroked-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+      <span class="username">{{ userName() }}</span>
+      <mat-icon aria-hidden="true" class="account-icon">account_circle</mat-icon>
+      <mat-icon aria-hidden="true" class="arrow-icon">arrow_drop_down</mat-icon>
     </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
     }
   </nav>
 </mat-toolbar>

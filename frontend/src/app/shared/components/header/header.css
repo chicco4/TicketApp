@@ -29,3 +29,30 @@
   vertical-align: middle;
   margin-right: 6px;
 }
+
+/* User menu button styling */
+.user-menu-button {
+  margin-left: 8px;
+  display: inline-flex !important;
+  align-items: center;
+  flex-direction: row;
+}
+
+.user-menu-button .username {
+  order: 1;
+  margin-right: 6px;
+}
+
+.user-menu-button .account-icon {
+  order: 2;
+  margin-right: 4px;
+}
+
+.user-menu-button .arrow-icon {
+  order: 3;
+}
+
+.user-menu-button mat-icon {
+  vertical-align: middle;
+  margin: 0;
+}
