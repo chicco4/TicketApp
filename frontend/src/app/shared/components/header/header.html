@@ -12,6 +12,12 @@
       <span>My Tickets</span>
     </a>
     }
+    @if (hasOrganizerRole()) {
+    <a mat-stroked-button color="accent" class="create-event" routerLink="/organizer/create-event">
+      <mat-icon aria-hidden="true">add_circle</mat-icon>
+      <span>Create Event</span>
+    </a>
+    }
     <a mat-button routerLink="/organizer/home" routerLinkActive="active">
       <mat-icon aria-hidden="true">event_note</mat-icon>
       <span>Organizer Home</span>

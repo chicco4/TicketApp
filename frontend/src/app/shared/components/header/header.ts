@@ -24,6 +24,7 @@ export class Header {
   isAuthenticated = signal<boolean>(false);
   userName = signal<string>('');
   hasAttendeeRole = signal<boolean>(false);
+  hasOrganizerRole = signal<boolean>(false);
 
   constructor() {
     // Initialize authentication state once Keycloak is ready
@@ -61,11 +62,14 @@ export class Header {
   private updateRoles() {
     if (!this.keycloak.authenticated) {
       this.hasAttendeeRole.set(false);
+      this.hasOrganizerRole.set(false);
       return;
     }
 
     const attendee = this.hasRole('ROLE_ATTENDEE');
     this.hasAttendeeRole.set(attendee);
+    const organizer = this.hasRole('ROLE_ORGANIZER');
+    this.hasOrganizerRole.set(organizer);
   }
 
   private hasRole(role: string): boolean {
