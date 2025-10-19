@@ -1,6 +1,9 @@
 make constants folder with apis.ts like in skeleton
 add money pipe
+add pagination and filters to pub envent
+add recap and back to manage events after event creation
 merge ?quantity param in purchase tiucket frontend and backend
 fix docker compose to make it set up keycloak
 make docker compose dockerize the entire application
 add github pipeline with at least 2 stages to show proof
+remove index.ts not needed from core components to export
