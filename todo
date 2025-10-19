@@ -1,0 +1,6 @@
+make constants folder with apis.ts like in skeleton
+add money pipe
+merge ?quantity param in purchase tiucket frontend and backend
+fix docker compose to make it set up keycloak
+make docker compose dockerize the entire application
+add github pipeline with at least 2 stages to show proof
