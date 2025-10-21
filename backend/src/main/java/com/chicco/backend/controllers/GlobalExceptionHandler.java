@@ -114,6 +114,16 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ErrorDto> handleIllegalArgumentException(IllegalArgumentException ex) {
+    log.error("Caught IllegalArgumentException", ex);
+    ErrorDto errorDto = new ErrorDto();
+
+    errorDto.setError(ex.getMessage() != null ? ex.getMessage() : "Invalid request");
+
+    return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorDto> handleException(Exception ex) {
     log.error("Caught exception", ex);

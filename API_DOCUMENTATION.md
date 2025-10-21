@@ -467,28 +467,35 @@ Content-Length: <size-in-bytes>
 **Path Parameters:**
 - `ticket-type-id`: UUID of the ticket type to purchase
 
+**Query Parameters:**
+- `quantity` (optional): Number of tickets to purchase (1-10, default: 1)
+
 **Response:** `201 Created`
 ```json
-{
-  "id": "uuid",
-  "status": "PURCHASED",
-  "price": 0.0,
-  "description": "string",
-  "eventName": "string",
-  "eventVenue": "string",
-  "eventStart": "2025-10-20T19:00:00",
-  "eventEnd": "2025-10-20T23:00:00"
-}
+[
+  {
+    "id": "uuid",
+    "status": "PURCHASED",
+    "price": 0.0,
+    "description": "string",
+    "eventName": "string",
+    "eventVenue": "string",
+    "eventStart": "2025-10-20T19:00:00",
+    "eventEnd": "2025-10-20T23:00:00"
+  }
+]
 ```
 
 **Headers:**
 ```
 Location: /api/v1/tickets/{ticket-id}
 ```
+*`Location` header is provided only when purchasing a single ticket.*
 
 **Possible Errors:**
 - `404 Not Found`: Ticket type not found
-- `400 Bad Request`: Ticket sold out or event not available for purchase
+- `409 Conflict`: Ticket sold out or event not available for purchase
+- `400 Bad Request`: Invalid quantity supplied
 
 ---
 

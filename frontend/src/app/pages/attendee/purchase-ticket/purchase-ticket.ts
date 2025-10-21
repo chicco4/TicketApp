@@ -11,7 +11,7 @@ import { PublishedEventsService } from '../../../core/services/published-events.
 import { PublishedEvent } from '../../../core/models/interfaces/published-event';
 import { TicketType } from '../../../core/models/interfaces/ticket-type';
 import { TicketTypesService } from '../../../core/services/ticket-types.service';
-import { EMPTY, forkJoin, of, Subscription, switchMap } from 'rxjs';
+import { EMPTY, of, Subscription, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-purchase-ticket',
@@ -117,11 +117,7 @@ export class PurchaseTicket implements OnDestroy {
     this.purchaseInProgress = true;
     this.purchaseError = undefined;
 
-    const purchaseRequests = Array.from({ length: quantity }, () =>
-      this.ticketTypesService.purchaseTicket(this.ticketType!.id)
-    );
-
-    forkJoin(purchaseRequests).subscribe({
+    this.ticketTypesService.purchaseTickets(this.ticketType.id, quantity).subscribe({
       next: (tickets) => {
         this.purchaseInProgress = false;
         this.router.navigate(['/attendee/purchase-success'], {
