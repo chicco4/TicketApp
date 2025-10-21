@@ -8,16 +8,6 @@
       <mat-card-subtitle>Draft event details, ticket windows, and pricing in one place.</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div class="alert success" *ngIf="submissionSuccess">
-        <mat-icon>check_circle</mat-icon>
-        <div>
-          <p class="alert-title">{{ submissionSuccess }}</p>
-          <p *ngIf="createdEvent" class="alert-body">
-            {{ createdEvent.name }} · {{ createdEvent.status }} · {{ createdEvent.type }}
-          </p>
-        </div>
-      </div>
-
       <div class="alert error" *ngIf="submissionError">
         <mat-icon>error</mat-icon>
         <span>{{ submissionError }}</span>

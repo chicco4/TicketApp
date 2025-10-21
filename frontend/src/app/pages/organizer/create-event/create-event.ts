@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 import { EventsService } from '../../../core/services/events.service';
 import { EventStatus } from '../../../core/models/enums/event-status.enum';
 import { EventType } from '../../../core/models/enums/event-type.enum';
-import { Event, EventCreate } from '../../../core/models/interfaces/event';
+import { EventCreate } from '../../../core/models/interfaces/event';
 
 type TicketTypeFormGroup = FormGroup<{
   name: FormControl<string>;
@@ -70,8 +70,6 @@ export class OrganizerCreateEvent {
 
   submissionInProgress = false;
   submissionError?: string;
-  submissionSuccess?: string;
-  createdEvent?: Event;
 
   readonly form: EventFormGroup = this.fb.group({
     name: this.fb.control('', { validators: [Validators.required, Validators.maxLength(120)] }),
@@ -199,9 +197,8 @@ export class OrganizerCreateEvent {
     this.eventsService.createEvent(payload).subscribe({
       next: (event) => {
         this.submissionInProgress = false;
-        this.createdEvent = event;
-        this.submissionSuccess = 'Event created successfully.';
-        this.resetFormControls();
+        // Navigate immediately back to organizer events page
+        this.router.navigate(['/organizer/events']);
       },
       error: (err) => {
         this.submissionInProgress = false;
@@ -216,8 +213,6 @@ export class OrganizerCreateEvent {
 
   resetForNewEvent(): void {
     this.submissionError = undefined;
-    this.submissionSuccess = undefined;
-    this.createdEvent = undefined;
     this.resetFormControls();
   }
 
