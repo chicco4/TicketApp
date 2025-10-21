@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="app-toolbar">
-  <span class="app-title" routerLink='/'>
+  <span class="app-title" routerLink="/">
     <mat-icon class="app-icon" aria-hidden="true">confirmation_number</mat-icon>
     {{ appTitle() }}
   </span>
@@ -11,21 +11,21 @@
       <mat-icon aria-hidden="true">confirmation_number</mat-icon>
       <span>My Tickets</span>
     </a>
-    }
-    @if (hasOrganizerRole()) {
+    } @if (hasOrganizerRole()) {
+    <a mat-button routerLink="/organizer/home" routerLinkActive="active">
+      <mat-icon aria-hidden="true">event_note</mat-icon>
+      <span>Organizer Home</span>
+    </a>
     <a mat-button routerLink="/organizer/events" routerLinkActive="active">
       <mat-icon aria-hidden="true">event_available</mat-icon>
       <span>Manage Events</span>
     </a>
-    }
-  <a mat-button routerLink="/organizer/home" routerLinkActive="active">
-      <mat-icon aria-hidden="true">event_note</mat-icon>
-      <span>Organizer Home</span>
-    </a>
+    } @if (hasStaffRole()) {
     <a mat-button routerLink="/staff/home" routerLinkActive="active">
       <mat-icon aria-hidden="true">support_agent</mat-icon>
       <span>Staff Home</span>
     </a>
+    }
 
     <!-- Auth actions: show Login when not authenticated, User menu when authenticated -->
     @if (!isAuthenticated()) {
@@ -34,9 +34,15 @@
       <span>Login</span>
     </button>
     } @else {
-    <button mat-stroked-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+    <button
+      mat-stroked-button
+      [matMenuTriggerFor]="userMenu"
+      class="user-menu-button"
+    >
       <span class="username">{{ userName() }}</span>
-      <mat-icon aria-hidden="true" class="account-icon">account_circle</mat-icon>
+      <mat-icon aria-hidden="true" class="account-icon"
+        >account_circle</mat-icon
+      >
       <mat-icon aria-hidden="true" class="arrow-icon">arrow_drop_down</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu">
