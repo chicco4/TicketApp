@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 import {
   FormArray,
   FormControl,
@@ -64,6 +65,7 @@ type EventFormGroup = FormGroup<{
     MatNativeDateModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatTimepickerModule,
   ],
   templateUrl: './create-event.html',
   styleUrl: './create-event.css'

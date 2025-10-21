@@ -55,7 +55,11 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Event start time</mat-label>
-            <input matInput type="time" formControlName="startTime" />
+            <input matInput [matTimepicker]="startTimePicker" formControlName="startTime" />
+            <mat-timepicker-toggle matIconSuffix [for]="startTimePicker">
+              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+            </mat-timepicker-toggle>
+            <mat-timepicker #startTimePicker/>
             <mat-error *ngIf="form.controls.startTime.hasError('required')">Start time is required.</mat-error>
           </mat-form-field>
 
@@ -69,7 +73,11 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Event end time</mat-label>
-            <input matInput type="time" formControlName="endTime" />
+            <input matInput [matTimepicker]="endTimePicker" formControlName="endTime" />
+            <mat-timepicker-toggle matIconSuffix [for]="endTimePicker">
+              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+            </mat-timepicker-toggle>
+            <mat-timepicker #endTimePicker/>
             <mat-error *ngIf="form.controls.endTime.hasError('required')">End time is required.</mat-error>
           </mat-form-field>
 
@@ -83,7 +91,11 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Sales open time</mat-label>
-            <input matInput type="time" formControlName="salesStartTime" />
+            <input matInput [matTimepicker]="salesStartTimePicker" formControlName="salesStartTime" />
+            <mat-timepicker-toggle matIconSuffix [for]="salesStartTimePicker">
+              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+            </mat-timepicker-toggle>
+            <mat-timepicker #salesStartTimePicker/>
             <mat-hint>Optional</mat-hint>
           </mat-form-field>
 
@@ -97,7 +109,11 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Sales close time</mat-label>
-            <input matInput type="time" formControlName="salesEndTime" />
+            <input matInput [matTimepicker]="salesEndTimePicker" formControlName="salesEndTime" />
+            <mat-timepicker-toggle matIconSuffix [for]="salesEndTimePicker">
+              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+            </mat-timepicker-toggle>
+            <mat-timepicker #salesEndTimePicker/>
             <mat-hint>Optional</mat-hint>
           </mat-form-field>
         </section>
