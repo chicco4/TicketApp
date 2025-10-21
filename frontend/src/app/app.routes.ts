@@ -41,10 +41,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/attendee/purchase-success/purchase-success').then((m) => m.PurchaseSuccess),
   },
   {
-    path: 'organizer/home',
+    path: 'organizer/guide',
     canActivate: [canActivateAuthRole],
     data: { role: 'ROLE_ORGANIZER' },
-    loadComponent: () => import('./pages/organizer/home/home').then((m) => m.OrganizerHome),
+    loadComponent: () => import('./pages/organizer/guide/guide').then((m) => m.OrganizerGuide),
   },
   {
     path: 'organizer/create-event',
