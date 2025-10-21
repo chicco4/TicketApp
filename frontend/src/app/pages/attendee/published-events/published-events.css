@@ -8,6 +8,25 @@
 	margin: 0 auto;
 }
 
+.page-header {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0 0 24px;
+}
+
+.page-intro h1 {
+	font-size: 2rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.page-intro p {
+	color: #4a5568;
+	margin: 0;
+	max-width: 640px;
+}
+
 .attendee-guide {
 	margin-bottom: 24px;
 }
@@ -34,10 +53,6 @@
 
 .dense-list mat-icon[matListItemIcon] {
 	color: #1d4ed8;
-}
-
-h2 {
-	margin: 8px 0 16px;
 }
 
 .filters {
