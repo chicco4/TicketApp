@@ -29,6 +29,43 @@
 
   <h2>Published events</h2>
 
+  <form class="filters" [formGroup]="filtersForm">
+    <mat-form-field class="filters__field filters__field--search" appearance="outline">
+      <mat-label>Search events</mat-label>
+      <input matInput placeholder="Search by name, description, or venue" formControlName="query" />
+      @if (filtersForm.controls.query.value) {
+        <button
+          mat-icon-button
+          type="button"
+          matSuffix
+          aria-label="Clear search text"
+          (click)="filtersForm.controls.query.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field class="filters__field" appearance="outline">
+      <mat-label>Event type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="">All types</mat-option>
+        @for (type of eventTypes; track type) {
+          <mat-option [value]="type">{{ type | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-button
+      type="button"
+      class="filters__reset"
+      (click)="resetFilters()"
+      [disabled]="!filtersForm.controls.query.value && !filtersForm.controls.type.value">
+      Reset filters
+    </button>
+  </form>
+
   @if (loading) {
     <div class="loading">
       <mat-spinner diameter="40"></mat-spinner>
@@ -71,7 +108,7 @@
         [length]="pageData.totalElements"
         [pageSize]="pageData.size"
         [pageIndex]="pageData.number"
-        [pageSizeOptions]="[10]"
+        [pageSizeOptions]="pageSizeOptions"
         (page)="onPageChange($event)"
         aria-label="Event pagination">
       </mat-paginator>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.chicco.backend.domain.entities.Event;
 import com.chicco.backend.domain.enums.EventStatusEnum;
+import com.chicco.backend.domain.enums.EventTypeEnum;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, UUID> {
@@ -24,10 +25,16 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
   @Query("SELECT e FROM Event e WHERE" +
       " e.status = EventStatusEnum.PUBLISHED" +
       " AND (" +
-      " LOWER(e.name) LIKE LOWER(CONCAT('%', :query, '%'))" +
+      " :query IS NULL OR :query = ''" +
+      " OR LOWER(e.name) LIKE LOWER(CONCAT('%', :query, '%'))" +
       " OR LOWER(e.description) LIKE LOWER(CONCAT('%', :query, '%'))" +
-      ")")
-  Page<Event> searchEvents(@Param("query") String query, Pageable pageable);
+      " OR LOWER(e.venue) LIKE LOWER(CONCAT('%', :query, '%'))" +
+      ")" +
+      " AND (:type IS NULL OR e.type = :type)")
+  Page<Event> searchEvents(
+      @Param("query") String query,
+      @Param("type") EventTypeEnum type,
+      Pageable pageable);
 
   Optional<Event> findByIdAndStatus(UUID eventId, EventStatusEnum status);
 }

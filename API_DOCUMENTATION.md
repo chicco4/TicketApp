@@ -279,6 +279,7 @@
 
 **Query Parameters:**
 - `query`: Optional search query string
+- `type`: Optional event type filter (`CONCERT`, `CONFERENCE`, etc.)
 - `page`: Page number (default: 0)
 - `size`: Page size (default: 20)
 - `sort`: Sort field and direction (e.g., `name,asc`)

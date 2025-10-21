@@ -40,6 +40,29 @@ h2 {
 	margin: 8px 0 16px;
 }
 
+.filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: flex-end;
+	margin: 0 0 24px;
+}
+
+.filters__field {
+	flex: 1 1 220px;
+	min-width: 200px;
+}
+
+.filters__field--search {
+	flex: 2 1 320px;
+	min-width: 260px;
+}
+
+.filters__reset {
+	height: 48px;
+	align-self: center;
+}
+
 .loading {
 	display: flex;
 	align-items: center;

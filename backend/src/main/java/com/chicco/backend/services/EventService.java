@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import com.chicco.backend.domain.CreateEventRequest;
 import com.chicco.backend.domain.UpdateEventRequest;
 import com.chicco.backend.domain.entities.Event;
+import com.chicco.backend.domain.enums.EventTypeEnum;
 
 public interface EventService {
   Event createEvent(UUID organizerId, CreateEventRequest request);
@@ -23,7 +24,7 @@ public interface EventService {
 
   Page<Event> listPublishedEvents(Pageable pageable);
 
-  Page<Event> searchPublishedEvents(String query, Pageable pageable);
+  Page<Event> searchPublishedEvents(String query, EventTypeEnum type, Pageable pageable);
 
   Optional<Event> getPublishedEvent(UUID eventId);
 }

@@ -21,6 +21,7 @@ import com.chicco.backend.domain.entities.Event;
 import com.chicco.backend.domain.entities.TicketType;
 import com.chicco.backend.domain.entities.User;
 import com.chicco.backend.domain.enums.EventStatusEnum;
+import com.chicco.backend.domain.enums.EventTypeEnum;
 import com.chicco.backend.exceptions.EventNotFoundException;
 import com.chicco.backend.exceptions.EventUpdateException;
 import com.chicco.backend.exceptions.TicketTypeNotFoundException;
@@ -163,8 +164,9 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public Page<Event> searchPublishedEvents(String query, Pageable pageable) {
-    return eventRepository.searchEvents(query, pageable);
+  public Page<Event> searchPublishedEvents(String query, EventTypeEnum type, Pageable pageable) {
+    String sanitizedQuery = (query == null || query.trim().isEmpty()) ? null : query.trim();
+    return eventRepository.searchEvents(sanitizedQuery, type, pageable);
   }
 
   @Override
