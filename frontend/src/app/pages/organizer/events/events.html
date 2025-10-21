@@ -43,11 +43,6 @@
     <span>{{ submissionSuccess }}</span>
   </div>
 
-  <div class="alert error" *ngIf="submissionError">
-    <mat-icon>error</mat-icon>
-    <span>{{ submissionError }}</span>
-  </div>
-
   <div class="alert error" *ngIf="error">
     <mat-icon>error_outline</mat-icon>
     <span>{{ error }}</span>
@@ -114,7 +109,7 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button mat-stroked-button color="primary" type="button" (click)="startEdit(event)" [disabled]="editingEventId === event.id && submissionInProgress">
+        <button mat-stroked-button color="primary" type="button">
           <mat-icon>edit</mat-icon>
           <span>Edit</span>
         </button>
@@ -129,134 +124,6 @@
           </ng-template>
         </button>
       </mat-card-actions>
-
-      <div class="edit-panel" *ngIf="editingEventId === event.id && form">
-        <form [formGroup]="form" (ngSubmit)="saveEdit()" class="event-form" novalidate>
-          <section class="form-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Event name</mat-label>
-              <input matInput formControlName="name" />
-              <mat-error *ngIf="form.controls.name.hasError('required')">Name is required.</mat-error>
-              <mat-error *ngIf="form.controls.name.hasError('maxlength')">Name is too long.</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Status</mat-label>
-              <mat-select formControlName="status">
-                <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="form.controls.status.hasError('required')">Status is required.</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Type</mat-label>
-              <mat-select formControlName="type">
-                <mat-option *ngFor="let type of typeOptions" [value]="type">{{ type }}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="form.controls.type.hasError('required')">Type is required.</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Venue</mat-label>
-              <input matInput formControlName="venue" />
-              <mat-error *ngIf="form.controls.venue.hasError('required')">Venue is required.</mat-error>
-              <mat-error *ngIf="form.controls.venue.hasError('maxlength')">Venue is too long.</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Event start</mat-label>
-              <input matInput type="datetime-local" formControlName="start" />
-              <mat-error *ngIf="form.controls.start.hasError('required')">Start is required.</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Event end</mat-label>
-              <input matInput type="datetime-local" formControlName="end" />
-              <mat-error *ngIf="form.controls.end.hasError('required')">End is required.</mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Sales open</mat-label>
-              <input matInput type="datetime-local" formControlName="salesStart" />
-              <mat-hint>Optional</mat-hint>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Sales close</mat-label>
-              <input matInput type="datetime-local" formControlName="salesEnd" />
-              <mat-hint>Optional</mat-hint>
-            </mat-form-field>
-          </section>
-
-          <mat-form-field appearance="outline" class="description-field">
-            <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description" rows="3"></textarea>
-          </mat-form-field>
-
-          <mat-divider></mat-divider>
-
-          <section class="ticket-type-section" formArrayName="ticketTypes" *ngIf="ticketTypes as ticketArray">
-            <h2>Ticket types</h2>
-            <p class="ticket-hint" *ngIf="!ticketArray.controls.length">No ticket types are linked to this event.</p>
-
-            <div
-              class="ticket-type-card"
-              *ngFor="let ticketGroup of ticketArray.controls; let i = index; trackBy: trackTicketType"
-              [formGroupName]="i"
-            >
-              <div class="ticket-type-header">
-                <h3>Type {{ i + 1 }}</h3>
-              </div>
-
-              <div class="form-grid">
-                <mat-form-field appearance="outline">
-                  <mat-label>Ticket name</mat-label>
-                  <input matInput formControlName="name" />
-                  <mat-error *ngIf="ticketGroup.controls.name.hasError('required')">Ticket name is required.</mat-error>
-                  <mat-error *ngIf="ticketGroup.controls.name.hasError('maxlength')">Name is too long.</mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Price</mat-label>
-                  <input matInput type="number" min="0" step="0.01" formControlName="price" />
-                  <span matTextPrefix>$&nbsp;</span>
-                  <mat-error *ngIf="ticketGroup.controls.price.hasError('required')">Price is required.</mat-error>
-                  <mat-error *ngIf="ticketGroup.controls.price.hasError('min')">Price cannot be negative.</mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Total available</mat-label>
-                  <input matInput type="number" min="1" step="1" formControlName="totalAvailable" />
-                  <mat-error *ngIf="ticketGroup.controls.totalAvailable.hasError('required')">Total is required.</mat-error>
-                  <mat-error *ngIf="ticketGroup.controls.totalAvailable.hasError('min')">Need at least one ticket.</mat-error>
-                </mat-form-field>
-              </div>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Description</mat-label>
-                <textarea matInput formControlName="description" rows="2"></textarea>
-              </mat-form-field>
-            </div>
-          </section>
-
-          <div class="form-actions">
-            <button mat-stroked-button type="button" (click)="cancelEdit()" [disabled]="submissionInProgress">
-              <mat-icon>close</mat-icon>
-              <span>Cancel</span>
-            </button>
-            <button mat-raised-button color="primary" type="submit" [disabled]="submissionInProgress">
-              <ng-container *ngIf="!submissionInProgress; else saving">
-                <mat-icon>save</mat-icon>
-                <span>Save changes</span>
-              </ng-container>
-            </button>
-            <ng-template #saving>
-              <mat-progress-spinner class="inline-spinner" diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
-              <span>Saving...</span>
-            </ng-template>
-          </div>
-        </form>
-      </div>
     </mat-card>
   </section>
 
