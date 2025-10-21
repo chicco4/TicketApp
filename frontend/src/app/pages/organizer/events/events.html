@@ -38,106 +38,126 @@
     </mat-card>
   </div>
 
-  <div class="alert success" *ngIf="submissionSuccess">
-    <mat-icon>check_circle</mat-icon>
-    <span>{{ submissionSuccess }}</span>
-  </div>
+  @if (submissionSuccess) {
+    <div class="alert success">
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ submissionSuccess }}</span>
+    </div>
+  }
 
-  <div class="alert error" *ngIf="error">
-    <mat-icon>error_outline</mat-icon>
-    <span>{{ error }}</span>
-  </div>
+  @if (error) {
+    <div class="alert error">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+  }
 
-  <div class="loading-container" *ngIf="loading">
-    <mat-progress-spinner diameter="48" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
-  </div>
+  @if (loading) {
+    <div class="loading-container">
+      <mat-progress-spinner diameter="48" strokeWidth="4" mode="indeterminate"></mat-progress-spinner>
+    </div>
+  }
 
-  <section class="events-grid" *ngIf="!loading && events.length; else noEvents">
-  <mat-card appearance="outlined" class="event-card" *ngFor="let event of events; trackBy: trackByEventId">
-      <mat-card-header>
-        <div mat-card-avatar class="card-avatar">
-          <mat-icon>event</mat-icon>
-        </div>
-        <mat-card-title>{{ event.name }}</mat-card-title>
-        <mat-card-subtitle>{{ event.status }} &middot; {{ event.type }}</mat-card-subtitle>
-      </mat-card-header>
+  @if (!loading && events.length) {
+    <section class="events-grid">
+      @for (event of events; track trackByEventId($index, event)) {
+        <mat-card appearance="outlined" class="event-card">
+          @let deleting = isDeleting(event.id);
 
-      <mat-card-content>
-        <div class="meta-grid">
-          <div>
-            <span class="label">Venue</span>
-            <p>{{ event.venue }}</p>
-          </div>
-          <div>
-            <span class="label">Starts</span>
-            <p>{{ event.start | date: 'medium' }}</p>
-          </div>
-          <div>
-            <span class="label">Ends</span>
-            <p>{{ event.end | date: 'medium' }}</p>
-          </div>
-          <div>
-            <span class="label">Sales window</span>
-            <p>
-              <span>{{ event.salesStart ? (event.salesStart | date: 'medium') : 'Not set' }}</span>
-              <span> - </span>
-              <span>{{ event.salesEnd ? (event.salesEnd | date: 'medium') : 'Not set' }}</span>
-            </p>
-          </div>
-        </div>
+          <mat-card-header>
+            <div mat-card-avatar class="card-avatar">
+              <mat-icon>event</mat-icon>
+            </div>
+            <mat-card-title>{{ event.name }}</mat-card-title>
+            <mat-card-subtitle>{{ event.status }} &middot; {{ event.type }}</mat-card-subtitle>
+          </mat-card-header>
 
-        <p class="description" *ngIf="event.description">{{ event.description }}</p>
-
-        <mat-divider></mat-divider>
-
-        <div class="ticket-types">
-          <h3>Ticket types</h3>
-          <mat-list *ngIf="event.ticketTypes?.length; else noTickets">
-            <mat-list-item *ngFor="let ticket of event.ticketTypes; trackBy: trackTicketType">
-              <mat-icon matListItemIcon>confirmation_number</mat-icon>
-              <div matListItemTitle>{{ ticket.name }}</div>
-              <div matListItemLine>
-                <span>${{ ticket.price | number: '1.2-2' }}</span>
-                <span *ngIf="ticket.totalAvailable !== undefined"> &middot; {{ ticket.totalAvailable }} available</span>
+          <mat-card-content>
+            <div class="meta-grid">
+              <div>
+                <span class="label">Venue</span>
+                <p>{{ event.venue }}</p>
               </div>
-            </mat-list-item>
-          </mat-list>
-          <ng-template #noTickets>
-            <p class="no-tickets">No ticket types configured for this event.</p>
-          </ng-template>
-        </div>
-      </mat-card-content>
+              <div>
+                <span class="label">Starts</span>
+                <p>{{ event.start | date: 'medium' }}</p>
+              </div>
+              <div>
+                <span class="label">Ends</span>
+                <p>{{ event.end | date: 'medium' }}</p>
+              </div>
+              <div>
+                <span class="label">Sales window</span>
+                <p>
+                  <span>{{ event.salesStart ? (event.salesStart | date: 'medium') : 'Not set' }}</span>
+                  <span> - </span>
+                  <span>{{ event.salesEnd ? (event.salesEnd | date: 'medium') : 'Not set' }}</span>
+                </p>
+              </div>
+            </div>
 
-      <mat-card-actions>
-        <button mat-stroked-button color="primary" type="button" [routerLink]="['/organizer/update-event', event.id]" [disabled]="isDeleting(event.id)">
-          <mat-icon>edit</mat-icon>
-          <span>Edit</span>
-        </button>
-        <button mat-button color="warn" type="button" (click)="deleteEvent(event)" [disabled]="isDeleting(event.id)">
-          <ng-container *ngIf="!isDeleting(event.id); else deletingSpinner">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </ng-container>
-          <ng-template #deletingSpinner>
-            <mat-progress-spinner class="inline-spinner" diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
-            <span>Deleting...</span>
-          </ng-template>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </section>
+            @if (event.description) {
+              <p class="description">{{ event.description }}</p>
+            }
 
-  <mat-paginator
-    *ngIf="page && page.totalPages > 1"
-    [length]="page.totalElements"
-    [pageIndex]="page.number"
-    [pageSize]="page.size"
-    [pageSizeOptions]="[page.size]"
-    (page)="onPageChange($event)"
-  ></mat-paginator>
+            <mat-divider></mat-divider>
 
-  <ng-template #noEvents>
-    <div class="empty-state" *ngIf="!loading && !events.length && !error">
+            <div class="ticket-types">
+              <h3>Ticket types</h3>
+              @if (event.ticketTypes.length) {
+                <mat-list>
+                  @for (ticket of event.ticketTypes; track trackTicketType($index, ticket)) {
+                    <mat-list-item>
+                      <mat-icon matListItemIcon>confirmation_number</mat-icon>
+                      <div matListItemTitle>{{ ticket.name }}</div>
+                      <div matListItemLine>
+                        <span>${{ ticket.price | number: '1.2-2' }}</span>
+                        @if (ticket.totalAvailable !== undefined) {
+                          <span> &middot; {{ ticket.totalAvailable }} available</span>
+                        }
+                      </div>
+                    </mat-list-item>
+                  }
+                </mat-list>
+              } @else {
+                <p class="no-tickets">No ticket types configured for this event.</p>
+              }
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button mat-stroked-button color="primary" type="button" [routerLink]="['/organizer/update-event', event.id]" [disabled]="deleting">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-button color="warn" type="button" (click)="deleteEvent(event)" [disabled]="deleting">
+              @if (deleting) {
+                <mat-progress-spinner class="inline-spinner" diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
+              } @else {
+                <mat-icon>delete</mat-icon>
+              }
+              <span>{{ deleting ? 'Deleting…' : 'Delete' }}</span>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </section>
+  }
+
+  @if (page; as pageData) {
+    @if (pageData.totalPages > 1) {
+      <mat-paginator
+        [length]="pageData.totalElements"
+        [pageIndex]="pageData.number"
+        [pageSize]="pageData.size"
+        [pageSizeOptions]="[pageData.size]"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
+    }
+  }
+
+  @if (!loading && !events.length && !error) {
+    <div class="empty-state">
       <mat-icon>lightbulb</mat-icon>
       <h2>No events yet</h2>
       <p>Create your first event to start selling tickets.</p>
@@ -146,5 +166,5 @@
         <span>Create an event</span>
       </a>
     </div>
-  </ng-template>
+  }
 </div>

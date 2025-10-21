@@ -6,18 +6,15 @@
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading tickets…</span>
     </div>
-  }
-  @else if (error) {
+  } @else if (error) {
     <div class="error">
       <p>{{ error }}</p>
       <button mat-stroked-button color="primary" (click)="loadTickets(page?.number ?? 0)">Try again</button>
     </div>
-  }
-  @else {
-    @if (!tickets.length) {
+  } @else {
+    @if (tickets.length === 0) {
       <p class="empty">You have not purchased any tickets yet.</p>
-    }
-    @else {
+    } @else {
       <div class="ticket-grid">
         @for (ticket of tickets; track ticket.id) {
           <mat-card appearance="outlined" class="ticket-card">
@@ -32,7 +29,7 @@
                 <span class="label">Ticket ID:</span>
                 <span class="value monospace">{{ ticket.id }}</span>
               </div>
-              @if (ticket.ticketType.price !== undefined) {
+              @if (ticket.ticketType.price != null) {
                 <div class="ticket-info">
                   <span class="label">Price:</span>
                   <span class="value">{{ ticket.ticketType.price | currency }}</span>
@@ -48,14 +45,16 @@
     }
   }
 
-  @if (page && page.totalElements > page.size) {
-    <mat-paginator
-      [length]="page.totalElements"
-      [pageIndex]="page.number"
-      [pageSize]="page.size"
-      [pageSizeOptions]="[page.size]"
-      [hidePageSize]="true"
-      (page)="onPageChange($event)"
-    ></mat-paginator>
+  @if (page; as pageData) {
+    @if (pageData.totalElements > pageData.size) {
+      <mat-paginator
+        [length]="pageData.totalElements"
+        [pageIndex]="pageData.number"
+        [pageSize]="pageData.size"
+        [pageSizeOptions]="[pageData.size]"
+        [hidePageSize]="true"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
+    }
   }
 </section>

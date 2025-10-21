@@ -34,46 +34,47 @@
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading events…</span>
     </div>
-  }
-  @else if (error) {
+  } @else if (error) {
     <div class="error">{{ error }}</div>
-  }
-  @else if (events.length === 0) {
+  } @else if (events.length === 0) {
     <div class="empty">No events available.</div>
-  }
-  @else {
+  } @else {
     <div class="card-grid">
-      <mat-card class="event-card" appearance="outlined" *ngFor="let ev of events">
-        <div class="event-image" [style.background-image]="'url(' + getEventImage(ev.type) + ')'"></div>
-        <mat-card-header>
-          <mat-card-title>{{ ev.name }}</mat-card-title>
-          <mat-card-subtitle>{{ ev.type }} • {{ ev.venue }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="time">
-            <span class="label">Starts:</span>
-            <span>{{ ev.start | date: 'medium' }}</span>
-          </div>
-          <div class="time">
-            <span class="label">Ends:</span>
-            <span>{{ ev.end | date: 'medium' }}</span>
-          </div>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-button color="primary" (click)="viewDetails(ev)">View details</button>
-        </mat-card-actions>
-      </mat-card>
+      @for (event of events; track event.id) {
+        <mat-card class="event-card" appearance="outlined">
+          <div class="event-image" [style.background-image]="'url(' + getEventImage(event.type) + ')' "></div>
+          <mat-card-header>
+            <mat-card-title>{{ event.name }}</mat-card-title>
+            <mat-card-subtitle>{{ event.type }} • {{ event.venue }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="time">
+              <span class="label">Starts:</span>
+              <span>{{ event.start | date: 'medium' }}</span>
+            </div>
+            <div class="time">
+              <span class="label">Ends:</span>
+              <span>{{ event.end | date: 'medium' }}</span>
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-button color="primary" (click)="viewDetails(event)">View details</button>
+          </mat-card-actions>
+        </mat-card>
+      }
     </div>
   }
 
-  @if (page && page.totalPages > 1) {
-    <mat-paginator
-      [length]="page.totalElements"
-      [pageSize]="page.size"
-      [pageIndex]="page.number"
-      [pageSizeOptions]="[10]"
-      (page)="onPageChange($event)"
-      aria-label="Event pagination">
-    </mat-paginator>
+  @if (page; as pageData) {
+    @if (pageData.totalPages > 1) {
+      <mat-paginator
+        [length]="pageData.totalElements"
+        [pageSize]="pageData.size"
+        [pageIndex]="pageData.number"
+        [pageSizeOptions]="[10]"
+        (page)="onPageChange($event)"
+        aria-label="Event pagination">
+      </mat-paginator>
+    }
   }
 </section>
