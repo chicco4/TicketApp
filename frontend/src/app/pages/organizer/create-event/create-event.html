@@ -14,114 +14,165 @@
       </div>
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="event-form" novalidate>
-        <section class="form-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>Event name</mat-label>
-            <input matInput formControlName="name" placeholder="e.g. Summer Launch Meetup" />
-            <mat-error *ngIf="form.controls.name.hasError('required')">Name is required.</mat-error>
-            <mat-error *ngIf="form.controls.name.hasError('maxlength')">Name is too long.</mat-error>
-          </mat-form-field>
+        <section class="form-section">
+          <div class="section-header">
+            <div>
+              <h2>Event basics</h2>
+              <p class="section-subtitle">Core information attendees will see first.</p>
+            </div>
+          </div>
+          <div class="form-grid form-grid--row">
+            <mat-form-field appearance="outline">
+              <mat-label>Event name</mat-label>
+              <input matInput formControlName="name" placeholder="e.g. Summer Launch Meetup" />
+              <mat-error *ngIf="form.controls.name.hasError('required')">Name is required.</mat-error>
+              <mat-error *ngIf="form.controls.name.hasError('maxlength')">Name is too long.</mat-error>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select formControlName="status">
-              <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.controls.status.hasError('required')">Status is required.</mat-error>
-          </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Venue</mat-label>
+              <input matInput formControlName="venue" placeholder="e.g. Skyline Auditorium" />
+              <mat-error *ngIf="form.controls.venue.hasError('required')">Venue is required.</mat-error>
+              <mat-error *ngIf="form.controls.venue.hasError('maxlength')">Venue name is too long.</mat-error>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Type</mat-label>
-            <mat-select formControlName="type">
-              <mat-option *ngFor="let type of typeOptions" [value]="type">{{ type }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.controls.type.hasError('required')">Type is required.</mat-error>
-          </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                <mat-option *ngFor="let type of typeOptions" [value]="type">{{ type }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.controls.type.hasError('required')">Type is required.</mat-error>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Venue</mat-label>
-            <input matInput formControlName="venue" placeholder="e.g. Skyline Auditorium" />
-            <mat-error *ngIf="form.controls.venue.hasError('required')">Venue is required.</mat-error>
-            <mat-error *ngIf="form.controls.venue.hasError('maxlength')">Venue name is too long.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Event start date</mat-label>
-            <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" />
-            <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker></mat-datepicker>
-            <mat-error *ngIf="form.controls.startDate.hasError('required')">Start date is required.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Event start time</mat-label>
-            <input matInput [matTimepicker]="startTimePicker" formControlName="startTime" />
-            <mat-timepicker-toggle matIconSuffix [for]="startTimePicker">
-              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
-            </mat-timepicker-toggle>
-            <mat-timepicker #startTimePicker/>
-            <mat-error *ngIf="form.controls.startTime.hasError('required')">Start time is required.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Event end date</mat-label>
-            <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" />
-            <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #endDatePicker></mat-datepicker>
-            <mat-error *ngIf="form.controls.endDate.hasError('required')">End date is required.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Event end time</mat-label>
-            <input matInput [matTimepicker]="endTimePicker" formControlName="endTime" />
-            <mat-timepicker-toggle matIconSuffix [for]="endTimePicker">
-              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
-            </mat-timepicker-toggle>
-            <mat-timepicker #endTimePicker/>
-            <mat-error *ngIf="form.controls.endTime.hasError('required')">End time is required.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Sales open date</mat-label>
-            <input matInput [matDatepicker]="salesStartDatePicker" formControlName="salesStartDate" />
-            <mat-datepicker-toggle matIconSuffix [for]="salesStartDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #salesStartDatePicker></mat-datepicker>
-            <mat-hint>Optional</mat-hint>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Sales open time</mat-label>
-            <input matInput [matTimepicker]="salesStartTimePicker" formControlName="salesStartTime" />
-            <mat-timepicker-toggle matIconSuffix [for]="salesStartTimePicker">
-              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
-            </mat-timepicker-toggle>
-            <mat-timepicker #salesStartTimePicker/>
-            <mat-hint>Optional</mat-hint>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Sales close date</mat-label>
-            <input matInput [matDatepicker]="salesEndDatePicker" formControlName="salesEndDate" />
-            <mat-datepicker-toggle matIconSuffix [for]="salesEndDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #salesEndDatePicker></mat-datepicker>
-            <mat-hint>Optional</mat-hint>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Sales close time</mat-label>
-            <input matInput [matTimepicker]="salesEndTimePicker" formControlName="salesEndTime" />
-            <mat-timepicker-toggle matIconSuffix [for]="salesEndTimePicker">
-              <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
-            </mat-timepicker-toggle>
-            <mat-timepicker #salesEndTimePicker/>
-            <mat-hint>Optional</mat-hint>
-          </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.controls.status.hasError('required')">Status is required.</mat-error>
+            </mat-form-field>
+          </div>
         </section>
 
-        <mat-form-field appearance="outline" class="description-field">
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" rows="4" placeholder="Share highlights, schedule, or speaker line-up"></textarea>
-        </mat-form-field>
+        <mat-divider></mat-divider>
+
+        <section class="form-section">
+          <div class="section-header">
+            <div>
+              <h2>Schedule</h2>
+              <p class="section-subtitle">Set when doors open and close.</p>
+            </div>
+          </div>
+          <div class="form-grid form-grid--row">
+            <mat-form-field appearance="outline">
+              <mat-label>Event start date</mat-label>
+              <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" />
+              <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+              <mat-error *ngIf="form.controls.startDate.hasError('required')">Start date is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Event start time</mat-label>
+              <input matInput [matTimepicker]="startTimePicker" formControlName="startTime" />
+              <mat-timepicker-toggle matIconSuffix [for]="startTimePicker">
+                <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+              </mat-timepicker-toggle>
+              <mat-timepicker #startTimePicker/>
+              <mat-error *ngIf="form.controls.startTime.hasError('required')">Start time is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Event end date</mat-label>
+              <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" />
+              <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker></mat-datepicker>
+              <mat-error *ngIf="form.controls.endDate.hasError('required')">End date is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Event end time</mat-label>
+              <input matInput [matTimepicker]="endTimePicker" formControlName="endTime" />
+              <mat-timepicker-toggle matIconSuffix [for]="endTimePicker">
+                <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+              </mat-timepicker-toggle>
+              <mat-timepicker #endTimePicker/>
+              <mat-error *ngIf="form.controls.endTime.hasError('required')">End time is required.</mat-error>
+            </mat-form-field>
+          </div>
+        </section>
+
+        <mat-divider></mat-divider>
+
+        <section class="form-section optional">
+          <div class="section-header">
+            <div>
+              <h2>Ticket sales window</h2>
+              <p class="section-subtitle">Specify when tickets go on sale and close, if needed.</p>
+            </div>
+            <button mat-stroked-button color="primary" type="button" (click)="toggleSalesWindowFields()">
+              <mat-icon>{{ showSalesWindowFields ? 'close' : 'schedule' }}</mat-icon>
+              <span>{{ showSalesWindowFields ? 'Remove sales window' : 'Add sales window' }}</span>
+            </button>
+          </div>
+          <div class="form-grid form-grid--row" *ngIf="showSalesWindowFields">
+            <mat-form-field appearance="outline">
+              <mat-label>Sales open date</mat-label>
+              <input matInput [matDatepicker]="salesStartDatePicker" formControlName="salesStartDate" />
+              <mat-datepicker-toggle matIconSuffix [for]="salesStartDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #salesStartDatePicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Sales open time</mat-label>
+              <input matInput [matTimepicker]="salesStartTimePicker" formControlName="salesStartTime" />
+              <mat-timepicker-toggle matIconSuffix [for]="salesStartTimePicker">
+                <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+              </mat-timepicker-toggle>
+              <mat-timepicker #salesStartTimePicker/>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Sales close date</mat-label>
+              <input matInput [matDatepicker]="salesEndDatePicker" formControlName="salesEndDate" />
+              <mat-datepicker-toggle matIconSuffix [for]="salesEndDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #salesEndDatePicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Sales close time</mat-label>
+              <input matInput [matTimepicker]="salesEndTimePicker" formControlName="salesEndTime" />
+              <mat-timepicker-toggle matIconSuffix [for]="salesEndTimePicker">
+                <mat-icon matTimepickerToggleIcon>schedule</mat-icon>
+              </mat-timepicker-toggle>
+              <mat-timepicker #salesEndTimePicker/>
+            </mat-form-field>
+          </div>
+        </section>
+
+        <mat-divider></mat-divider>
+
+        <section class="form-section optional">
+          <div class="section-header">
+            <div>
+              <h2>Event description</h2>
+              <p class="section-subtitle">Share highlights, agenda, or anything attendees should know.</p>
+            </div>
+            <button mat-stroked-button type="button" (click)="toggleDescriptionField()">
+              <mat-icon>{{ showDescriptionField ? 'close' : 'notes' }}</mat-icon>
+              <span>{{ showDescriptionField ? 'Remove description' : 'Add description' }}</span>
+            </button>
+          </div>
+          <mat-form-field *ngIf="showDescriptionField" appearance="outline" class="description-field">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              rows="4"
+              placeholder="Share highlights, schedule, or speaker line-up"
+            ></textarea>
+          </mat-form-field>
+        </section>
 
         <mat-divider></mat-divider>
 
@@ -188,7 +239,7 @@
             <mat-icon>event_available</mat-icon>
             <span>Back to events</span>
           </button>
-          <button mat-raised-button color="primary" type="submit" [disabled]="submissionInProgress">
+          <button mat-stroked-button color="primary" type="submit" [disabled]="submissionInProgress">
             <ng-container *ngIf="!submissionInProgress; else saving">
               <mat-icon>save</mat-icon>
               <span>Create event</span>

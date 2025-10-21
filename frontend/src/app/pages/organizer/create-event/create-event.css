@@ -64,10 +64,44 @@ mat-card {
   gap: 2rem;
 }
 
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.section-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.section-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.section-subtitle {
+  color: var(--mat-sys-on-surface-variant, #4b5563);
+  font-size: 0.9rem;
+  margin: 0.35rem 0 0;
+}
+
+.section-header button mat-icon {
+  margin-right: 0.4rem;
+}
+
 .form-grid {
   display: grid;
   gap: 1.25rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.form-grid--row {
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .description-field {
@@ -132,5 +166,11 @@ mat-card {
 
   .ticket-type-card {
     padding: 1rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .form-grid--row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

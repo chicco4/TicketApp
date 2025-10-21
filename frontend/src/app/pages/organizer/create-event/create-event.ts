@@ -80,6 +80,12 @@ export class OrganizerCreateEvent {
 
   submissionInProgress = false;
   submissionError?: string;
+  showDescriptionField = false;
+  showSalesWindowFields = false;
+
+  constructor() {
+    this.syncOptionalSectionVisibility();
+  }
 
   readonly form: EventFormGroup = this.fb.group({
     name: this.fb.control('', { validators: [Validators.required, Validators.maxLength(120)] }),
@@ -243,6 +249,23 @@ export class OrganizerCreateEvent {
     this.resetFormControls();
   }
 
+  toggleDescriptionField(): void {
+    this.showDescriptionField = !this.showDescriptionField;
+    if (!this.showDescriptionField) {
+      this.form.controls.description.reset('');
+    }
+  }
+
+  toggleSalesWindowFields(): void {
+    this.showSalesWindowFields = !this.showSalesWindowFields;
+    if (!this.showSalesWindowFields) {
+      this.form.controls.salesStartDate.reset(null);
+      this.form.controls.salesStartTime.reset('');
+      this.form.controls.salesEndDate.reset(null);
+      this.form.controls.salesEndTime.reset('');
+    }
+  }
+
   private createTicketTypeGroup(): TicketTypeFormGroup {
     return this.fb.group({
       name: this.fb.control('', { validators: [Validators.required, Validators.maxLength(80)] }),
@@ -295,24 +318,86 @@ export class OrganizerCreateEvent {
     });
     this.ticketTypes.clear();
     this.ticketTypes.push(this.createTicketTypeGroup());
+    this.showDescriptionField = false;
+    this.showSalesWindowFields = false;
     this.form.markAsPristine();
     this.form.markAsUntouched();
   }
 
-  private combineDateAndTime(date: Date | null, time: string): string | null {
-    if (!date || !time) {
+  private combineDateAndTime(date: Date | null, time: unknown): string | null {
+    if (!date || time === null || time === undefined || time === '') {
       return null;
     }
-    
-    const [hours, minutes] = time.split(':').map(Number);
+
+    const timeParts = this.extractTimeParts(time);
+    if (!timeParts) {
+      return null;
+    }
+
     const combined = new Date(date);
-    combined.setHours(hours, minutes, 0, 0);
-    
+    combined.setHours(timeParts.hours, timeParts.minutes, 0, 0);
+
     // Convert to ISO string and remove the 'Z' to get local datetime format
     return combined.toISOString().slice(0, 19);
   }
 
   private compareDateTime(start: string, end: string): number {
     return new Date(start).getTime() - new Date(end).getTime();
+  }
+
+  private syncOptionalSectionVisibility(): void {
+    this.showDescriptionField = !!this.form.controls.description.value?.trim();
+    this.showSalesWindowFields = !!(
+      this.form.controls.salesStartDate.value ||
+      this.form.controls.salesStartTime.value ||
+      this.form.controls.salesEndDate.value ||
+      this.form.controls.salesEndTime.value
+    );
+  }
+
+  private extractTimeParts(time: unknown): { hours: number; minutes: number } | null {
+    if (typeof time === 'string') {
+      const trimmed = time.trim();
+      if (!trimmed) {
+        return null;
+      }
+      const match = trimmed.match(/^([0-9]{1,2}):([0-9]{2})(?:\s*([APap][Mm]))?$/);
+      if (!match) {
+        return null;
+      }
+
+      let hours = Number(match[1]);
+      const minutes = Number(match[2]);
+      const meridiem = match[3]?.toLowerCase();
+
+      if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+        return null;
+      }
+
+      if (meridiem === 'pm' && hours < 12) {
+        hours += 12;
+      }
+
+      if (meridiem === 'am' && hours === 12) {
+        hours = 0;
+      }
+
+      return { hours, minutes };
+    }
+
+    if (time instanceof Date) {
+      return { hours: time.getHours(), minutes: time.getMinutes() };
+    }
+
+    if (typeof time === 'object' && time !== null) {
+      const maybeHours = (time as { hours?: number; hour?: number }).hours ?? (time as { hour?: number }).hour;
+      const maybeMinutes = (time as { minutes?: number; minute?: number }).minutes ?? (time as { minute?: number }).minute;
+
+      if (typeof maybeHours === 'number' && typeof maybeMinutes === 'number') {
+        return { hours: maybeHours, minutes: maybeMinutes };
+      }
+    }
+
+    return null;
   }
 }
