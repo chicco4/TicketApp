@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import {
@@ -34,10 +36,14 @@ type EventFormGroup = FormGroup<{
   description: FormControl<string>;
   status: FormControl<EventStatus>;
   type: FormControl<EventType>;
-  start: FormControl<string>;
-  end: FormControl<string>;
-  salesStart: FormControl<string>;
-  salesEnd: FormControl<string>;
+  startDate: FormControl<Date | null>;
+  startTime: FormControl<string>;
+  endDate: FormControl<Date | null>;
+  endTime: FormControl<string>;
+  salesStartDate: FormControl<Date | null>;
+  salesStartTime: FormControl<string>;
+  salesEndDate: FormControl<Date | null>;
+  salesEndTime: FormControl<string>;
   venue: FormControl<string>;
   ticketTypes: FormArray<TicketTypeFormGroup>;
 }>;
@@ -50,10 +56,12 @@ type EventFormGroup = FormGroup<{
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDatepickerModule,
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatNativeDateModule,
     MatProgressSpinnerModule,
     MatSelectModule,
   ],
@@ -76,10 +84,14 @@ export class OrganizerCreateEvent {
     description: this.fb.control(''),
     status: this.fb.control<EventStatus>(EventStatus.DRAFT, { validators: [Validators.required] }),
     type: this.fb.control<EventType>(EventType.CONCERT, { validators: [Validators.required] }),
-    start: this.fb.control('', { validators: [Validators.required] }),
-    end: this.fb.control('', { validators: [Validators.required] }),
-    salesStart: this.fb.control(''),
-    salesEnd: this.fb.control(''),
+    startDate: this.fb.control<Date | null>(null, { validators: [Validators.required] }),
+    startTime: this.fb.control('', { validators: [Validators.required] }),
+    endDate: this.fb.control<Date | null>(null, { validators: [Validators.required] }),
+    endTime: this.fb.control('', { validators: [Validators.required] }),
+    salesStartDate: this.fb.control<Date | null>(null),
+    salesStartTime: this.fb.control(''),
+    salesEndDate: this.fb.control<Date | null>(null),
+    salesEndTime: this.fb.control(''),
     venue: this.fb.control('', { validators: [Validators.required, Validators.maxLength(200)] }),
     ticketTypes: this.fb.array<TicketTypeFormGroup>([
       this.createTicketTypeGroup()
@@ -133,27 +145,38 @@ export class OrganizerCreateEvent {
       return;
     }
 
-    const start = formValue.start;
-    const end = formValue.end;
-    const salesStart = formValue.salesStart;
-    const salesEnd = formValue.salesEnd;
+    const start = this.combineDateAndTime(formValue.startDate, formValue.startTime);
+    const end = this.combineDateAndTime(formValue.endDate, formValue.endTime);
+    const salesStart = this.combineDateAndTime(formValue.salesStartDate, formValue.salesStartTime);
+    const salesEnd = this.combineDateAndTime(formValue.salesEndDate, formValue.salesEndTime);
 
-    if (start && end && this.compareDateTimes(start, end) >= 0) {
+    // Validate that both date and time are provided for sales dates
+    if ((formValue.salesStartDate && !formValue.salesStartTime) || (!formValue.salesStartDate && formValue.salesStartTime)) {
+      this.submissionError = 'Please provide both date and time for sales opening.';
+      return;
+    }
+
+    if ((formValue.salesEndDate && !formValue.salesEndTime) || (!formValue.salesEndDate && formValue.salesEndTime)) {
+      this.submissionError = 'Please provide both date and time for sales closing.';
+      return;
+    }
+
+    if (start && end && this.compareDateTime(start, end) >= 0) {
       this.submissionError = 'Event end must be after the start date and time.';
       return;
     }
 
-    if (salesStart && salesEnd && this.compareDateTimes(salesStart, salesEnd) > 0) {
+    if (salesStart && salesEnd && this.compareDateTime(salesStart, salesEnd) > 0) {
       this.submissionError = 'Ticket sales end must be on or after the sales start.';
       return;
     }
 
-    if (salesStart && start && this.compareDateTimes(salesStart, start) > 0) {
+    if (salesStart && start && this.compareDateTime(salesStart, start) > 0) {
       this.submissionError = 'Sales cannot open after the event starts.';
       return;
     }
 
-    if (salesEnd && end && this.compareDateTimes(salesEnd, end) > 0) {
+    if (salesEnd && end && this.compareDateTime(salesEnd, end) > 0) {
       this.submissionError = 'Sales must close on or before the event ends.';
       return;
     }
@@ -163,10 +186,10 @@ export class OrganizerCreateEvent {
       description: this.emptyToUndefined(formValue.description),
       status: formValue.status,
       type: formValue.type,
-      start: this.ensureSeconds(start),
-      end: this.ensureSeconds(end),
-      salesStart: this.optionalDate(salesStart),
-      salesEnd: this.optionalDate(salesEnd),
+      start: this.ensureSeconds(start || ''),
+      end: this.ensureSeconds(end || ''),
+      salesStart: salesStart ? this.ensureSeconds(salesStart) : undefined,
+      salesEnd: salesEnd ? this.ensureSeconds(salesEnd) : undefined,
       venue: trimmedVenue,
       ticketTypes: formValue.ticketTypes.map((ticket) => ({
         name: ticket.name.trim(),
@@ -257,10 +280,14 @@ export class OrganizerCreateEvent {
       description: '',
       status: EventStatus.DRAFT,
       type: EventType.CONCERT,
-      start: '',
-      end: '',
-      salesStart: '',
-      salesEnd: '',
+      startDate: null,
+      startTime: '',
+      endDate: null,
+      endTime: '',
+      salesStartDate: null,
+      salesStartTime: '',
+      salesEndDate: null,
+      salesEndTime: '',
       venue: '',
       ticketTypes: [],
     });
@@ -268,5 +295,22 @@ export class OrganizerCreateEvent {
     this.ticketTypes.push(this.createTicketTypeGroup());
     this.form.markAsPristine();
     this.form.markAsUntouched();
+  }
+
+  private combineDateAndTime(date: Date | null, time: string): string | null {
+    if (!date || !time) {
+      return null;
+    }
+    
+    const [hours, minutes] = time.split(':').map(Number);
+    const combined = new Date(date);
+    combined.setHours(hours, minutes, 0, 0);
+    
+    // Convert to ISO string and remove the 'Z' to get local datetime format
+    return combined.toISOString().slice(0, 19);
+  }
+
+  private compareDateTime(start: string, end: string): number {
+    return new Date(start).getTime() - new Date(end).getTime();
   }
 }

@@ -46,26 +46,58 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Event start</mat-label>
-            <input matInput type="datetime-local" formControlName="start" />
-            <mat-error *ngIf="form.controls.start.hasError('required')">Start date and time are required.</mat-error>
+            <mat-label>Event start date</mat-label>
+            <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+            <mat-error *ngIf="form.controls.startDate.hasError('required')">Start date is required.</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Event end</mat-label>
-            <input matInput type="datetime-local" formControlName="end" />
-            <mat-error *ngIf="form.controls.end.hasError('required')">End date and time are required.</mat-error>
+            <mat-label>Event start time</mat-label>
+            <input matInput type="time" formControlName="startTime" />
+            <mat-error *ngIf="form.controls.startTime.hasError('required')">Start time is required.</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Sales open</mat-label>
-            <input matInput type="datetime-local" formControlName="salesStart" />
+            <mat-label>Event end date</mat-label>
+            <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+            <mat-error *ngIf="form.controls.endDate.hasError('required')">End date is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Event end time</mat-label>
+            <input matInput type="time" formControlName="endTime" />
+            <mat-error *ngIf="form.controls.endTime.hasError('required')">End time is required.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Sales open date</mat-label>
+            <input matInput [matDatepicker]="salesStartDatePicker" formControlName="salesStartDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="salesStartDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #salesStartDatePicker></mat-datepicker>
             <mat-hint>Optional</mat-hint>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Sales close</mat-label>
-            <input matInput type="datetime-local" formControlName="salesEnd" />
+            <mat-label>Sales open time</mat-label>
+            <input matInput type="time" formControlName="salesStartTime" />
+            <mat-hint>Optional</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Sales close date</mat-label>
+            <input matInput [matDatepicker]="salesEndDatePicker" formControlName="salesEndDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="salesEndDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #salesEndDatePicker></mat-datepicker>
+            <mat-hint>Optional</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Sales close time</mat-label>
+            <input matInput type="time" formControlName="salesEndTime" />
             <mat-hint>Optional</mat-hint>
           </mat-form-field>
         </section>
