@@ -1,32 +1,5 @@
 :host {
   display: block;
-  padding: 2.5rem 0;
-}
-
-.page-container {
-  margin: 0 auto;
-  max-width: 1080px;
-  padding: 0 1.5rem;
-}
-
-.page-header {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
-  margin-bottom: 1.75rem;
-}
-
-.page-intro h1 {
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 0 0 0.35rem;
-}
-
-.page-intro p {
-  color: #4a5568;
-  margin: 0;
 }
 
 .organizer-guide {
@@ -219,10 +192,6 @@ mat-card-content {
 }
 
 @media (max-width: 720px) {
-  .page-container {
-    padding: 0 1rem;
-  }
-
   mat-card-actions {
     flex-direction: column;
     align-items: flex-end;

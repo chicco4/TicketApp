@@ -1,12 +1,9 @@
 :host {
   display: block;
-  padding: 2.5rem 0;
 }
 
-.page-container {
-  margin: 0 auto;
-  max-width: 960px;
-  padding: 0 1.5rem;
+.organizer-event-form {
+  width: min(960px, 100%);
 }
 
 mat-card {
@@ -158,10 +155,6 @@ mat-card {
 }
 
 @media (max-width: 720px) {
-  .page-container {
-    padding: 0 1rem;
-  }
-
   .ticket-type-card {
     padding: 1rem;
   }

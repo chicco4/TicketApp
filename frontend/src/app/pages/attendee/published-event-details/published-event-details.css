@@ -1,8 +1,9 @@
-.event-details {
+:host {
   display: block;
-  padding: 16px;
-  max-width: 900px;
-  margin: 0 auto;
+}
+
+.attendee-event-details {
+  width: min(900px, 100%);
 }
 
 mat-card {
@@ -31,16 +32,6 @@ mat-card-content {
 
 mat-card-actions {
   padding: 8px 16px 16px 16px;
-}
-
-.loading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.error {
-  color: #b00020;
 }
 
 .time {
@@ -85,7 +76,7 @@ mat-card-actions {
 .ticket-card mat-card-subtitle {
   font-size: 20px;
   font-weight: 600;
-  color: var(--primary-color, #1976d2);
+  color: var(--mat-sys-primary);
   margin-top: 4px;
 }
 

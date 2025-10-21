@@ -1,12 +1,18 @@
-<section class="ticket-qr-page">
+<section class="page page--narrow ticket-qr-page">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">Ticket QR Code</h1>
+      <p class="page__subtitle">Scan and validate this pass at the event entrance.</p>
+    </div>
+  </header>
   @if (loading) {
-    <div class="loading">
+    <div class="page__state loading">
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading QR code…</span>
     </div>
   }
   @else if (error) {
-    <div class="error">{{ error }}</div>
+    <div class="page__alert page__alert--error error">{{ error }}</div>
     <button mat-stroked-button color="primary" (click)="goToTicket()">Back</button>
   }
   @else if (ticket && qrCodeUrl) {

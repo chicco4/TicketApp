@@ -1,4 +1,110 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.page {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 1rem + 1vw, 2.5rem) clamp(1rem, 2vw + 0.5rem, 1.75rem)
+    clamp(3rem, 2rem + 1vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 1.2rem + 0.5vw, 2.25rem);
+}
+
+.page--wide {
+  width: min(1200px, 100%);
+}
+
+.page--narrow {
+  width: min(720px, 100%);
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: clamp(1.25rem, 1rem + 0.5vw, 2rem);
+}
+
+.page__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+}
+
+.page__title {
+  font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  font-weight: 600;
+  margin: 0;
+}
+
+.page__subtitle {
+  margin: 0;
+  max-width: 640px;
+  color: var(--mat-sys-on-surface-variant, #64748b);
+}
+
+.page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.page__section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 0.6rem + 1vw, 1.75rem);
+}
+
+.page__section + .page__section {
+  margin-top: clamp(1.5rem, 1rem + 1vw, 2.5rem);
+}
+
+.page__state {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: clamp(0.75rem, 0.6rem + 0.5vw, 1rem) 0;
+}
+
+.page__state--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.page__alert {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: clamp(0.75rem, 0.6rem + 0.5vw, 1rem)
+    clamp(0.75rem, 0.5rem + 0.5vw, 1.25rem);
+  border-radius: 0.75rem;
+}
+
+.page__alert--error {
+  color: var(--mat-sys-error);
+  background: color-mix(
+    in srgb,
+    var(--mat-sys-error) 12%,
+    transparent
+  );
+}
+
+.page__empty {
+  opacity: 0.8;
+  font-style: italic;
+}

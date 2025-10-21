@@ -1,11 +1,17 @@
-<section class="purchase-ticket">
+<section class="page page--narrow purchase-ticket-page">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">Purchase Ticket</h1>
+      <p class="page__subtitle">Choose how many seats you need and finish checkout.</p>
+    </div>
+  </header>
   @if (loading) {
-    <div class="loading">
+    <div class="page__state loading">
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading…</span>
     </div>
   } @else if (loadError) {
-    <div class="error">{{ loadError }}</div>
+    <div class="page__alert page__alert--error error">{{ loadError }}</div>
     <button mat-button color="primary" (click)="goBack()">Back</button>
   } @else if (event && ticketType) {
     <mat-card appearance="outlined" class="purchase-card">
@@ -52,7 +58,7 @@
         </form>
 
         @if (purchaseError) {
-          <div class="error">{{ purchaseError }}</div>
+          <div class="page__alert page__alert--error error">{{ purchaseError }}</div>
         }
       </mat-card-content>
 
@@ -65,7 +71,7 @@
       </mat-card-actions>
     </mat-card>
   } @else {
-    <div class="error">Ticket details are unavailable.</div>
+    <div class="page__alert page__alert--error error">Ticket details are unavailable.</div>
     <button mat-button color="primary" (click)="goBack()">Back</button>
   }
 </section>

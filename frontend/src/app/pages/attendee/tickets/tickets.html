@@ -1,19 +1,23 @@
-<section class="tickets-page">
-  <h2>My Tickets</h2>
+<section class="page page--wide attendee-tickets">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">My Tickets</h1>
+    </div>
+  </header>
 
   @if (loading) {
-    <div class="loading">
+    <div class="page__state loading">
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading tickets…</span>
     </div>
   } @else if (error) {
-    <div class="error">
+    <div class="page__alert page__alert--error error">
       <p>{{ error }}</p>
       <button mat-stroked-button color="primary" (click)="loadTickets(page?.number ?? 0)">Try again</button>
     </div>
   } @else {
     @if (tickets.length === 0) {
-      <p class="empty">You have not purchased any tickets yet.</p>
+      <p class="page__empty empty">You have not purchased any tickets yet.</p>
     } @else {
       <div class="ticket-grid">
         @for (ticket of tickets; track ticket.id) {

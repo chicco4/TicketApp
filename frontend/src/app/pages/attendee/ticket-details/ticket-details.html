@@ -1,12 +1,18 @@
-<section class="ticket-details">
+<section class="page page--narrow ticket-details-page">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">Ticket Details</h1>
+      <p class="page__subtitle">Review your ticket information and status.</p>
+    </div>
+  </header>
   @if (loading) {
-    <div class="loading">
+    <div class="page__state loading">
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading ticket…</span>
     </div>
   }
   @else if (error) {
-    <div class="error">{{ error }}</div>
+    <div class="page__alert page__alert--error error">{{ error }}</div>
     <button mat-stroked-button color="primary" (click)="goBack()">Back to tickets</button>
   }
   @else if (ticket) {

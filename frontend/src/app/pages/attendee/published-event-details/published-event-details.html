@@ -1,12 +1,18 @@
-<section class="event-details">
+<section class="page attendee-event-details">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">Event Details</h1>
+      <p class="page__subtitle">Explore highlights, timings, and ticket options for this event.</p>
+    </div>
+  </header>
   @if (loading) {
-    <div class="loading">
+    <div class="page__state loading">
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading event…</span>
     </div>
   }
   @else if (error) {
-    <div class="error">{{ error }}</div>
+    <div class="page__alert page__alert--error error">{{ error }}</div>
     <a mat-button color="primary" routerLink="/attendee/published-events">Back to events</a>
   }
   @else if (event) {

@@ -2,28 +2,6 @@
   display: block;
 }
 
-.ticket-details {
-  padding: 16px;
-  max-width: 720px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.loading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.error {
-  color: var(--mat-sys-error);
-  background: color-mix(in srgb, var(--mat-sys-error) 10%, transparent);
-  padding: 12px 16px;
-  border-radius: 8px;
-}
-
 .detail {
   display: flex;
   gap: 8px;

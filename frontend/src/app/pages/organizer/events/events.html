@@ -1,14 +1,16 @@
-<div class="page-container">
-  <section class="page-header">
-    <div class="page-intro">
-      <h1>Manage Events</h1>
-      <p>Review schedules, adjust ticket tiers, and retire events that are no longer needed.</p>
+<section class="page page--wide organizer-events">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">Manage Events</h1>
+      <p class="page__subtitle">Review schedules, adjust ticket tiers, and retire events that are no longer needed.</p>
     </div>
-    <a mat-stroked-button color="accent" routerLink="/organizer/create-event">
-      <mat-icon>add_circle</mat-icon>
-      <span>Create event</span>
-    </a>
-  </section>
+    <div class="page__toolbar">
+      <a mat-stroked-button color="accent" routerLink="/organizer/create-event">
+        <mat-icon>add_circle</mat-icon>
+        <span>Create event</span>
+      </a>
+    </div>
+  </header>
 
   @if (showQuickGuide) {
     <div class="organizer-guide">
@@ -151,4 +153,4 @@
       </a>
     </div>
   }
-</div>
+</section>

@@ -1,19 +1,5 @@
-.purchase-ticket {
+:host {
   display: block;
-  padding: 16px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.loading {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.error {
-  color: #b00020;
-  margin-bottom: 16px;
 }
 
 .purchase-card {
@@ -37,7 +23,7 @@ mat-card-header {
 
 .ticket-info h3 {
   margin: 0 0 8px 0;
-  color: #1976d2;
+  color: var(--mat-sys-primary);
 }
 
 .ticket-info .description {
@@ -48,7 +34,7 @@ mat-card-header {
 .ticket-info .price {
   font-size: 20px;
   font-weight: 600;
-  color: #1976d2;
+  color: var(--mat-sys-primary);
   margin: 8px 0;
 }
 
@@ -78,11 +64,15 @@ mat-form-field {
 }
 
 .total-amount {
-  color: #1976d2;
+  color: var(--mat-sys-primary);
   font-weight: 600;
 }
 
 mat-card-actions {
   padding: 16px;
   gap: 8px;
+}
+
+.purchase-form + .page__alert {
+  margin-top: 8px;
 }

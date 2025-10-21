@@ -1,13 +1,15 @@
-<section class="attendee-home">
-  <header class="page-header">
-    <div class="page-intro">
-      <h1>Published Events</h1>
-      <p>Review schedules, adjust ticket tiers, and retire events that are no longer needed.</p>
+<section class="page page--wide attendee-page">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">Published Events</h1>
+      <p class="page__subtitle">
+        Review schedules, adjust ticket tiers, and retire events that are no longer needed.
+      </p>
     </div>
   </header>
 
   @if (showQuickGuide) {
-    <div class="attendee-guide">
+    <div class="page__section attendee-guide">
       <app-quick-guide-card
         [avatarIcon]="attendeeQuickGuide.icon"
         [title]="attendeeQuickGuide.title"
@@ -56,14 +58,14 @@
   </form>
 
   @if (loading) {
-    <div class="loading">
+    <div class="page__state loading">
       <mat-spinner diameter="40"></mat-spinner>
       <span>Loading events…</span>
     </div>
   } @else if (error) {
-    <div class="error">{{ error }}</div>
+    <div class="page__alert page__alert--error error">{{ error }}</div>
   } @else if (events.length === 0) {
-    <div class="empty">No events available.</div>
+    <div class="page__empty empty">No events available.</div>
   } @else {
     <div class="card-grid">
       @for (event of events; track event.id) {
