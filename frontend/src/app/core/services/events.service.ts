@@ -14,6 +14,8 @@ export interface GetEventsOptions {
 export class EventsService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = '/api/v1/events';
+  
+  private pendingSuccessMessage?: string;
 
   /**
    * Create a new event
@@ -53,5 +55,21 @@ export class EventsService {
    */
   deleteEvent(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${encodeURIComponent(id)}`);
+  }
+
+  /**
+   * Set a success message to be displayed on the next events page load
+   */
+  setPendingSuccessMessage(message: string): void {
+    this.pendingSuccessMessage = message;
+  }
+
+  /**
+   * Get and clear the pending success message
+   */
+  getPendingSuccessMessage(): string | undefined {
+    const message = this.pendingSuccessMessage;
+    this.pendingSuccessMessage = undefined;
+    return message;
   }
 }

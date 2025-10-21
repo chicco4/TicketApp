@@ -94,6 +94,12 @@ export class OrganizerEvents implements OnInit {
   private pendingSuccess?: string;
 
   ngOnInit(): void {
+    // Check for pending success message from create-event page
+    const pendingMessage = this.eventsService.getPendingSuccessMessage();
+    if (pendingMessage) {
+      this.submissionSuccess = pendingMessage;
+    }
+    
     this.fetchEvents();
   }
 

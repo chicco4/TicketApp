@@ -197,7 +197,9 @@ export class OrganizerCreateEvent {
     this.eventsService.createEvent(payload).subscribe({
       next: (event) => {
         this.submissionInProgress = false;
-        // Navigate immediately back to organizer events page
+        // Set success message for display on events page
+        this.eventsService.setPendingSuccessMessage(`'${event.name}' created successfully.`);
+        // Navigate back to organizer events page
         this.router.navigate(['/organizer/events']);
       },
       error: (err) => {
