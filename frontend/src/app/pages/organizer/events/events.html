@@ -130,7 +130,7 @@
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
-            <button mat-button color="warn" type="button" (click)="deleteEvent(event)" [disabled]="deleting">
+            <button mat-stroked-button color="warn" type="button" (click)="deleteEvent(event)" [disabled]="deleting">
               @if (deleting) {
                 <mat-progress-spinner class="inline-spinner" diameter="20" strokeWidth="3" mode="indeterminate"></mat-progress-spinner>
               } @else {
