@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-footer',
-  imports: [NgFor, MatToolbarModule, MatDividerModule, MatButtonModule],
+  imports: [MatToolbarModule, MatDividerModule, MatButtonModule],
   templateUrl: './footer.html',
   styleUrl: './footer.css'
 })
