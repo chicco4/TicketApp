@@ -53,6 +53,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/organizer/create-event/create-event').then((m) => m.OrganizerCreateEvent),
   },
   {
+    path: 'organizer/update-event/:eventId',
+    canActivate: [canActivateAuthRole],
+    data: { role: 'ROLE_ORGANIZER' },
+    loadComponent: () => import('./pages/organizer/update-event/update-event').then((m) => m.OrganizerUpdateEvent),
+  },
+  {
     path: 'organizer/events',
     canActivate: [canActivateAuthRole],
     data: { role: 'ROLE_ORGANIZER' },

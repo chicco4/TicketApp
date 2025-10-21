@@ -16,7 +16,7 @@ export interface TicketTypeCreate {
 }
 
 export interface TicketTypeUpdate {
-  id: string;
+  id?: string;
   name: string;
   description?: string;
   price: number;

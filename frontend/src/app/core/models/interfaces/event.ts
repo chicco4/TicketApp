@@ -1,6 +1,6 @@
 import { EventStatus } from '../enums/event-status.enum';
 import { EventType } from '../enums/event-type.enum';
-import { TicketType, TicketTypeCreate } from './ticket-type';
+import { TicketType, TicketTypeCreate, TicketTypeUpdate } from './ticket-type';
 
 export interface Event {
   id: string;
@@ -42,5 +42,5 @@ export interface EventUpdate {
   salesStart?: string;
   salesEnd?: string;
   venue: string;
-  ticketTypes: TicketType[];
+  ticketTypes: TicketTypeUpdate[];
 }
