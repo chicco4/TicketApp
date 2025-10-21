@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EventsService } from '../../../core/services/events.service';
 import { Event } from '../../../core/models/interfaces/event';
 import { Page } from '../../../core/models/interfaces/page';
+import { QuickGuideCardComponent, type QuickGuideStep } from '../../../shared/components/quick-guide-card/quick-guide-card';
 
 @Component({
   selector: 'app-organizer-events',
@@ -25,6 +26,7 @@ import { Page } from '../../../core/models/interfaces/page';
     MatListModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    QuickGuideCardComponent,
   ],
   templateUrl: './events.html',
   styleUrl: './events.css'
@@ -37,6 +39,17 @@ export class OrganizerEvents implements OnInit {
   loading = false;
   error?: string;
   submissionSuccess?: string;
+  showQuickGuide = true;
+  readonly organizerQuickGuide = {
+    icon: 'business_center',
+    title: 'Organizer Quick Guide',
+    subtitle: 'Master event management in three simple steps.',
+    steps: [
+      { icon: 'add_circle', text: 'Create events with detailed schedules, venues, and ticket configurations.' },
+      { icon: 'edit', text: 'Edit event details, adjust pricing, and manage ticket availability in real-time.' },
+      { icon: 'analytics', text: 'Monitor sales performance and manage event status from draft to published.' },
+    ] satisfies QuickGuideStep[],
+  };
 
   page?: Page<Event>;
   events: Event[] = [];

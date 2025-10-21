@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.guide-card {
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  cursor: pointer;
+  transition: box-shadow 120ms ease-out, transform 120ms ease-out;
+}
+
+.guide-card:focus-visible {
+  outline: 2px solid var(--mat-sys-primary, #2563eb);
+  outline-offset: 2px;
+}
+
+.guide-card:hover {
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.guide-avatar {
+  align-items: center;
+  background: rgba(49, 130, 206, 0.16);
+  border-radius: 50%;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.dense-list .mat-mdc-list-item {
+  min-height: 0;
+  padding-block: 6px;
+}
+
+.dense-list mat-icon[matListItemIcon] {
+  color: #1d4ed8;
+}

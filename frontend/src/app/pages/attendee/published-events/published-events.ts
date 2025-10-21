@@ -18,6 +18,7 @@ import { getEventTypeImage } from '../../../core/utils/event-type-images';
 import { EventType } from '../../../core/models/enums/event-type.enum';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { QuickGuideCardComponent, type QuickGuideStep } from '../../../shared/components/quick-guide-card/quick-guide-card';
 
 type FilterFormValue = { query?: string; type?: EventType | '' };
 
@@ -34,7 +35,8 @@ type FilterFormValue = { query?: string; type?: EventType | '' };
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    QuickGuideCardComponent,
   ],
   templateUrl: './published-events.html',
   styleUrl: './published-events.css'
@@ -48,6 +50,17 @@ export class AttendeeHome implements OnInit, OnDestroy {
   private pageSize = 8;
   private readonly sort = 'start,asc';
   readonly eventTypes = Object.values(EventType);
+  readonly attendeeQuickGuide = {
+    icon: 'explore',
+    title: 'Attendee Quick Guide',
+    subtitle: 'Get the most from published events in three steps.',
+    steps: [
+      { icon: 'search', text: 'Browse events by theme and venue to find the right fit.' },
+      { icon: 'event_available', text: 'Open the event details to review schedules, pricing, and perks.' },
+      { icon: 'confirmation_number', text: 'Secure your ticket and store the QR code for smooth entry.' },
+    ] satisfies QuickGuideStep[],
+  };
+  showQuickGuide = true;
   readonly filtersForm: FormGroup<{
     query: FormControl<string>;
     type: FormControl<EventType | ''>;

@@ -10,33 +10,17 @@
     </a>
   </section>
 
-  <div class="organizer-guide">
-    <mat-card appearance="outlined" class="guide-card">
-      <mat-card-header>
-        <div mat-card-avatar class="guide-avatar">
-          <mat-icon>business_center</mat-icon>
-        </div>
-        <mat-card-title>Organizer Quick Guide</mat-card-title>
-        <mat-card-subtitle>Master event management in three simple steps.</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list class="dense-list">
-          <mat-list-item>
-            <mat-icon matListItemIcon>add_circle</mat-icon>
-            <div matListItemTitle>Create events with detailed schedules, venues, and ticket configurations.</div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon matListItemIcon>edit</mat-icon>
-            <div matListItemTitle>Edit event details, adjust pricing, and manage ticket availability in real-time.</div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon matListItemIcon>analytics</mat-icon>
-            <div matListItemTitle>Monitor sales performance and manage event status from draft to published.</div>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  @if (showQuickGuide) {
+    <div class="organizer-guide">
+      <app-quick-guide-card
+        [avatarIcon]="organizerQuickGuide.icon"
+        [title]="organizerQuickGuide.title"
+        [subtitle]="organizerQuickGuide.subtitle"
+        [steps]="organizerQuickGuide.steps"
+        (dismissed)="showQuickGuide = false"
+      />
+    </div>
+  }
 
   @if (submissionSuccess) {
     <div class="alert success">

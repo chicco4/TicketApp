@@ -6,33 +6,17 @@
     </div>
   </header>
 
-  <div class="attendee-guide">
-    <mat-card appearance="outlined" class="guide-card">
-      <mat-card-header>
-        <div mat-card-avatar class="guide-avatar">
-          <mat-icon>explore</mat-icon>
-        </div>
-        <mat-card-title>Attendee Quick Guide</mat-card-title>
-        <mat-card-subtitle>Get the most from published events in three steps.</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list class="dense-list">
-          <mat-list-item>
-            <mat-icon matListItemIcon>search</mat-icon>
-            <div matListItemTitle>Browse events by theme and venue to find the right fit.</div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon matListItemIcon>event_available</mat-icon>
-            <div matListItemTitle>Open the event details to review schedules, pricing, and perks.</div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon matListItemIcon>confirmation_number</mat-icon>
-            <div matListItemTitle>Secure your ticket and store the QR code for smooth entry.</div>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  @if (showQuickGuide) {
+    <div class="attendee-guide">
+      <app-quick-guide-card
+        [avatarIcon]="attendeeQuickGuide.icon"
+        [title]="attendeeQuickGuide.title"
+        [subtitle]="attendeeQuickGuide.subtitle"
+        [steps]="attendeeQuickGuide.steps"
+        (dismissed)="showQuickGuide = false"
+      />
+    </div>
+  }
 
   <form class="filters" [formGroup]="filtersForm">
     <mat-form-field class="filters__field filters__field--search" appearance="outline">

@@ -1,0 +1,30 @@
+@if (!isHidden()) {
+  <mat-card
+    appearance="outlined"
+    class="guide-card"
+    (click)="dismiss()"
+    role="button"
+    tabindex="0"
+    [attr.aria-label]="title()"
+    (keydown)="onKeydown($event)"
+  >
+    <mat-card-header>
+      <div mat-card-avatar class="guide-avatar">
+        <mat-icon>{{ avatarIcon() }}</mat-icon>
+      </div>
+      <mat-card-title>{{ title() }}</mat-card-title>
+      <mat-card-subtitle>{{ subtitle() }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-list class="dense-list">
+        @for (step of steps(); track step.text) {
+          <mat-list-item>
+            <mat-icon matListItemIcon>{{ step.icon }}</mat-icon>
+            <div matListItemTitle>{{ step.text }}</div>
+          </mat-list-item>
+        }
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+}
