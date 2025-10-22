@@ -8,6 +8,16 @@
   gap: 16px;
 }
 
+.tickets-guide {
+  margin-bottom: 24px;
+}
+
+.page__subtitle {
+  margin: 8px 0 0;
+  color: var(--mat-sys-on-surface-variant);
+  max-width: 620px;
+}
+
 .ticket-card {
   --mdc-elevated-card-container-color: var(--mat-sys-surface);
 }

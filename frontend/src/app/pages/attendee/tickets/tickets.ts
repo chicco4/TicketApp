@@ -9,11 +9,12 @@ import { Subscription } from 'rxjs';
 import { TicketsService } from '../../../core/services/tickets.service';
 import { Page } from '../../../core/models/interfaces/page';
 import { Ticket } from '../../../core/models/interfaces/ticket';
+import { QuickGuideCardComponent, type QuickGuideStep } from '../../../shared/components/quick-guide-card/quick-guide-card';
 
 @Component({
   selector: 'app-attendee-tickets',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatPaginatorModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatPaginatorModule, MatProgressSpinnerModule, QuickGuideCardComponent],
   templateUrl: './tickets.html',
   styleUrl: './tickets.css'
 })
@@ -22,6 +23,17 @@ export class AttendeeTickets implements OnInit, OnDestroy {
   error?: string;
   page?: Page<Ticket>;
   tickets: Ticket[] = [];
+  readonly ticketsQuickGuide = {
+    icon: 'confirmation_number',
+    title: 'Ticket Quick Guide',
+    subtitle: 'Your purchased tickets and redemption steps at a glance.',
+    steps: [
+      { icon: 'inventory_2', text: 'Each card shows ticket status, price, and the unique ticket ID.' },
+      { icon: 'qr_code', text: 'Select "View details" to open the QR code ready for event entry.' },
+      { icon: 'support_agent', text: 'Contact the organizer or support if you need ticket changes.' },
+    ] satisfies QuickGuideStep[],
+  };
+  showQuickGuide = true;
 
   private fetchSub?: Subscription;
 

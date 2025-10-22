@@ -2,8 +2,23 @@
   <header class="page__header">
     <div class="page__intro">
       <h1 class="page__title">My Tickets</h1>
+      <p class="page__subtitle">
+        Review your upcoming and past tickets, confirm their status, and access event entry details in one place.
+      </p>
     </div>
   </header>
+
+  @if (showQuickGuide) {
+    <div class="page__section tickets-guide">
+      <app-quick-guide-card
+        [avatarIcon]="ticketsQuickGuide.icon"
+        [title]="ticketsQuickGuide.title"
+        [subtitle]="ticketsQuickGuide.subtitle"
+        [steps]="ticketsQuickGuide.steps"
+        (dismissed)="showQuickGuide = false"
+      />
+    </div>
+  }
 
   @if (loading) {
     <div class="page__state loading">
