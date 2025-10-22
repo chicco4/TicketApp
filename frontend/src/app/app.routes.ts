@@ -65,10 +65,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/organizer/events/events').then((m) => m.OrganizerEvents),
   },
   {
-    path: 'staff/home',
+    path: 'staff/validate-tickets',
     canActivate: [canActivateAuthRole],
     data: { role: 'ROLE_STAFF' },
-    loadComponent: () => import('./pages/staff/home/home').then((m) => m.StaffHome),
+    loadComponent: () => import('./pages/staff/validate-tickets/validate-tickets').then((m) => m.StaffValidateTickets),
   },
   { path: '', pathMatch: 'full', redirectTo: 'attendee/published-events' },
   { path: '**', redirectTo: 'attendee/published-events' }

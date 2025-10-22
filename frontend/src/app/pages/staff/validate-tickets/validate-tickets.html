@@ -1,0 +1,157 @@
+<section class="page page--wide validate-page">
+  <header class="page__header">
+    <div class="page__intro">
+      <h1 class="page__title">Validate Tickets</h1>
+      <p class="page__subtitle">
+        Scan QR codes or enter ticket IDs to confirm attendee access in real-time.
+      </p>
+    </div>
+  </header>
+
+  <div class="page__section validate-page__layout">
+    <article class="validate-card">
+      <header class="validate-card__header">
+        <h2>Scan a QR code</h2>
+        <p>Use your device camera to validate tickets instantly.</p>
+      </header>
+
+      @if (!scannerSupported) {
+        <div class="page__alert page__alert--error">
+          <strong>QR scanning is not supported by this browser.</strong>
+          <span>Use the manual validation option instead.</span>
+        </div>
+      } @else {
+        <div class="scanner">
+          <video
+            #scannerVideo
+            class="scanner__video"
+            autoplay
+            muted
+            playsinline
+          ></video>
+          @if (!scannerActive) {
+            <div class="scanner__placeholder">
+              <mat-icon aria-hidden="true">qr_code_scanner</mat-icon>
+              <p>Point your camera at the QR code to validate a ticket.</p>
+            </div>
+          }
+        </div>
+
+        <div class="scanner__actions">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="toggleScanner()"
+            [disabled]="validating"
+          >
+            @if (scannerActive) {
+              <mat-icon aria-hidden="true">stop</mat-icon>
+              <span>Stop scanning</span>
+            } @else {
+              <mat-icon aria-hidden="true">play_circle</mat-icon>
+              <span>Start scanning</span>
+            }
+          </button>
+          @if (scannerError) {
+            <p class="scanner__error">{{ scannerError }}</p>
+          }
+        </div>
+      }
+    </article>
+
+    <article class="validate-card">
+      <header class="validate-card__header">
+        <h2>Validate manually</h2>
+        <p>Type or paste a ticket code to validate without scanning.</p>
+      </header>
+
+      <form
+        class="manual-form"
+        [formGroup]="manualForm"
+        (ngSubmit)="submitManual()"
+        novalidate
+      >
+        <mat-form-field appearance="outline" class="manual-form__field">
+          <mat-label>Ticket code</mat-label>
+          <input
+            matInput
+            autocomplete="off"
+            formControlName="code"
+            placeholder="e.g. TCKT-1234-5678"
+            required
+          />
+          @if (manualForm.controls.code.hasError('required') && manualForm.controls.code.touched) {
+            <mat-error>Ticket code is required.</mat-error>
+          } @else if (manualForm.controls.code.hasError('minlength') && manualForm.controls.code.touched) {
+            <mat-error>Enter at least 4 characters.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="manual-form__actions">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="manualForm.invalid || validating"
+          >
+            <mat-icon aria-hidden="true">verified</mat-icon>
+            <span>Validate ticket</span>
+          </button>
+        </div>
+      </form>
+    </article>
+  </div>
+
+  <div class="page__section validate-results">
+    @if (validating) {
+      <div class="page__state">
+        <mat-progress-spinner
+          diameter="28"
+          mode="indeterminate"
+        ></mat-progress-spinner>
+        <span>Validating ticket...</span>
+      </div>
+    }
+
+    @if (validationResult) {
+      <div
+        class="validation-result"
+        [class.validation-result--valid]="validationResult.status ===
+          TicketValidationStatus.VALID"
+        [class.validation-result--invalid]="validationResult.status ===
+          TicketValidationStatus.INVALID"
+        [class.validation-result--expired]="validationResult.status ===
+          TicketValidationStatus.EXPIRED"
+      >
+        <mat-icon aria-hidden="true" class="validation-result__icon">
+          {{ validationStatusIcon(validationResult?.status) }}
+        </mat-icon>
+
+        <div class="validation-result__details">
+          <h3>{{ validationStatusLabel(validationResult?.status) }}</h3>
+          <p>
+            <strong>Ticket ID:</strong>
+            <span>{{ validationResult?.ticketId }}</span>
+          </p>
+          <p>
+            <strong>Validated via:</strong>
+            <span>
+              {{ validationResult?.method === TicketValidationMethod.QR_CODE ? 'QR code' : 'Manual entry' }}
+            </span>
+          </p>
+          <p>
+            <strong>Checked at:</strong>
+            <span>{{ validationResult?.timestamp | date : 'shortTime' }}</span>
+          </p>
+        </div>
+      </div>
+    }
+
+    @if (validationError) {
+      <div class="page__alert page__alert--error">
+        <strong>Validation failed.</strong>
+        <span>{{ validationError }}</span>
+      </div>
+    }
+  </div>
+</section>
