@@ -23,6 +23,7 @@ export class AttendeeTickets implements OnInit, OnDestroy {
   error?: string;
   page?: Page<Ticket>;
   tickets: Ticket[] = [];
+  readonly pageSize = 8;
   readonly ticketsQuickGuide = {
     icon: 'confirmation_number',
     title: 'Ticket Quick Guide',
@@ -52,11 +53,11 @@ export class AttendeeTickets implements OnInit, OnDestroy {
     this.loading = true;
     this.error = undefined;
     this.fetchSub = this.ticketsService
-      .getTickets({ page, size: 10, sort: 'createdAt,desc' })
+      .getTickets({ page, size: this.pageSize, sort: 'createdAt,desc' })
       .subscribe({
         next: (res) => {
           this.page = res;
-          this.tickets = res.content;
+          this.tickets = res.content.slice(0, this.pageSize);
           this.loading = false;
         },
         error: (err) => {

@@ -65,12 +65,12 @@
   }
 
   @if (page; as pageData) {
-    @if (pageData.totalElements > pageData.size) {
+    @if (pageData.totalElements > pageSize) {
       <mat-paginator
         [length]="pageData.totalElements"
         [pageIndex]="pageData.number"
-        [pageSize]="pageData.size"
-        [pageSizeOptions]="[pageData.size]"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[pageSize]"
         [hidePageSize]="true"
         (page)="onPageChange($event)"
       ></mat-paginator>
