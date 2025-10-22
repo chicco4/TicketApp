@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Page } from '../models/interfaces/page';
 import { Event, EventCreate, EventUpdate } from '../models/interfaces/event';
+import { environment } from '../../../environments/environment';
+import { API_CONSTANTS, buildApiUrl } from '../constants/apis';
 
 export interface GetEventsOptions {
   page?: number;
@@ -13,8 +15,11 @@ export interface GetEventsOptions {
 @Injectable({ providedIn: 'root' })
 export class EventsService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = '/api/v1/events';
-  
+  private readonly baseUrl = buildApiUrl(
+    environment.apiUrl,
+    API_CONSTANTS.API_METHODS.EVENTS.GET_EVENTS()
+  );
+
   private pendingSuccessMessage?: string;
 
   /**
@@ -40,21 +45,37 @@ export class EventsService {
    * Get details of a specific event by ID
    */
   getEventById(id: string): Observable<Event> {
-    return this.http.get<Event>(`${this.baseUrl}/${encodeURIComponent(id)}`);
+    return this.http.get<Event>(
+      buildApiUrl(
+        environment.apiUrl,
+        API_CONSTANTS.API_METHODS.EVENTS.GET_EVENT_BY_ID(id)
+      )
+    );
   }
 
   /**
    * Update an existing event
    */
   updateEvent(id: string, event: EventUpdate): Observable<Event> {
-    return this.http.put<Event>(`${this.baseUrl}/${encodeURIComponent(id)}`, event);
+    return this.http.put<Event>(
+      buildApiUrl(
+        environment.apiUrl,
+        API_CONSTANTS.API_METHODS.EVENTS.UPDATE_EVENT(id)
+      ),
+      event
+    );
   }
 
   /**
    * Delete an event
    */
   deleteEvent(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${encodeURIComponent(id)}`);
+    return this.http.delete<void>(
+      buildApiUrl(
+        environment.apiUrl,
+        API_CONSTANTS.API_METHODS.EVENTS.DELETE_EVENT(id)
+      )
+    );
   }
 
   /**

@@ -1,15 +1,20 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { 
-  TicketValidationRequest, 
-  TicketValidationResponse 
+import {
+  TicketValidationRequest,
+  TicketValidationResponse
 } from '../models/interfaces/ticket-validation';
+import { environment } from '../../../environments/environment';
+import { API_CONSTANTS, buildApiUrl } from '../constants/apis';
 
 @Injectable({ providedIn: 'root' })
 export class TicketValidationService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = '/api/v1/ticket-validations';
+  private readonly baseUrl = buildApiUrl(
+    environment.apiUrl,
+    API_CONSTANTS.API_METHODS.TICKET_VALIDATIONS.VALIDATE_TICKET()
+  );
 
   /**
    * Validate a ticket (staff only)

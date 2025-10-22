@@ -2,11 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TicketDetail } from '../models/interfaces/ticket';
+import { environment } from '../../../environments/environment';
+import { API_CONSTANTS, buildApiUrl } from '../constants/apis';
 
 @Injectable({ providedIn: 'root' })
 export class TicketTypesService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = '/api/v1/ticket-types';
 
   /**
    * Purchase one or more tickets of a specific ticket type.
@@ -20,7 +21,10 @@ export class TicketTypesService {
       : undefined;
 
     return this.http.post<TicketDetail[]>(
-      `${this.baseUrl}/${encodeURIComponent(ticketTypeId)}`,
+      buildApiUrl(
+        environment.apiUrl,
+        API_CONSTANTS.API_METHODS.TICKET_TYPES.PURCHASE_TICKETS(ticketTypeId)
+      ),
       null,
       params ? { params } : undefined
     );

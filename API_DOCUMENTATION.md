@@ -18,7 +18,9 @@
 ## Event Management APIs
 **Base Path:** `/api/v1/events`
 
-**Authentication Required:** Yes (JWT)
+**Authentication Required:** Yes (JWT with `ROLE_ORGANIZER`)
+
+**Organizer Scope:** All endpoints operate only on events owned by the authenticated organizer (identified via the JWT `sub` claim).
 
 ### 1. Create Event
 **Endpoint:** `POST /api/v1/events`
@@ -54,6 +56,10 @@
 - `ticketTypes`: Required, at least one ticket type
 - `ticketTypes[].name`: Required, not blank
 - `ticketTypes[].price`: Required, must be zero or greater
+
+**Notes:**
+- `start`, `end`, `salesStart`, and `salesEnd` are optional timestamps.
+- `ticketTypes[].totalAvailable` is optional; omit or set to `null` for unlimited supply.
 
 **Response:** `201 Created`
 ```json
@@ -160,6 +166,7 @@
 {
   "id": "uuid",
   "name": "string",
+  "description": "string",
   "status": "DRAFT | PUBLISHED | CANCELLED | COMPLETED",
   "type": "CONCERT | CONFERENCE | MEETUP | WORKSHOP | FESTIVAL | SPORTS | THEATER | EXHIBITION | PARTY | OTHER",
   "start": "2025-10-20T19:00:00",
@@ -228,6 +235,11 @@
 - `ticketTypes[].name`: Required, not blank
 - `ticketTypes[].price`: Required, must be zero or greater
 
+**Notes:**
+- The `id` in the body must match the `{event-id}` path parameter; otherwise the request is rejected.
+- Provide `ticketTypes[].id` for existing ticket types. Omit the field to create a new ticket type. Ticket types omitted from the array are deleted.
+- `ticketTypes[].totalAvailable` remains optional; set to `null` for unlimited availability.
+
 **Response:** `200 OK`
 ```json
 {
@@ -291,7 +303,7 @@
     {
       "id": "uuid",
       "name": "string",
-      "description": "string",
+      "type": "CONCERT | CONFERENCE | MEETUP | WORKSHOP | FESTIVAL | SPORTS | THEATER | EXHIBITION | PARTY | OTHER",
       "start": "2025-10-20T19:00:00",
       "end": "2025-10-20T23:00:00",
       "venue": "string"
@@ -338,6 +350,7 @@
 {
   "id": "uuid",
   "name": "string",
+  "description": "string",
   "type": "CONCERT | CONFERENCE | MEETUP | WORKSHOP | FESTIVAL | SPORTS | THEATER | EXHIBITION | PARTY | OTHER",
   "start": "2025-10-20T19:00:00",
   "end": "2025-10-20T23:00:00",
@@ -360,7 +373,9 @@
 ## Ticket Management APIs
 **Base Path:** `/api/v1/tickets`
 
-**Authentication Required:** Yes (JWT)
+**Authentication Required:** Yes (JWT; ticket owner only)
+
+**Ownership Scope:** Responses include only tickets purchased by the authenticated user. Requests for tickets owned by someone else return `404 Not Found`.
 
 ### 1. List Tickets (Paginated)
 **Endpoint:** `GET /api/v1/tickets`
@@ -459,7 +474,7 @@ Content-Length: <size-in-bytes>
 ## Ticket Type APIs
 **Base Path:** `/api/v1/ticket-types`
 
-**Authentication Required:** Yes (JWT)
+**Authentication Required:** Yes (JWT; any authenticated user)
 
 ### 1. Purchase Ticket
 **Endpoint:** `POST /api/v1/ticket-types/{ticket-type-id}`
@@ -502,7 +517,7 @@ Location: /api/v1/tickets/{ticket-id}
 ## Ticket Validation APIs
 **Base Path:** `/api/v1/ticket-validations`
 
-**Authentication Required:** Yes (JWT - Staff role)
+**Authentication Required:** Yes (JWT with `ROLE_STAFF`)
 
 ### 1. Validate Ticket
 **Endpoint:** `POST /api/v1/ticket-validations`
@@ -522,6 +537,10 @@ Location: /api/v1/tickets/{ticket-id}
   "status": "VALID | INVALID | EXPIRED"
 }
 ```
+
+**Notes:**
+- Pass the ticket UUID in `id` for both methods. For QR validation, supply the UUID encoded in the ticket's QR code.
+- Tickets validate as `INVALID` if they have an existing successful validation; otherwise they return `VALID`. The `EXPIRED` status may appear if additional business rules mark past events as expired.
 
 **Validation Methods:**
 - `QR_CODE`: Validates ticket using QR code scan

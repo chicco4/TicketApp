@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Page } from '../models/interfaces/page';
 import { Ticket, TicketDetail } from '../models/interfaces/ticket';
+import { environment } from '../../../environments/environment';
+import { API_CONSTANTS, buildApiUrl } from '../constants/apis';
 
 export interface GetTicketsOptions {
   page?: number;
@@ -13,7 +15,10 @@ export interface GetTicketsOptions {
 @Injectable({ providedIn: 'root' })
 export class TicketsService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = '/api/v1/tickets';
+  private readonly baseUrl = buildApiUrl(
+    environment.apiUrl,
+    API_CONSTANTS.API_METHODS.TICKETS.GET_TICKETS()
+  );
 
   /**
    * Get a paginated list of user's tickets
@@ -31,7 +36,12 @@ export class TicketsService {
    * Get details of a specific ticket by ID
    */
   getTicketById(id: string): Observable<TicketDetail> {
-    return this.http.get<TicketDetail>(`${this.baseUrl}/${encodeURIComponent(id)}`);
+    return this.http.get<TicketDetail>(
+      buildApiUrl(
+        environment.apiUrl,
+        API_CONSTANTS.API_METHODS.TICKETS.GET_TICKET_BY_ID(id)
+      )
+    );
   }
 
   /**
@@ -39,9 +49,15 @@ export class TicketsService {
    * Returns a Blob that can be used to display or download the image
    */
   getTicketQrCode(id: string): Observable<Blob> {
-    return this.http.get(`${this.baseUrl}/${encodeURIComponent(id)}/qr-code`, {
-      responseType: 'blob'
-    });
+    return this.http.get(
+      buildApiUrl(
+        environment.apiUrl,
+        API_CONSTANTS.API_METHODS.TICKETS.GET_TICKET_QR_CODE(id)
+      ),
+      {
+        responseType: 'blob'
+      }
+    );
   }
 
   /**

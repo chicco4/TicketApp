@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Page } from '../models/interfaces/page';
 import { PublishedEvent, PublishedEventSummary } from '../models/interfaces/published-event';
 import { EventType } from '../models/enums/event-type.enum';
+import { environment } from '../../../environments/environment';
+import { API_CONSTANTS, buildApiUrl } from '../constants/apis';
 
 export interface GetPublishedEventsOptions {
   query?: string;
@@ -16,7 +18,10 @@ export interface GetPublishedEventsOptions {
 @Injectable({ providedIn: 'root' })
 export class PublishedEventsService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = '/api/v1/published-events';
+  private readonly baseUrl = buildApiUrl(
+    environment.apiUrl,
+    API_CONSTANTS.API_METHODS.PUBLISHED_EVENTS.GET_PUBLISHED_EVENTS()
+  );
 
   /**
    * Get a paginated list of published events
@@ -36,6 +41,11 @@ export class PublishedEventsService {
    * Get details of a single published event by its ID
    */
   getPublishedEventById(id: string): Observable<PublishedEvent> {
-    return this.http.get<PublishedEvent>(`${this.baseUrl}/${encodeURIComponent(id)}`);
+    return this.http.get<PublishedEvent>(
+      buildApiUrl(
+        environment.apiUrl,
+        API_CONSTANTS.API_METHODS.PUBLISHED_EVENTS.GET_PUBLISHED_EVENT_BY_ID(id)
+      )
+    );
   }
 }
