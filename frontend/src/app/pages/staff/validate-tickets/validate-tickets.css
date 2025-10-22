@@ -9,6 +9,10 @@
   gap: clamp(1rem, 0.75rem + 0.5vw, 1.5rem);
 }
 
+.validate-guide {
+  margin-bottom: clamp(1rem, 0.75rem + 0.75vw, 1.75rem);
+}
+
 .validate-mode-toggle {
   display: inline-flex;
   align-items: center;

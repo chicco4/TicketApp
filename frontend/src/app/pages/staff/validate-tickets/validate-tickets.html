@@ -26,6 +26,18 @@
     </button>
   </header>
 
+  @if (showQuickGuide) {
+    <div class="page__section validate-guide">
+      <app-quick-guide-card
+        [avatarIcon]="staffQuickGuide.icon"
+        [title]="staffQuickGuide.title"
+        [subtitle]="staffQuickGuide.subtitle"
+        [steps]="staffQuickGuide.steps"
+        (dismissed)="showQuickGuide = false"
+      />
+    </div>
+  }
+
   <div class="page__section validate-page__layout">
     @if (activeMode === 'qr' && scannerSupported) {
       <article class="validate-card">

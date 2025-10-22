@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TicketValidationService } from '../../../core/services/ticket-validation.service';
 import { TicketValidationMethod } from '../../../core/models/enums/ticket-validation-method.enum';
 import { TicketValidationStatus } from '../../../core/models/enums/ticket-validation-status.enum';
+import { QuickGuideCardComponent, type QuickGuideStep } from '../../../shared/components/quick-guide-card/quick-guide-card';
 
 interface ValidationResult {
   ticketId: string;
@@ -36,6 +37,7 @@ type ValidationMode = 'qr' | 'manual';
     MatInputModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    QuickGuideCardComponent,
   ],
   templateUrl: './validate-tickets.html',
   styleUrl: './validate-tickets.css',
@@ -61,6 +63,17 @@ export class StaffValidateTickets implements OnDestroy {
   validationError?: string;
   scannerError?: string;
   validationResult?: ValidationResult;
+  showQuickGuide = true;
+  readonly staffQuickGuide = {
+    icon: 'badge',
+    title: 'Validation Quick Guide',
+    subtitle: 'Keep the entry line moving with these essentials.',
+    steps: [
+      { icon: 'qr_code_scanner', text: 'Start the QR scanner to validate tickets instantly as guests arrive.' },
+      { icon: 'keyboard', text: 'Switch to manual mode to type or paste ticket codes when scanning is unavailable.' },
+      { icon: 'task_alt', text: 'Review the validation result and direct guests based on the ticket status.' },
+    ] satisfies QuickGuideStep[],
+  };
   activeMode: ValidationMode = this.scannerSupported ? 'qr' : 'manual';
 
   protected readonly TicketValidationMethod = TicketValidationMethod;
