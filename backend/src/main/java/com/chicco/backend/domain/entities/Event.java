@@ -55,10 +55,10 @@ public class Event extends Log {
   @Enumerated(EnumType.STRING)
   private EventTypeEnum type;
 
-  @Column(name = "event_start")
+  @Column(name = "event_start", nullable = false)
   private LocalDateTime start;
 
-  @Column(name = "event_end")
+  @Column(name = "event_end", nullable = false)
   private LocalDateTime end;
 
   @Column(name = "sales_start")

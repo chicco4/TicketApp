@@ -52,13 +52,15 @@
 - `name`: Required, not blank
 - `status`: Required
 - `type`: Required
+- `start`: Required, event start date and time
+- `end`: Required, event end date and time
 - `venue`: Required, not blank
 - `ticketTypes`: Required, at least one ticket type
 - `ticketTypes[].name`: Required, not blank
 - `ticketTypes[].price`: Required, must be zero or greater
 
 **Notes:**
-- `start`, `end`, `salesStart`, and `salesEnd` are optional timestamps.
+- `salesStart` and `salesEnd` are optional timestamps.
 - `ticketTypes[].totalAvailable` is optional; omit or set to `null` for unlimited supply.
 
 **Response:** `201 Created`
@@ -230,6 +232,8 @@
 - `name`: Required, not blank
 - `status`: Required
 - `type`: Required
+- `start`: Required, event start date and time
+- `end`: Required, event end date and time
 - `venue`: Required, not blank
 - `ticketTypes`: Required, at least one ticket type
 - `ticketTypes[].name`: Required, not blank
@@ -238,6 +242,7 @@
 **Notes:**
 - The `id` in the body must match the `{event-id}` path parameter; otherwise the request is rejected.
 - Provide `ticketTypes[].id` for existing ticket types. Omit the field to create a new ticket type. Ticket types omitted from the array are deleted.
+- `salesStart` and `salesEnd` remain optional timestamps.
 - `ticketTypes[].totalAvailable` remains optional; set to `null` for unlimited availability.
 
 **Response:** `200 OK`

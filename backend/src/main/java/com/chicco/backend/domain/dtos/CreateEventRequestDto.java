@@ -31,8 +31,10 @@ public class CreateEventRequestDto {
   @NotNull(message = "Event type must be provided")
   private EventTypeEnum type;
 
+  @NotNull(message = "Event start date and time is required")
   private LocalDateTime start;
 
+  @NotNull(message = "Event end date and time is required")
   private LocalDateTime end;
 
   private LocalDateTime salesStart;
