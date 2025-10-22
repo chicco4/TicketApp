@@ -3,7 +3,7 @@ make docker compose dockerize the entire application
 add github pipeline with at least 2 stages to show proof
 remove index.ts not needed from core components to export
 
-make constants folder with apis.ts similar to this:
+add core/constants folder with apis.ts similar to this:
 
 ```ts
 export const constant = {
