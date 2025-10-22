@@ -4,6 +4,17 @@
   gap: clamp(1.5rem, 1rem + 1vw, 2rem);
 }
 
+.validate-page__header {
+  align-items: flex-start;
+  gap: clamp(1rem, 0.75rem + 0.5vw, 1.5rem);
+}
+
+.validate-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .validate-card {
   border: 1px solid
     color-mix(in srgb, var(--mat-sys-outline-variant, #cbd5f5) 60%, transparent);

@@ -1,26 +1,39 @@
 <section class="page page--wide validate-page">
-  <header class="page__header">
+  <header class="page__header validate-page__header">
     <div class="page__intro">
       <h1 class="page__title">Validate Tickets</h1>
       <p class="page__subtitle">
         Scan QR codes or enter ticket IDs to confirm attendee access in real-time.
       </p>
     </div>
+    <button
+      mat-stroked-button
+      class="validate-mode-toggle"
+      type="button"
+      (click)="toggleMode()"
+      [disabled]="validating || (!scannerSupported && activeMode === 'manual')"
+    >
+      @if (!scannerSupported) {
+        <mat-icon aria-hidden="true">block</mat-icon>
+        <span>QR scanner unavailable</span>
+      } @else if (activeMode === 'qr') {
+        <mat-icon aria-hidden="true">keyboard</mat-icon>
+        <span>Switch to manual entry</span>
+      } @else {
+        <mat-icon aria-hidden="true">qr_code_scanner</mat-icon>
+        <span>Switch to QR scanner</span>
+      }
+    </button>
   </header>
 
   <div class="page__section validate-page__layout">
-    <article class="validate-card">
-      <header class="validate-card__header">
-        <h2>Scan a QR code</h2>
-        <p>Use your device camera to validate tickets instantly.</p>
-      </header>
+    @if (activeMode === 'qr' && scannerSupported) {
+      <article class="validate-card">
+        <header class="validate-card__header">
+          <h2>Scan a QR code</h2>
+          <p>Use your device camera to validate tickets instantly.</p>
+        </header>
 
-      @if (!scannerSupported) {
-        <div class="page__alert page__alert--error">
-          <strong>QR scanning is not supported by this browser.</strong>
-          <span>Use the manual validation option instead.</span>
-        </div>
-      } @else {
         <div class="scanner">
           <video
             #scannerVideo
@@ -56,50 +69,57 @@
             <p class="scanner__error">{{ scannerError }}</p>
           }
         </div>
-      }
-    </article>
+      </article>
+    } @else {
+      <article class="validate-card">
+        <header class="validate-card__header">
+          <h2>Validate manually</h2>
+          <p>Type or paste a ticket code to validate without scanning.</p>
+        </header>
 
-    <article class="validate-card">
-      <header class="validate-card__header">
-        <h2>Validate manually</h2>
-        <p>Type or paste a ticket code to validate without scanning.</p>
-      </header>
+        @if (!scannerSupported) {
+          <div class="page__alert page__alert--error">
+            <strong>QR scanning is not supported by this browser.</strong>
+            <span>Use the manual validation option instead.</span>
+          </div>
+        }
 
-      <form
-        class="manual-form"
-        [formGroup]="manualForm"
-        (ngSubmit)="submitManual()"
-        novalidate
-      >
-        <mat-form-field appearance="outline" class="manual-form__field">
-          <mat-label>Ticket code</mat-label>
-          <input
-            matInput
-            autocomplete="off"
-            formControlName="code"
-            placeholder="e.g. TCKT-1234-5678"
-            required
-          />
-          @if (manualForm.controls.code.hasError('required') && manualForm.controls.code.touched) {
-            <mat-error>Ticket code is required.</mat-error>
-          } @else if (manualForm.controls.code.hasError('minlength') && manualForm.controls.code.touched) {
-            <mat-error>Enter at least 4 characters.</mat-error>
-          }
-        </mat-form-field>
+        <form
+          class="manual-form"
+          [formGroup]="manualForm"
+          (ngSubmit)="submitManual()"
+          novalidate
+        >
+          <mat-form-field appearance="outline" class="manual-form__field">
+            <mat-label>Ticket code</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="code"
+              placeholder="e.g. TCKT-1234-5678"
+              required
+            />
+            @if (manualForm.controls.code.hasError('required') && manualForm.controls.code.touched) {
+              <mat-error>Ticket code is required.</mat-error>
+            } @else if (manualForm.controls.code.hasError('minlength') && manualForm.controls.code.touched) {
+              <mat-error>Enter at least 4 characters.</mat-error>
+            }
+          </mat-form-field>
 
-        <div class="manual-form__actions">
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            [disabled]="manualForm.invalid || validating"
-          >
-            <mat-icon aria-hidden="true">verified</mat-icon>
-            <span>Validate ticket</span>
-          </button>
-        </div>
-      </form>
-    </article>
+          <div class="manual-form__actions">
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="manualForm.invalid || validating"
+            >
+              <mat-icon aria-hidden="true">verified</mat-icon>
+              <span>Validate ticket</span>
+            </button>
+          </div>
+        </form>
+      </article>
+    }
   </div>
 
   <div class="page__section validate-results">

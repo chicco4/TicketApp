@@ -1,11 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -27,6 +21,8 @@ interface ValidationResult {
   code: string;
   timestamp: Date;
 }
+
+type ValidationMode = 'qr' | 'manual';
 
 @Component({
   selector: 'app-staff-validate-tickets',
@@ -65,6 +61,7 @@ export class StaffValidateTickets implements OnDestroy {
   validationError?: string;
   scannerError?: string;
   validationResult?: ValidationResult;
+  activeMode: ValidationMode = this.scannerSupported ? 'qr' : 'manual';
 
   protected readonly TicketValidationMethod = TicketValidationMethod;
   protected readonly TicketValidationStatus = TicketValidationStatus;
@@ -95,6 +92,10 @@ export class StaffValidateTickets implements OnDestroy {
   }
 
   async toggleScanner(): Promise<void> {
+    if (this.activeMode !== 'qr') {
+      return;
+    }
+
     if (this.scannerActive) {
       this.stopScanner();
       return;
@@ -221,6 +222,35 @@ export class StaffValidateTickets implements OnDestroy {
       console.error('Failed to detect QR code', error);
       this.scannerError =
         'Unable to read QR code. Adjust the camera and lighting, then try again.';
+    }
+  }
+
+  toggleMode(): void {
+    if (!this.scannerSupported) {
+      return;
+    }
+
+    const next: ValidationMode = this.activeMode === 'qr' ? 'manual' : 'qr';
+    this.setMode(next);
+  }
+
+  setMode(mode: ValidationMode): void {
+    if (mode === 'qr' && !this.scannerSupported) {
+      this.activeMode = 'manual';
+      return;
+    }
+
+    if (this.activeMode === mode) {
+      return;
+    }
+
+    this.activeMode = mode;
+
+    if (mode === 'manual') {
+      this.stopScanner();
+    } else {
+      this.validationError = undefined;
+      this.scannerError = undefined;
     }
   }
 
