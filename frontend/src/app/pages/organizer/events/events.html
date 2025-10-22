@@ -97,7 +97,7 @@
                       <mat-icon matListItemIcon>confirmation_number</mat-icon>
                       <div matListItemTitle>{{ ticket.name }}</div>
                       <div matListItemLine>
-                        <span>${{ ticket.price | number: '1.2-2' }}</span>
+                        <span>{{ ticket.price | money }}</span>
                         @if (ticket.totalAvailable !== undefined) {
                           <span> &middot; {{ ticket.totalAvailable }} available</span>
                         }

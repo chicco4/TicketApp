@@ -7,11 +7,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription, switchMap } from 'rxjs';
 import { TicketsService } from '../../../core/services/tickets.service';
 import { TicketDetail } from '../../../core/models/interfaces/ticket';
+import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 
 @Component({
   selector: 'app-attendee-ticket-details',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatProgressSpinnerModule, DatePipe],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatProgressSpinnerModule, DatePipe, MoneyPipe],
   templateUrl: './ticket-details.html',
   styleUrl: './ticket-details.css'
 })

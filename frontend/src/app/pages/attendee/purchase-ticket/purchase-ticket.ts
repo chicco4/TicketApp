@@ -12,6 +12,7 @@ import { PublishedEvent } from '../../../core/models/interfaces/published-event'
 import { TicketType } from '../../../core/models/interfaces/ticket-type';
 import { TicketTypesService } from '../../../core/services/ticket-types.service';
 import { EMPTY, of, Subscription, switchMap } from 'rxjs';
+import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 
 @Component({
   selector: 'app-purchase-ticket',
@@ -23,7 +24,8 @@ import { EMPTY, of, Subscription, switchMap } from 'rxjs';
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MoneyPipe,
   ],
   templateUrl: './purchase-ticket.html',
   styleUrl: './purchase-ticket.css'

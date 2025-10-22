@@ -8,11 +8,12 @@ import { PublishedEventsService } from '../../../core/services/published-events.
 import { PublishedEvent } from '../../../core/models/interfaces/published-event';
 import { Subscription, switchMap } from 'rxjs';
 import { getEventTypeImage } from '../../../core/utils/event-type-images';
+import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 
 @Component({
   selector: 'app-attendee-event-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule, MoneyPipe],
   templateUrl: './published-event-details.html',
   styleUrl: './published-event-details.css'
 })

@@ -51,7 +51,7 @@
               @if (ticket.ticketType.price != null) {
                 <div class="ticket-info">
                   <span class="label">Price:</span>
-                  <span class="value">{{ ticket.ticketType.price | currency }}</span>
+                  <span class="value">{{ ticket.ticketType.price | money }}</span>
                 </div>
               }
             </mat-card-content>

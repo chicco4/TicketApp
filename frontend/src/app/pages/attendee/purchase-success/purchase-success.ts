@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TicketDetail } from '../../../core/models/interfaces/ticket';
 import { PublishedEvent } from '../../../core/models/interfaces/published-event';
 import { TicketType } from '../../../core/models/interfaces/ticket-type';
+import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 
 interface PurchaseSuccessState {
   tickets?: TicketDetail[];
@@ -17,7 +18,7 @@ interface PurchaseSuccessState {
 @Component({
   selector: 'app-purchase-success',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MoneyPipe],
   templateUrl: './purchase-success.html',
   styleUrl: './purchase-success.css'
 })

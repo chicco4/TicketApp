@@ -25,7 +25,7 @@
           <div class="ticket-info">
             <h3>{{ ticketType.name }}</h3>
             <p class="description">{{ ticketType.description }}</p>
-            <p class="price">{{ ticketType.price | currency }} per ticket</p>
+            <p class="price">{{ ticketType.price | money }} per ticket</p>
           </div>
 
           <div class="event-info">
@@ -53,7 +53,7 @@
 
           <div class="total">
             <strong>Total:</strong>
-            <span class="total-amount">{{ getTotalPrice() | currency }}</span>
+            <span class="total-amount">{{ getTotalPrice() | money }}</span>
           </div>
         </form>
 

@@ -10,11 +10,20 @@ import { TicketsService } from '../../../core/services/tickets.service';
 import { Page } from '../../../core/models/interfaces/page';
 import { Ticket } from '../../../core/models/interfaces/ticket';
 import { QuickGuideCardComponent, type QuickGuideStep } from '../../../shared/components/quick-guide-card/quick-guide-card';
+import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 
 @Component({
   selector: 'app-attendee-tickets',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatPaginatorModule, MatProgressSpinnerModule, QuickGuideCardComponent],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    QuickGuideCardComponent,
+    MoneyPipe,
+  ],
   templateUrl: './tickets.html',
   styleUrl: './tickets.css'
 })

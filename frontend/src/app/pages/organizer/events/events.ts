@@ -12,6 +12,7 @@ import { EventsService } from '../../../core/services/events.service';
 import { Event } from '../../../core/models/interfaces/event';
 import { Page } from '../../../core/models/interfaces/page';
 import { QuickGuideCardComponent, type QuickGuideStep } from '../../../shared/components/quick-guide-card/quick-guide-card';
+import { MoneyPipe } from '../../../shared/pipes/money.pipe';
 
 @Component({
   selector: 'app-organizer-events',
@@ -27,6 +28,7 @@ import { QuickGuideCardComponent, type QuickGuideStep } from '../../../shared/co
     MatPaginatorModule,
     MatProgressSpinnerModule,
     QuickGuideCardComponent,
+    MoneyPipe,
   ],
   templateUrl: './events.html',
   styleUrl: './events.css'
