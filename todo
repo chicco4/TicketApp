@@ -2,32 +2,3 @@ fix docker compose to make it set up keycloak
 make docker compose dockerize the entire application
 add github pipeline with at least 2 stages to show proof
 remove index.ts not needed from core components to export
-
-add core/constants folder with apis.ts similar to this:
-
-```ts
-export const constant = {
-  MODULE_NAME: {
-    APP: 'CarRentalApp',
-  },
-  API_METHODS: {
-    CAR_RENTAL: {
-      GET_ALL_CARS: 'getAllCars',
-      GET_CAR_BY_ID: 'getCarById',
-      ADD_CAR: 'addCar',
-      UPDATE_CAR: 'updateCar',
-      DELETE_CAR: 'deleteCar',
-    }
-  },
-  VALIDATION_MESSAGES: {
-    REQUIRED: 'This field is required'
-  }
-}
-getAllCars() {
-    return this.http.get(
-      environment.apiUrl + constant.MODULE_NAME.CAR + '/' + constant.API_METHODS.CAR_RENTAL.GET_ALL_CARS
-    );
-  }
-```
-
-do it for bad responses too
