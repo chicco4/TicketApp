@@ -1,7 +1,3 @@
-add money pipe
-add pagination and filters to pub envent
-add recap and back to manage events after event creation
-merge ?quantity param in purchase ticket frontend and backend
 fix docker compose to make it set up keycloak
 make docker compose dockerize the entire application
 add github pipeline with at least 2 stages to show proof
@@ -34,4 +30,4 @@ getAllCars() {
   }
 ```
 
-make constrants for bad responses too
+do it for bad responses too
