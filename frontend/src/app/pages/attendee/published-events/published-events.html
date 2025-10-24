@@ -65,7 +65,11 @@
   } @else if (error) {
     <div class="page__alert page__alert--error error">{{ error }}</div>
   } @else if (events.length === 0) {
-    <div class="page__empty empty">No events available.</div>
+    <div class="page__empty empty empty-state">
+      <mat-icon>event_busy</mat-icon>
+      <h2>No events available</h2>
+      <p>Check back soon for new experiences to join.</p>
+    </div>
   } @else {
     <div class="card-grid">
       @for (event of events; track event.id) {

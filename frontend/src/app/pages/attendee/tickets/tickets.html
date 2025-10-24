@@ -32,7 +32,11 @@
     </div>
   } @else {
     @if (tickets.length === 0) {
-      <p class="page__empty empty">You have not purchased any tickets yet.</p>
+      <div class="page__empty empty empty-state">
+        <mat-icon>confirmation_number</mat-icon>
+        <h2>No tickets yet</h2>
+        <p>Purchase tickets to see them listed here.</p>
+      </div>
     } @else {
       <div class="ticket-grid">
         @for (ticket of tickets; track ticket.id) {

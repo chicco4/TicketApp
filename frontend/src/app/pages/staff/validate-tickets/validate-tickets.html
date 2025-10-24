@@ -13,16 +13,12 @@
       (click)="toggleMode()"
       [disabled]="validating || (!scannerSupported && activeMode === 'manual')"
     >
-      @if (!scannerSupported) {
-        <mat-icon aria-hidden="true">block</mat-icon>
-        <span>QR scanner unavailable</span>
-      } @else if (activeMode === 'qr') {
-        <mat-icon aria-hidden="true">keyboard</mat-icon>
-        <span>Switch to manual entry</span>
-      } @else {
-        <mat-icon aria-hidden="true">qr_code_scanner</mat-icon>
-        <span>Switch to QR scanner</span>
-      }
+      <mat-icon aria-hidden="true">
+        @if (!scannerSupported) {block} @else if (activeMode === 'qr') {keyboard} @else {qr_code_scanner}
+      </mat-icon>
+      <span>
+        @if (!scannerSupported) {QR scanner unavailable} @else if (activeMode === 'qr') {Switch to manual entry} @else {Switch to QR scanner}
+      </span>
     </button>
   </header>
 
@@ -69,13 +65,12 @@
             (click)="toggleScanner()"
             [disabled]="validating"
           >
-            @if (scannerActive) {
-              <mat-icon aria-hidden="true">stop</mat-icon>
-              <span>Stop scanning</span>
-            } @else {
-              <mat-icon aria-hidden="true">play_circle</mat-icon>
-              <span>Start scanning</span>
-            }
+            <mat-icon aria-hidden="true">
+              @if (scannerActive) {stop} @else {play_circle}
+            </mat-icon>
+            <span>
+              @if (scannerActive) {Stop scanning} @else {Start scanning}
+            </span>
           </button>
           @if (scannerError) {
             <p class="scanner__error">{{ scannerError }}</p>
@@ -156,24 +151,24 @@
           TicketValidationStatus.EXPIRED"
       >
         <mat-icon aria-hidden="true" class="validation-result__icon">
-          {{ validationStatusIcon(validationResult?.status) }}
+          {{ validationStatusIcon(validationResult.status) }}
         </mat-icon>
 
         <div class="validation-result__details">
-          <h3>{{ validationStatusLabel(validationResult?.status) }}</h3>
+          <h3>{{ validationStatusLabel(validationResult.status) }}</h3>
           <p>
             <strong>Ticket ID:</strong>
-            <span>{{ validationResult?.ticketId }}</span>
+            <span>{{ validationResult.ticketId }}</span>
           </p>
           <p>
             <strong>Validated via:</strong>
             <span>
-              {{ validationResult?.method === TicketValidationMethod.QR_CODE ? 'QR code' : 'Manual entry' }}
+              {{ validationResult.method === TicketValidationMethod.QR_CODE ? 'QR code' : 'Manual entry' }}
             </span>
           </p>
           <p>
             <strong>Checked at:</strong>
-            <span>{{ validationResult?.timestamp | date : 'shortTime' }}</span>
+            <span>{{ validationResult.timestamp | date : 'shortTime' }}</span>
           </p>
         </div>
       </div>

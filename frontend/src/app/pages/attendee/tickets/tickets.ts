@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
@@ -19,6 +20,7 @@ import { MoneyPipe } from '../../../shared/pipes/money.pipe';
     CommonModule,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     QuickGuideCardComponent,
