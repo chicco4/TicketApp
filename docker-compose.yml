@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    image: postgres:17.0
     ports:
       - "5432:5432"
     environment:
@@ -10,11 +10,11 @@ services:
     # volumes:
     #   - postgres-data:/var/lib/postgresql/data
     networks:
-      - backend-network 
+      - backend-network
     restart: always
-  
+
   adminer:
-    image: adminer:latest
+    image: adminer:4.8.1
     ports:
       - "8888:8080"
     networks:
@@ -22,9 +22,9 @@ services:
     depends_on:
       - db
     restart: always
-  
+
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:26.3.5
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -33,9 +33,12 @@ services:
       DB_DATABASE: db
     ports:
       - "9090:8080"
+    volumes:
+      - ./event-ticket-platform-realm.json:/opt/keycloak/data/import/event-ticket-platform-realm.json:z
     command:
       - start-dev
       - --db=dev-file
+      - --import-realm
     depends_on:
       - db
     networks:
