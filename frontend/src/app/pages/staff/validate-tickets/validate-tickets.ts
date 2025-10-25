@@ -239,20 +239,11 @@ export class StaffValidateTickets implements OnDestroy {
   }
 
   toggleMode(): void {
-    if (!this.scannerSupported) {
-      return;
-    }
-
     const next: ValidationMode = this.activeMode === 'qr' ? 'manual' : 'qr';
     this.setMode(next);
   }
 
   setMode(mode: ValidationMode): void {
-    if (mode === 'qr' && !this.scannerSupported) {
-      this.activeMode = 'manual';
-      return;
-    }
-
     if (this.activeMode === mode) {
       return;
     }

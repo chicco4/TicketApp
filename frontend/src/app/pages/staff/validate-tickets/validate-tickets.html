@@ -11,13 +11,13 @@
       class="validate-mode-toggle"
       type="button"
       (click)="toggleMode()"
-      [disabled]="validating || (!scannerSupported && activeMode === 'manual')"
+      [disabled]="validating"
     >
       <mat-icon aria-hidden="true">
-        @if (!scannerSupported) {block} @else if (activeMode === 'qr') {keyboard} @else {qr_code_scanner}
+        @if (activeMode === 'qr') {keyboard} @else {qr_code_scanner}
       </mat-icon>
       <span>
-        @if (!scannerSupported) {QR scanner unavailable} @else if (activeMode === 'qr') {Switch to manual entry} @else {Switch to QR scanner}
+        @if (activeMode === 'qr') {Switch to manual entry} @else {Switch to QR scanner}
       </span>
     </button>
   </header>
@@ -35,7 +35,7 @@
   }
 
   <div class="page__section validate-page__layout">
-    @if (activeMode === 'qr' && scannerSupported) {
+    @if (activeMode === 'qr') {
       <article class="validate-card">
         <header class="validate-card__header">
           <h2>Scan a QR code</h2>
@@ -83,13 +83,6 @@
           <h2>Validate manually</h2>
           <p>Type or paste a ticket code to validate without scanning.</p>
         </header>
-
-        @if (!scannerSupported) {
-          <div class="page__alert page__alert--error">
-            <strong>QR scanning is not supported by this browser.</strong>
-            <span>Use the manual validation option instead.</span>
-          </div>
-        }
 
         <form
           class="manual-form"
