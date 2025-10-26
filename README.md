@@ -1,84 +1,83 @@
 # TicketApp
 
-A small Event Ticket Platform (backend). This repository contains a Spring Boot 3.x application written for Java 21.
+TicketApp is a full-stack event ticketing platform with a Spring Boot 3 (Java 21) backend, an Angular 20 frontend, and Keycloak-secured authentication. The project is designed for local development with Dockerised infrastructure services.
 
-Quick start (backend)
+## Repository Layout
+- `backend/` – Spring Boot REST API, Maven wrapper, and OpenAPI documentation.
+- `frontend/` – Angular application that consumes the backend APIs through a local proxy.
+- `scripts/` – Utility scripts such as `seed-events.js` for populating sample data.
+- `docker-compose.yml` – Local infrastructure (PostgreSQL, Adminer, Keycloak).
 
-1. Build the project (uses the included Maven wrapper):
+## Prerequisites
+- Java 21 (Preferred vendor: Temurin/OpenJDK).
+- Node.js 20.x and npm (required for the Angular frontend and utility scripts).
+- Docker Desktop or Docker Engine with Docker Compose v2.
+- Optional: `curl` or similar tool for manual API testing.
 
-```
-./mvnw -DskipTests package
+## Getting Started
 
-# or
+1. **Start infrastructure services**  
+   ```bash
+   docker compose up -d
+   ```  
+   This launches PostgreSQL, Adminer, and Keycloak with preconfigured realms and credentials.
 
-./mvnw -U -e clean package -DskipTests
-```
+2. **Run the backend**  
+   ```bash
+   cd backend
+   ./mvnw spring-boot:run
+   ```  
+   The API is available at `http://localhost:8080`. Swagger UI lives at `/api/v1/docs/ui`.
 
-2. Run the backend:
+3. **Run the frontend**  
+   ```bash
+   cd frontend
+   npm install
+   npm run start
+   ```  
+   The dev server listens on `http://localhost:4200` and proxies API calls to the backend. The default Angular configuration uses Keycloak for login.
 
-```
-./mvnw spring-boot:run
-```
+4. **(Optional) Seed sample events**  
+   With the backend and Keycloak running, execute:  
+   ```bash
+   node scripts/seed-events.js
+   ```  
+   The script obtains an OAuth2 token via the organizer test user and creates a curated set of events.
 
-3. Run tests:
+## Useful Commands
+- Backend build (skip tests):  
+  ```bash
+  cd backend
+  ./mvnw -DskipTests package
+  ```
+- Backend tests:  
+  ```bash
+  cd backend
+  ./mvnw test
+  ```
+- Frontend production build:  
+  ```bash
+  cd frontend
+  npm run build
+  ```
+- Frontend unit tests (Karma):  
+  ```bash
+  cd frontend
+  npm test
+  ```
 
-```
-./mvnw test
-```
+## Authentication and Services
+- **Keycloak admin** – username `admin`, password `admin`, console at `http://localhost:9090/admin`.  
+- **Keycloak realm** – `event-ticket-platform`, client `event-ticket-platform-app`.  
+- **Test users** – `organizer1/password`, `attendee1/password`, `staff1/password`.  
+- **Token endpoint** – `http://localhost:9090/realms/event-ticket-platform/protocol/openid-connect/token`.
+- **Adminer (DB viewer)** – `http://localhost:8888` with DB credentials `user/password`.
 
-Useful endpoints (when running locally):
+## API Documentation
+- OpenAPI JSON/YAML: `http://localhost:8080/api/v1/docs`
+- Swagger UI: `http://localhost:8080/api/v1/docs/ui`
 
-- OpenAPI JSON/YAML: http://localhost:8080/api/v1/docs
-- Swagger UI: http://localhost:8080/api/v1/docs/ui
-
-Notes
-
-- The app expects a PostgreSQL database by default (configured in `src/main/resources/application.properties`). For development you can point to a local Postgres instance or change the properties to use an in-memory H2 profile.
-- Use Java 21 to compile and run (see `pom.xml`).
-
-Recommended next steps
-
-- Add a short CONTRIBUTING.md with how to run local DB, migrations, and test data.
-- Add CI (GitHub Actions) to run `./mvnw -DskipTests package` and tests on push/PR.
-
-# adminer
-user: user
-password: password
-
-# keycloak
-user: admin
-password: admin
-
-## settings
-base_url = http://localhost:8080 
-keycloak_url = http://localhost:9090
-realm = event-ticket-platform
-client_id = event-ticket-platform-app
-
-### ornanizer test user
-username = organizer1
-password = password
-
-### attendee test user
-username = attendee1
-password = password
-
-### staff test user
-username = staff1
-password = password
-
-## to get the bearer token
-
-http://localhost:9090/realms/event-ticket-platform/protocol/openid-connect/token
-
-body type: form url encoded
-
-grant_type: password
-client_id: event-ticket-platform-app
-username: organizer1
-password: password
-
-
-to seed events:
-
-node scripts/seed-events.js
+## Troubleshooting Tips
+- Ensure Docker containers are healthy (`docker compose ps`) before starting the backend.
+- Keycloak runs in dev-file mode; the realm is auto-imported from `event-ticket-platform-realm.json`. Restart containers if you change the realm.
+- If Angular login loops, verify the backend is reachable at `http://localhost:8080` and that CORS origins include `http://localhost:4200` (configurable via `backend/src/main/resources/application.properties`).
