@@ -28,9 +28,6 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      DB_USER: user
-      DB_PASSWORD: password
-      DB_DATABASE: db
     ports:
       - "9090:8080"
     volumes:
@@ -39,16 +36,9 @@ services:
       - start-dev
       - --db=dev-file
       - --import-realm
-    depends_on:
-      - db
     networks:
       - backend-network
     restart: always
-
-volumes:
-  # data:
-  keycloak-data:
-    driver: local
 
 networks:
   backend-network:

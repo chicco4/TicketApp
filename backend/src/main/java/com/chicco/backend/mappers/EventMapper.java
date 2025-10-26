@@ -4,11 +4,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import com.chicco.backend.domain.CreateEventRequest;
-import com.chicco.backend.domain.dtos.UpdateEventRequestDto;
-import com.chicco.backend.domain.dtos.UpdateEventResponseDto;
 import com.chicco.backend.domain.CreateTicketTypeRequest;
 import com.chicco.backend.domain.UpdateEventRequest;
 import com.chicco.backend.domain.UpdateTicketTypeRequest;
+import com.chicco.backend.domain.dtos.CreateEventResponseDto;
+import com.chicco.backend.domain.dtos.CreateTicketTypeResponseDto;
+import com.chicco.backend.domain.dtos.UpdateEventRequestDto;
+import com.chicco.backend.domain.dtos.UpdateEventResponseDto;
 import com.chicco.backend.domain.dtos.UpdateTicketTypeRequestDto;
 import com.chicco.backend.domain.dtos.UpdateTicketTypeResponseDto;
 import com.chicco.backend.domain.dtos.CreateEventRequestDto;
@@ -29,7 +31,9 @@ public interface EventMapper {
 
   CreateEventRequest fromCreateEventRequestDto(CreateEventRequestDto dto);
 
-  UpdateEventResponseDto toGetEventUpdateResponseDto(Event event);
+  CreateTicketTypeResponseDto toCreateTicketTypeResponseDto(TicketType ticketType);
+
+  CreateEventResponseDto toCreateEventResponseDto(Event event);
 
   ListEventTicketTypeResponseDto toListEventTicketTypeResponseDto(TicketType ticketType);
 

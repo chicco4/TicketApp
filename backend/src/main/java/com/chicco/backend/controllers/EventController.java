@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chicco.backend.domain.CreateEventRequest;
 import com.chicco.backend.domain.UpdateEventRequest;
-import com.chicco.backend.domain.dtos.UpdateEventResponseDto;
 import com.chicco.backend.domain.dtos.CreateEventRequestDto;
+import com.chicco.backend.domain.dtos.CreateEventResponseDto;
 import com.chicco.backend.domain.dtos.GetEventDetailsResponseDto;
 import com.chicco.backend.domain.dtos.ListEventResponseDto;
 import com.chicco.backend.domain.dtos.UpdateEventRequestDto;
+import com.chicco.backend.domain.dtos.UpdateEventResponseDto;
 import com.chicco.backend.domain.entities.Event;
 import com.chicco.backend.mappers.EventMapper;
 import com.chicco.backend.services.EventService;
@@ -42,7 +43,7 @@ public class EventController {
   private final EventService eventService;
 
   @PostMapping
-  public ResponseEntity<UpdateEventResponseDto> createEvent(
+  public ResponseEntity<CreateEventResponseDto> createEvent(
       @AuthenticationPrincipal Jwt jwt,
       @Valid @RequestBody CreateEventRequestDto createEventRequestDto) {
 
@@ -50,7 +51,7 @@ public class EventController {
     UUID userId = parseUserId(jwt);
 
     Event createdEvent = eventService.createEvent(userId, createEventRequest);
-      UpdateEventResponseDto createEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
+    CreateEventResponseDto createEventResponseDto = eventMapper.toCreateEventResponseDto(createdEvent);
 
     return new ResponseEntity<>(createEventResponseDto, HttpStatus.CREATED);
   }
@@ -88,7 +89,7 @@ public class EventController {
     UUID userId = parseUserId(jwt);
 
     Event createdEvent = eventService.updateEventForOrganizer(userId, eventId, updateEventRequest);
-      UpdateEventResponseDto updateEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
+    UpdateEventResponseDto updateEventResponseDto = eventMapper.toUpdateEventResponseDto(createdEvent);
 
     return ResponseEntity.ok(updateEventResponseDto);
   }
