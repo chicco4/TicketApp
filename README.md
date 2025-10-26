@@ -77,3 +77,8 @@ grant_type: password
 client_id: event-ticket-platform-app
 username: organizer1
 password: password
+
+
+to seed events:
+
+node scripts/seed-events.js
