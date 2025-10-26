@@ -56,7 +56,6 @@ public class JwtAuthenticationConverter implements Converter<Jwt, JwtAuthenticat
     return authorities;
   }
 
-  @SuppressWarnings("unchecked")
   private Collection<String> extractRoleCollection(Object rolesObject) {
     if (!(rolesObject instanceof Collection<?> rolesCollection)) {
       return Collections.emptyList();
