@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.chicco.backend.domain.entities.Ticket;
 import com.chicco.backend.exceptions.QrCodeGenerationException;
+import com.chicco.backend.exceptions.TicketNotFoundException;
 import com.chicco.backend.repositories.TicketRepository;
 import com.chicco.backend.services.TicketService;
 
@@ -47,7 +48,7 @@ public class TicketServiceImpl implements TicketService {
   @Override
   public byte[] getQrCodeImageForUserAndTicket(UUID userId, UUID ticketId) {
     Ticket ticket = ticketRepository.findByIdAndPurchaserId(ticketId, userId)
-        .orElseThrow(() -> new RuntimeException("Ticket not found or not owned by user"));
+        .orElseThrow(() -> new TicketNotFoundException("Ticket not found or not owned by user"));
 
     // If not yet generated, generate and persist
     if (ticket.getQrValue() == null || ticket.getQrValue().isBlank()) {

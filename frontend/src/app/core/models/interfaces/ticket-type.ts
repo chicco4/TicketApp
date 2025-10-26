@@ -3,7 +3,7 @@ export interface TicketType {
   name: string;
   description?: string;
   price: number;
-  totalAvailable?: number;
+  totalAvailable?: number | null;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -12,7 +12,7 @@ export interface TicketTypeCreate {
   name: string;
   description?: string;
   price: number;
-  totalAvailable: number;
+  totalAvailable?: number | null;
 }
 
 export interface TicketTypeUpdate {
@@ -20,5 +20,5 @@ export interface TicketTypeUpdate {
   name: string;
   description?: string;
   price: number;
-  totalAvailable: number;
+  totalAvailable?: number | null;
 }

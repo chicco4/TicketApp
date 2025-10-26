@@ -99,8 +99,10 @@
                       <div matListItemTitle>{{ ticket.name }}</div>
                       <div matListItemLine>
                         <span>{{ ticket.price | money }}</span>
-                        @if (ticket.totalAvailable !== undefined) {
+                        @if (ticket.totalAvailable !== undefined && ticket.totalAvailable !== null) {
                           <span> &middot; {{ ticket.totalAvailable }} available</span>
+                        } @else {
+                          <span> &middot; Unlimited availability</span>
                         }
                       </div>
                     </mat-list-item>

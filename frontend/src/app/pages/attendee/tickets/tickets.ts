@@ -73,7 +73,7 @@ export class AttendeeTickets implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message || 'Failed to load tickets.';
+          this.error = err?.error?.error || err?.error?.message || 'Failed to load tickets.';
         }
       });
   }

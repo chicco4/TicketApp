@@ -44,7 +44,7 @@ export class AttendeeEventDetails implements OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message || 'Failed to load event details.';
+          this.error = err?.error?.error || err?.error?.message || 'Failed to load event details.';
         },
       });
   }

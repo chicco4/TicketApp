@@ -36,7 +36,7 @@ type TicketTypeFormGroup = FormGroup<{
   name: FormControl<string>;
   description: FormControl<string>;
   price: FormControl<number>;
-  totalAvailable: FormControl<number>;
+  totalAvailable: FormControl<number | null>;
 }>;
 
 type EventFormGroup = FormGroup<{
@@ -211,13 +211,31 @@ export class OrganizerUpdateEvent implements OnInit {
       return;
     }
 
-    const ticketTypes: TicketTypeUpdate[] = formValue.ticketTypes.map((ticket) => ({
-      id: ticket.id?.trim() || undefined,
-      name: ticket.name.trim(),
-      description: this.emptyToUndefined(ticket.description),
-      price: Number(ticket.price),
-      totalAvailable: Math.trunc(Number(ticket.totalAvailable)),
-    }));
+    const ticketTypes: TicketTypeUpdate[] = [];
+    let availabilityParseError = false;
+
+    for (const ticket of formValue.ticketTypes) {
+      const parsedTotal = this.parseTotalAvailable(ticket.totalAvailable);
+      if (parsedTotal === undefined) {
+        availabilityParseError = true;
+        break;
+      }
+
+      const parsedPrice = Number(ticket.price);
+
+      ticketTypes.push({
+        id: ticket.id?.trim() || undefined,
+        name: ticket.name.trim(),
+        description: this.emptyToUndefined(ticket.description),
+        price: parsedPrice,
+        totalAvailable: parsedTotal,
+      });
+    }
+
+    if (availabilityParseError) {
+      this.submissionError = 'Ticket availability must be a whole number or left blank for unlimited quantity.';
+      return;
+    }
 
     if (!ticketTypes.length || ticketTypes.some((tt) => !tt.name)) {
       this.submissionError = 'Each ticket type needs a name.';
@@ -229,8 +247,8 @@ export class OrganizerUpdateEvent implements OnInit {
       return;
     }
 
-    if (ticketTypes.some((tt) => (tt.totalAvailable ?? 0) <= 0)) {
-      this.submissionError = 'Each ticket type must have at least one available ticket.';
+    if (ticketTypes.some((tt) => tt.totalAvailable != null && tt.totalAvailable <= 0)) {
+      this.submissionError = 'Each ticket type must have at least one available ticket when a limit is set.';
       return;
     }
 
@@ -265,7 +283,7 @@ export class OrganizerUpdateEvent implements OnInit {
       },
       error: (err) => {
         this.submissionInProgress = false;
-        this.submissionError = err?.error?.message || 'Failed to update the event. Please try again.';
+        this.submissionError = err?.error?.error || err?.error?.message || 'Failed to update the event. Please try again.';
       },
     });
   }
@@ -315,7 +333,7 @@ export class OrganizerUpdateEvent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.loadError = err?.error?.message || 'Unable to load event details right now. Please try again later.';
+        this.loadError = err?.error?.error || err?.error?.message || 'Unable to load event details right now. Please try again later.';
       },
     });
   }
@@ -349,7 +367,7 @@ export class OrganizerUpdateEvent implements OnInit {
         name: ticket.name,
         description: ticket.description ?? '',
         price: ticket.price,
-        totalAvailable: ticket.totalAvailable ?? 1,
+        totalAvailable: ticket.totalAvailable ?? null,
       }));
     });
 
@@ -362,13 +380,29 @@ export class OrganizerUpdateEvent implements OnInit {
   }
 
   private createTicketTypeGroup(ticket?: Partial<TicketTypeUpdate>): TicketTypeFormGroup {
+    const totalAvailableValue =
+      ticket?.totalAvailable === undefined ? 1 : ticket.totalAvailable;
+
     return this.fb.group({
       id: this.fb.control(ticket?.id ?? null),
       name: this.fb.control(ticket?.name ?? '', { validators: [Validators.required, Validators.maxLength(80)] }),
       description: this.fb.control(ticket?.description ?? ''),
       price: this.fb.control(ticket?.price ?? 0, { validators: [Validators.required, Validators.min(0)] }),
-      totalAvailable: this.fb.control(ticket?.totalAvailable ?? 1, { validators: [Validators.required, Validators.min(1)] }),
+      totalAvailable: new FormControl<number | null>(totalAvailableValue ?? null, { validators: [Validators.min(1)] }),
     });
+  }
+
+  private parseTotalAvailable(value: unknown): number | null | undefined {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) {
+      return undefined;
+    }
+
+    return Math.trunc(parsed);
   }
 
   private ensureSeconds(value: string): string {

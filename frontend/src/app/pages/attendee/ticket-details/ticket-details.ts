@@ -47,7 +47,7 @@ export class AttendeeTicketDetails implements OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message || 'Failed to load ticket details.';
+          this.error = err?.error?.error || err?.error?.message || 'Failed to load ticket details.';
         }
       });
   }

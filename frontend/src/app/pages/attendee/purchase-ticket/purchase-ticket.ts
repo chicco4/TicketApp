@@ -91,7 +91,7 @@ export class PurchaseTicket implements OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.loadError = err?.error?.message || 'Failed to load event details.';
+          this.loadError = err?.error?.error || err?.error?.message || 'Failed to load event details.';
         },
       });
   }
@@ -133,7 +133,7 @@ export class PurchaseTicket implements OnDestroy {
       },
       error: (err) => {
         this.purchaseInProgress = false;
-        this.purchaseError = err?.error?.message || 'Failed to complete purchase.';
+        this.purchaseError = err?.error?.error || err?.error?.message || 'Failed to complete purchase.';
       }
     });
   }

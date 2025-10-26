@@ -23,7 +23,7 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
   Page<Event> findByStatus(EventStatusEnum status, Pageable pageable);
 
   @Query("SELECT e FROM Event e WHERE" +
-      " e.status = EventStatusEnum.PUBLISHED" +
+      " e.status = com.chicco.backend.domain.enums.EventStatusEnum.PUBLISHED" +
       " AND (" +
       " :query IS NULL OR :query = ''" +
       " OR LOWER(e.name) LIKE LOWER(CONCAT('%', :query, '%'))" +

@@ -295,6 +295,7 @@ export class StaffValidateTickets implements OnDestroy {
           console.error('Ticket validation failed', error);
           this.validating = false;
           this.validationError =
+            error?.error?.error ||
             error?.error?.message ||
             'Unable to validate this ticket right now. Please try again.';
         },

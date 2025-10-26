@@ -85,7 +85,7 @@ export class OrganizerEvents implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err?.error?.message || 'Unable to load events right now. Please try again later.';
+        this.error = err?.error?.error || err?.error?.message || 'Unable to load events right now. Please try again later.';
       },
     });
   }
@@ -118,7 +118,7 @@ export class OrganizerEvents implements OnInit {
       },
       error: (err) => {
         this.deletingEventIds.delete(event.id);
-        this.error = err?.error?.message || 'Failed to delete the event. Please try again later.';
+        this.error = err?.error?.error || err?.error?.message || 'Failed to delete the event. Please try again later.';
       },
     });
   }

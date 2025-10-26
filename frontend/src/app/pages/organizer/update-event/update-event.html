@@ -289,11 +289,9 @@
                     <mat-form-field appearance="outline">
                       <mat-label>Total available</mat-label>
                       <input matInput type="number" min="1" step="1" formControlName="totalAvailable" />
-                      @if (ticketGroup.controls.totalAvailable.hasError('required')) {
-                        <mat-error>Total is required.</mat-error>
-                      }
+                      <mat-hint align="end">Leave blank for unlimited quantity.</mat-hint>
                       @if (ticketGroup.controls.totalAvailable.hasError('min')) {
-                        <mat-error>Need at least one ticket.</mat-error>
+                        <mat-error>Need at least one ticket when a limit is set.</mat-error>
                       }
                     </mat-form-field>
                   </div>

@@ -122,7 +122,7 @@ export class AttendeeHome implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message || 'Failed to load events.';
+          this.error = err?.error?.error || err?.error?.message || 'Failed to load events.';
         },
       });
   }

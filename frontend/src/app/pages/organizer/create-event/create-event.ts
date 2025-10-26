@@ -24,12 +24,13 @@ import { EventsService } from '../../../core/services/events.service';
 import { EventStatus } from '../../../core/models/enums/event-status.enum';
 import { EventType } from '../../../core/models/enums/event-type.enum';
 import { EventCreate } from '../../../core/models/interfaces/event';
+import { TicketTypeCreate } from '../../../core/models/interfaces/ticket-type';
 
 type TicketTypeFormGroup = FormGroup<{
   name: FormControl<string>;
   description: FormControl<string>;
   price: FormControl<number>;
-  totalAvailable: FormControl<number>;
+  totalAvailable: FormControl<number | null>;
 }>;
 
 type EventFormGroup = FormGroup<{
@@ -189,6 +190,31 @@ export class OrganizerCreateEvent {
       return;
     }
 
+    const ticketTypes: TicketTypeCreate[] = [];
+    let availabilityParseError = false;
+
+    for (const ticket of formValue.ticketTypes) {
+      const parsedTotal = this.parseTotalAvailable(ticket.totalAvailable);
+      if (parsedTotal === undefined) {
+        availabilityParseError = true;
+        break;
+      }
+
+      const parsedPrice = Number(ticket.price);
+
+      ticketTypes.push({
+        name: ticket.name.trim(),
+        description: this.emptyToUndefined(ticket.description),
+        price: parsedPrice,
+        totalAvailable: parsedTotal,
+      });
+    }
+
+    if (availabilityParseError) {
+      this.submissionError = 'Ticket availability must be a whole number or left blank for unlimited quantity.';
+      return;
+    }
+
     const payload: EventCreate = {
       name: trimmedName,
       description: this.emptyToUndefined(formValue.description),
@@ -199,12 +225,7 @@ export class OrganizerCreateEvent {
       salesStart: salesStart ? this.ensureSeconds(salesStart) : undefined,
       salesEnd: salesEnd ? this.ensureSeconds(salesEnd) : undefined,
       venue: trimmedVenue,
-      ticketTypes: formValue.ticketTypes.map((ticket) => ({
-        name: ticket.name.trim(),
-        description: this.emptyToUndefined(ticket.description),
-        price: Number(ticket.price),
-        totalAvailable: Math.trunc(Number(ticket.totalAvailable)),
-      })),
+      ticketTypes,
     };
 
     if (!payload.ticketTypes.length || payload.ticketTypes.some((tt) => !tt.name)) {
@@ -217,8 +238,8 @@ export class OrganizerCreateEvent {
       return;
     }
 
-    if (payload.ticketTypes.some((tt) => tt.totalAvailable <= 0)) {
-      this.submissionError = 'Each ticket type must have at least one available ticket.';
+    if (payload.ticketTypes.some((tt) => tt.totalAvailable != null && tt.totalAvailable <= 0)) {
+      this.submissionError = 'Each ticket type must have at least one available ticket when a limit is set.';
       return;
     }
 
@@ -235,7 +256,7 @@ export class OrganizerCreateEvent {
       },
       error: (err) => {
         this.submissionInProgress = false;
-        this.submissionError = err?.error?.message || 'Failed to create the event. Please try again.';
+        this.submissionError = err?.error?.error || err?.error?.message || 'Failed to create the event. Please try again.';
       },
     });
   }
@@ -271,8 +292,21 @@ export class OrganizerCreateEvent {
       name: this.fb.control('', { validators: [Validators.required, Validators.maxLength(80)] }),
       description: this.fb.control(''),
       price: this.fb.control(0, { validators: [Validators.required, Validators.min(0)] }),
-      totalAvailable: this.fb.control(1, { validators: [Validators.required, Validators.min(1)] }),
+      totalAvailable: new FormControl<number | null>(1, { validators: [Validators.min(1)] }),
     });
+  }
+
+  private parseTotalAvailable(value: unknown): number | null | undefined {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) {
+      return undefined;
+    }
+
+    return Math.trunc(parsed);
   }
 
   private compareDateTimes(start: string, end: string): number {

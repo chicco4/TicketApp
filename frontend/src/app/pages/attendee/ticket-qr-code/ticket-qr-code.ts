@@ -52,7 +52,7 @@ export class AttendeeTicketQrCode implements OnDestroy {
         },
         error: (err) => {
           this.loading = false;
-          this.error = err?.error?.message || err?.message || 'Failed to load QR code.';
+          this.error = err?.error?.error || err?.error?.message || err?.message || 'Failed to load QR code.';
         }
       });
   }
