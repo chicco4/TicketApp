@@ -40,6 +40,37 @@ services:
       - backend-network
     restart: always
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/event-ticket-platform/protocol/openid-connect/certs
+    depends_on:
+      - db
+      - keycloak
+    networks:
+      - backend-network
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+      - keycloak
+    networks:
+      - backend-network
+    restart: always
+
 networks:
   backend-network:
     driver: bridge

@@ -6,7 +6,24 @@ TicketApp is a full-stack event ticketing platform with a Spring Boot 3 (Java 21
 - `backend/` – Spring Boot REST API, Maven wrapper, and OpenAPI documentation.
 - `frontend/` – Angular application that consumes the backend APIs through a local proxy.
 - `scripts/` – Utility scripts such as `seed-events.js` for populating sample data.
-- `docker-compose.yml` – Local infrastructure (PostgreSQL, Adminer, Keycloak).
+- `docker-compose.yml` – Local development stack (PostgreSQL, Adminer, Keycloak, backend, frontend).
+
+## Running with Docker
+1. Build and start the full stack:
+   ```bash
+   docker compose up --build -d
+   ```
+   This launches PostgreSQL, Adminer, Keycloak, the Spring Boot backend, and the Angular frontend. The frontend is served at `http://localhost:4200`, the backend API at `http://localhost:8080`, Keycloak at `http://localhost:9090`, and Adminer at `http://localhost:8888`.
+2. Follow the container logs as needed, for example:
+   ```bash
+   docker compose logs -f backend
+   ```
+3. Stop everything when you're done:
+   ```bash
+   docker compose down
+   ```
+
+The frontend container proxies `/api/*` to the backend service, so no extra configuration is required for client–server communication.
 
 ## Prerequisites
 - Java 21 (Preferred vendor: Temurin/OpenJDK).
@@ -14,7 +31,7 @@ TicketApp is a full-stack event ticketing platform with a Spring Boot 3 (Java 21
 - Docker Desktop or Docker Engine with Docker Compose v2.
 - Optional: `curl` or similar tool for manual API testing.
 
-## Getting Started
+## Getting Started (without Docker)
 
 1. **Start infrastructure services**  
    ```bash
